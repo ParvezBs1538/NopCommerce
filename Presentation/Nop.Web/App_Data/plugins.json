@@ -2,12 +2,7 @@
   "InstalledPluginNames": [
     "Obsolete field, using only for compatibility"
   ],
-  "InstalledPlugins": [
-    {
-      "SystemName": "Payments.NewPayment",
-      "Version": "4.70.6"
-    }
-  ],
+  "InstalledPlugins": [],
   "PluginNamesToUninstall": [],
   "PluginNamesToDelete": [],
   "PluginNamesToInstall": []
