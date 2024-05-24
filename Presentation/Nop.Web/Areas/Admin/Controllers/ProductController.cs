@@ -789,6 +789,8 @@ public partial class ProductController : BaseAdminController
 
     #region Methods
 
+    
+    
     #region Product list / create / edit / delete
 
     public virtual IActionResult Index()
