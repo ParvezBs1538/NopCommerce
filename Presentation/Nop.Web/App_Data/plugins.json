@@ -2,7 +2,20 @@
   "InstalledPluginNames": [
     "Obsolete field, using only for compatibility"
   ],
-  "InstalledPlugins": [],
+  "InstalledPlugins": [
+    {
+      "SystemName": "Misc.NopStationTeams",
+      "Version": "4.70.2"
+    },
+    {
+      "SystemName": "Misc.WebApi.Frontend",
+      "Version": "4.70.2"
+    },
+    {
+      "SystemName": "Misc.Practice",
+      "Version": "4.70.2"
+    }
+  ],
   "PluginNamesToUninstall": [],
   "PluginNamesToDelete": [],
   "PluginNamesToInstall": []

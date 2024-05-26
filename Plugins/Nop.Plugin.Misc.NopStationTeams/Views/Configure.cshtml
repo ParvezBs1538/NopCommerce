@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Nop.Plugin.Misc.NopStationTeams.Models.Parvez>
+
+<h2>Hello Brain Station</h2>
+
+<table class="table table-border table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var it in Model)
+        {
+            <tr>
+                <td>@it.Id</td>
+                <td>@it.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>

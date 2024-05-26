@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Plugin Practice",
+  "SystemName": "Misc.Practice",
+  "Version": "4.70.2",
+  "SupportedVersions": [ "4.70" ],
+  "Author": "nopCommerce team",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Misc.Practice.dll",
+  "Description": "nopCommerce Web API for frontend"
+}
