@@ -8,12 +8,12 @@
       "Version": "4.70.2"
     },
     {
-      "SystemName": "Misc.WebApi.Frontend",
+      "SystemName": "Widgets.NivoSlider",
       "Version": "4.70.2"
     },
     {
-      "SystemName": "Misc.Practice",
-      "Version": "4.70.2"
+      "SystemName": "Misc.NopMobileApp",
+      "Version": "4.70.1"
     }
   ],
   "PluginNamesToUninstall": [],

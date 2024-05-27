@@ -1,0 +1,33 @@
+@model IEnumerable<Nop.Plugin.Misc.NopStationTeams.Models.Profile>
+
+@{
+    ViewData["Title"] = "Profiles";
+}
+
+<h1>Profiles</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Is Nop MVP</th>
+            <th>Is Certified</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var profile in Model)
+        {
+            <tr>
+                <td>@profile.Id</td>
+                <td>@profile.Name</td>
+                <td>@profile.Designation</td>
+                <td>@profile.IsNopMVP</td>
+                <td>@profile.IsCertified</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-primary">Create New Profile</a>
