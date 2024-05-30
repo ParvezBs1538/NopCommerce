@@ -1,0 +1,61 @@
+﻿@model Nop.Plugin.Misc.NopStationTeams.Models.Profile
+@{
+    ViewData["Title"] = "Create Profile";
+    Layout = "_ConfigurePlugin";
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+}
+
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="container mt-5" style="width:50%; height:80%; background-color:floralwhite">
+
+            <div class="text-center mb-3 mt-3" style="background-color:silver; height:70px">
+                <h1>Create Profile</h1>
+            </div>
+
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label>Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter employee name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label>Designation</label>
+                    <input asp-for="Designation" class="form-control" placeholder="Enter employee designation" />
+                    <span asp-validation-for="Designation" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    @* <label asp-for="ImagePath" class="control-label"></label> *@
+                    <label>Choose Image</label> <br />
+                    <input asp-for="ImagePath" type="file" class="form-control-file" />
+                    <span asp-validation-for="ImagePath" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label>IsNopMVP</label>
+                    <input asp-for="IsNopMVP" type="checkbox"/>
+                    <label asp-for="IsNopMVP"></label>
+                </div>
+
+                <div class="form-grou mt-3">
+                    <label>IsCertified</label>
+                    <input asp-for="IsCertified" type="checkbox" />
+                </div>
+                <div class="form-group mt-3 mb-3">
+                    <input type="submit" value="Create" class="btn btn-outline-primary" />
+                </div>
+
+            </form>
+
+        </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
+ 
