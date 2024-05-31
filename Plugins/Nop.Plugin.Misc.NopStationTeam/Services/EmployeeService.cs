@@ -1,4 +1,5 @@
-﻿using Nop.Data;
+﻿using Nop.Core;
+using Nop.Data;
 using Nop.Plugin.Misc.NopStationTeam.Domain;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,41 @@ namespace Nop.Plugin.Misc.NopStationTeam.Services
             _employeeRepository = employeeRepository;
         }
 
-        public virtual void Log(Employee employee)
+        public virtual async Task InsertEmployeeAsync(Employee employee)
         {
-            if (employee == null)
-                throw new ArgumentNullException(nameof(employee));
-            _employeeRepository.Insert(employee);
+            await _employeeRepository.InsertAsync(employee);
+        }
+
+        public virtual async Task UpdateEmployeeAsync(Employee employee)
+        {
+            await _employeeRepository.UpdateAsync(employee);
+        }
+
+        public virtual async Task DeleteEmployeeAsync(Employee employee)
+        {
+            await _employeeRepository.DeleteAsync(employee);
+        }
+
+        public virtual async Task<Employee> GetEmployeeByIdAsync(int employeeId)
+        {
+            return await _employeeRepository.GetByIdAsync(employeeId);
+        }
+
+        public virtual async Task<IPagedList<Employee>> SearchEmployeesAsync(string name, int statusId, 
+            int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from e in _employeeRepository.Table
+                        select e;
+
+            if (!string.IsNullOrEmpty(name))
+                query = query.Where(e => e.Name.Contains(name));
+
+            if(statusId > 0)
+                query = query.Where(e => e.EmployeeStatusId == statusId);
+
+            query = query.OrderBy(e => e.Name);
+
+            return await query.ToPagedListAsync(pageIndex, pageSize);
         }
     }
 }

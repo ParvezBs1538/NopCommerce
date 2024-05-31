@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nop.Core.Infrastructure;
+using Nop.Plugin.Misc.NopStationTeam.Factories;
 using Nop.Plugin.Misc.NopStationTeam.Services;
 using System;
 using System.Collections.Generic;
@@ -22,5 +23,6 @@ public class NopStartup : INopStartup
     public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IEmployeeService, EmployeeService>();
+        services.AddScoped<IEmployeeModelFactory, EmployeeModelFactory>();
     }
 }
