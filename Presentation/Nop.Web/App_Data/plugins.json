@@ -14,6 +14,10 @@
     {
       "SystemName": "Misc.NopMobileApp",
       "Version": "4.70.1"
+    },
+    {
+      "SystemName": "Misc.NopStationTeam",
+      "Version": "4.70.2"
     }
   ],
   "PluginNamesToUninstall": [],
