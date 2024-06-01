@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Nop Station",
+  "SystemName": "Misc.NopStation",
+  "Version": "4.70.2",
+  "SupportedVersions": [ "4.70" ],
+  "Author": "nopCommerce",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Misc.NopStation.dll",
+  "Description": "nopCommerce Web API for frontend"
+}
