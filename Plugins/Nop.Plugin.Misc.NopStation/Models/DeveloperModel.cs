@@ -9,13 +9,20 @@ namespace Nop.Plugin.Misc.NopStation.Models
         public DeveloperModel()
         {
             AvailableDeveloperStatusOptions = new List<SelectListItem>();
+            AvailableDeveloperDesignationOptions = new List<SelectListItem>();
         }
 
         [NopResourceDisplayName("Admin.Misc.Developer.Fields.Name")]
         public string Name { get; set; }
 
-        [NopResourceDisplayName("Admin.Misc.Developer.Fields.Designation")]
-        public string Designation { get; set; }
+        //[NopResourceDisplayName("Admin.Misc.Developer.Fields.Designation")]
+        //public string Designation { get; set; }
+
+        [NopResourceDisplayName("Admin.Misc.Developer.Fields.DeveloperDesignation")]
+        public int DeveloperDesignationId { get; set; }
+
+        [NopResourceDisplayName("Admin.Misc.Developer.Fields.DeveloperDesignation")]
+        public string DeveloperDesignationStr { get; set; }
 
         [NopResourceDisplayName("Admin.Misc.Developer.Fields.IsMVP")]
         public bool IsMVP { get; set; }
@@ -30,5 +37,6 @@ namespace Nop.Plugin.Misc.NopStation.Models
         public string DeveloperStatusStr { get; set; }
 
         public IList<SelectListItem> AvailableDeveloperStatusOptions { get; set; }
+        public IList<SelectListItem> AvailableDeveloperDesignationOptions { get; set; }
     }
 }

@@ -26,6 +26,7 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
         public async Task<IActionResult> List()
         {
             var searchModel = await _DeveloperModelFactory.PrepareDeveloperSearchModelAsync(new DeveloperSearchModel());
+
             return View("~/Plugins/Misc.NopStation/Views/Developer/List.cshtml", searchModel);
         }
 
@@ -33,12 +34,14 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
         public async Task<IActionResult> List(DeveloperSearchModel searchModel)
         {
             var model = await _DeveloperModelFactory.PrepareDeveloperListModelAsync(searchModel);
+
             return Json(model);
         }
 
         public async Task<IActionResult> Create()
         {
             var model = await _DeveloperModelFactory.PrepareDeveloperModelAsync(new DeveloperModel(), null);
+
             return View("~/Plugins/Misc.NopStation/Views/Developer/Create.cshtml", model);
         }
 
@@ -49,7 +52,7 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
             {
                 var Developer = new Developer
                 {
-                    Designation = model.Designation,
+                    DeveloperDesignationId = model.DeveloperDesignationId,
                     DeveloperStatusId = model.DeveloperStatusId,
                     IsMVP = model.IsMVP,
                     IsNopCommerceCertified = model.IsNopCommerceCertified,
@@ -62,6 +65,7 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
             }
 
             model = await _DeveloperModelFactory.PrepareDeveloperModelAsync(model, null);
+
             return View("~/Plugins/Misc.NopStation/Views/Developer/Create.cshtml", model);
         }
 
@@ -72,6 +76,7 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
                 return RedirectToAction("List");
 
             var model = await _DeveloperModelFactory.PrepareDeveloperModelAsync(null, Developer);
+
             return View("~/Plugins/Misc.NopStation/Views/Developer/Edit.cshtml", model);
         }
 
@@ -84,7 +89,7 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
 
             if (ModelState.IsValid)
             {
-                Developer.Designation = model.Designation;
+                Developer.DeveloperDesignationId = model.DeveloperDesignationId;
                 Developer.DeveloperStatusId = model.DeveloperStatusId;
                 Developer.IsMVP = model.IsMVP;
                 Developer.IsNopCommerceCertified = model.IsNopCommerceCertified;
@@ -96,6 +101,7 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
             }
 
             model = await _DeveloperModelFactory.PrepareDeveloperModelAsync(model, Developer);
+
             return View("~/Plugins/Misc.NopStation/Views/Developer/Edit.cshtml", model);
         }
 
@@ -107,6 +113,7 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
                 return RedirectToAction("List");
 
             await _DeveloperService.DeleteDeveloperAsync(Developer);
+
             return RedirectToAction("List");
         }
     }

@@ -11,7 +11,7 @@ namespace Nop.Plugin.Misc.NopStation.Validators
         public DeveloperValidator(ILocalizationService localizationService)
         {
             RuleFor(x => x.Name).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Admin.Misc.Developer.Fields.Name.Required"));
-            RuleFor(x => x.Designation).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Admin.Misc.Developer.Fields.Designation.Required"));
+            RuleFor(x => x.DeveloperDesignationId).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Admin.Misc.Developer.Fields.Designation.Required"));
 
             SetDatabaseValidationRules<Developer>();
         }

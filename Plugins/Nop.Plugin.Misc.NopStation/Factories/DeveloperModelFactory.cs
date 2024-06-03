@@ -9,16 +9,21 @@ namespace Nop.Plugin.Misc.NopStation.Factories
 {
     public class DeveloperModelFactory : IDeveloperModelFactory
     {
+        #region Fields
         private readonly IDeveloperService _DeveloperService;
         private readonly ILocalizationService _localizationService;
+        #endregion
 
+        #region Ctor
         public DeveloperModelFactory(IDeveloperService DeveloperService,
             ILocalizationService localizationService)
         {
             _DeveloperService = DeveloperService;
             _localizationService = localizationService;
         }
+        #endregion
 
+        #region PrepareDeveloperListModelAsync
         public async Task<DeveloperListModel> PrepareDeveloperListModelAsync(DeveloperSearchModel searchModel)
         {
             ArgumentNullException.ThrowIfNull(nameof(searchModel));
@@ -26,6 +31,32 @@ namespace Nop.Plugin.Misc.NopStation.Factories
             var Developers = await _DeveloperService.SearchDevelopersAsync(searchModel.Name, searchModel.DeveloperStatusId,
                 pageIndex: searchModel.Page - 1,
                 pageSize: searchModel.PageSize);
+
+            await _localizationService.AddOrUpdateLocaleResourceAsync(new Dictionary<string, string>
+            {
+                ["Admin.Misc.Developers"] = "Developers",
+                ["Admin.Misc.Developers.AddNew"] = "Add new Developer",
+                ["Admin.Misc.Developers.EditDetails"] = "Edit Developer details",
+                ["Admin.Misc.Developers.BackToList"] = "back to Developer list",
+                ["Admin.Misc.Developers"] = "Developers",
+                ["Admin.Misc.Developers"] = "Developers",
+
+                ["Admin.Misc.Developer.Fields.Name"] = "Name",
+                ["Admin.Misc.Developer.Fields.DeveloperDesignation"] = "Designation",
+                ["Admin.Misc.Developer.Fields.IsMVP"] = "Is MVP",
+                ["Admin.Misc.Developer.Fields.IsNopCommerceCertified"] = "Is certified",
+                ["Admin.Misc.Developer.Fields.DeveloperStatus"] = "Status",
+                ["Admin.Misc.Developer.Fields.Name.Hint"] = "Enter Developer name.",
+                ["Admin.Misc.Developer.Fields.DeveloperDesignation.Hint"] = "Enter Developer designation.",
+                ["Admin.Misc.Developer.Fields.IsMVP.Hint"] = "Check if Developer is MVP.",
+                ["Admin.Misc.Developer.Fields.IsNopCommerceCertified.Hint"] = "Check if Developer is certified.",
+                ["Admin.Misc.Developer.Fields.DeveloperStatus.Hint"] = "Select Developer status.",
+
+                ["Admin.Misc.Developer.List.Name"] = "Name",
+                ["Admin.Misc.Developer.List.DeveloperStatus"] = "Status",
+                ["Admin.Misc.Developer.List.Name.Hint"] = "Search by Developer name.",
+                ["Admin.Misc.Developer.List.DeveloperStatus.Hint"] = "Search by Developer status.",
+            });
 
             //prepare list model
             var model = await new DeveloperListModel().PrepareToGridAsync(searchModel, Developers, () =>
@@ -38,7 +69,9 @@ namespace Nop.Plugin.Misc.NopStation.Factories
 
             return model;
         }
+        #endregion
 
+        #region PrepareDeveloperModelAsync
         public async Task<DeveloperModel> PrepareDeveloperModelAsync(DeveloperModel model, Developer Developer, bool excludeProperties = false)
         {
             if (Developer != null)
@@ -48,7 +81,7 @@ namespace Nop.Plugin.Misc.NopStation.Factories
                     //fill in model values from the entity
                     model = new DeveloperModel()
                     {
-                        Designation = Developer.Designation,
+                        DeveloperDesignationId = Developer.DeveloperDesignationId,
                         DeveloperStatusId = Developer.DeveloperStatusId,
                         Id = Developer.Id,
                         IsMVP = Developer.IsMVP,
@@ -57,16 +90,20 @@ namespace Nop.Plugin.Misc.NopStation.Factories
                     };
                 }
                 model.DeveloperStatusStr = await _localizationService.GetLocalizedEnumAsync(Developer.DeveloperStatus);
+                model.DeveloperDesignationStr = await _localizationService.GetLocalizedEnumAsync(Developer.DeveloperDesignation);
             }
 
             if (!excludeProperties)
             {
                 model.AvailableDeveloperStatusOptions = (await DeveloperStatus.Active.ToSelectListAsync()).ToList();
+                model.AvailableDeveloperDesignationOptions = (await DeveloperDesignation.Trainee.ToSelectListAsync()).ToList();
             }
 
             return model;
         }
+        #endregion
 
+        #region PrepareDeveloperSearchModelAsync
         public async Task<DeveloperSearchModel> PrepareDeveloperSearchModelAsync(DeveloperSearchModel searchModel)
         {
             ArgumentNullException.ThrowIfNull(nameof(searchModel));
@@ -84,5 +121,6 @@ namespace Nop.Plugin.Misc.NopStation.Factories
 
             return searchModel;
         }
+        #endregion
     }
 }

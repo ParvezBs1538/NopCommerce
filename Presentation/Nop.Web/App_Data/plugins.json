@@ -24,7 +24,9 @@
       "Version": "4.70.2"
     }
   ],
-  "PluginNamesToUninstall": [],
+  "PluginNamesToUninstall": [
+    "Misc.NopStation"
+  ],
   "PluginNamesToDelete": [],
   "PluginNamesToInstall": []
 }

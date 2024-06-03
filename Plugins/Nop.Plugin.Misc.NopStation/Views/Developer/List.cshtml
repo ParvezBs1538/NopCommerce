@@ -53,6 +53,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group row">
                                         <div class="col-md-4">
@@ -63,6 +64,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                             <div class="form-group row">
                                 <div class="text-center col-12">
@@ -76,58 +78,72 @@
                 <div class="card card-default">
                     <div class="card-body">
 
-                        @await Html.PartialAsync("Table", new DataTablesModel
-                   {
-                       Name = "Developers-grid",
-                       UrlRead = new DataUrl("List", "Developer", null),
-                       SearchButtonId = "search-Developers",
-                       Length = Model.PageSize,
-                       LengthMenu = Model.AvailablePageSizes,
-                       Filters = new List<FilterParameter>
-                        {
-                        new FilterParameter(nameof(Model.Name)),
-                        new FilterParameter(nameof(Model.DeveloperStatusId))
-                        },
-                       ColumnCollection = new List<ColumnProperty>
-                        {
-                        new ColumnProperty(nameof(DeveloperModel.Id))
-                        {
-                        IsMasterCheckBox = true,
-                        Render = new RenderCheckBox("checkbox_Developers"),
-                        ClassName =  NopColumnClassDefaults.CenterAll,
-                        Width = "50"
-                        },
-                        new ColumnProperty(nameof(DeveloperModel.Name))
-                        {
-                        Title = T("Admin.Misc.Developer.Fields.Name").Text
-                        },
-                        new ColumnProperty(nameof(DeveloperModel.DeveloperStatusStr))
-                        {
-                        Title = T("Admin.Misc.Developer.Fields.DeveloperStatus").Text
-                        },
-                        new ColumnProperty(nameof(DeveloperModel.IsMVP))
-                        {
-                        Title = T("Admin.Misc.Developer.Fields.IsMVP").Text,
-                        Width = "100",
-                        ClassName = NopColumnClassDefaults.CenterAll,
-                        Render = new RenderBoolean()
-                        },
-                        new ColumnProperty(nameof(DeveloperModel.IsNopCommerceCertified))
-                        {
-                        Title = T("Admin.Misc.Developer.Fields.IsNopCommerceCertified").Text,
-                        Width = "100",
-                        ClassName = NopColumnClassDefaults.CenterAll,
-                        Render = new RenderBoolean()
-                        },
-                        new ColumnProperty(nameof(DeveloperModel.Id))
-                        {
-                        Title = T("Admin.Common.Edit").Text,
-                        Width = "100",
-                        ClassName =  NopColumnClassDefaults.Button,
-                        Render = new RenderButtonEdit(new DataUrl("Edit"))
-                        }
-                        }
-                   })
+                       @await Html.PartialAsync("Table", new DataTablesModel
+                       {
+                           Name = "Developers-grid",
+                           UrlRead = new DataUrl("List", "Developer", null),
+                           SearchButtonId = "search-Developers",
+                           Length = Model.PageSize,
+                           LengthMenu = Model.AvailablePageSizes,
+                           Filters = new List<FilterParameter>
+                           {
+                               new FilterParameter(nameof(Model.Name)),
+                               new FilterParameter(nameof(Model.DeveloperStatusId))
+                           },
+                           ColumnCollection = new List<ColumnProperty>
+                           {
+                                new ColumnProperty(nameof(DeveloperModel.Id))
+                                {
+                                    IsMasterCheckBox = true,
+                                    Render = new RenderCheckBox("checkbox_Developers"),
+                                    ClassName =  NopColumnClassDefaults.CenterAll,
+                                    Width = "50"
+                                },
+                                new ColumnProperty(nameof(DeveloperModel.Name))
+                                {
+                                    Title = T("Admin.Misc.Developer.Fields.Name").Text,
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                },
+                                // new ColumnProperty(nameof(DeveloperModel.Designation))
+                                // {
+                                //     Title = T("Admin.Misc.Developer.Fields.Designation").Text,
+                                //     ClassName = NopColumnClassDefaults.CenterAll,
+                                // },
+                                new ColumnProperty(nameof(DeveloperModel.DeveloperDesignationStr))
+                                {
+                                    Title = T("Admin.Misc.Developer.Fields.DeveloperDesignation").Text,
+                                    Width = "200",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                },
+                                new ColumnProperty(nameof(DeveloperModel.DeveloperStatusStr))
+                                {
+                                    Title = T("Admin.Misc.Developer.Fields.DeveloperStatus").Text,
+                                    //Width = "100",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                },
+                                new ColumnProperty(nameof(DeveloperModel.IsMVP))
+                                {
+                                    Title = T("Admin.Misc.Developer.Fields.IsMVP").Text,
+                                    Width = "100",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                    Render = new RenderBoolean()
+                                },
+                                new ColumnProperty(nameof(DeveloperModel.IsNopCommerceCertified))
+                                {
+                                    Title = T("Admin.Misc.Developer.Fields.IsNopCommerceCertified").Text,
+                                    Width = "100",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                    Render = new RenderBoolean()
+                                },
+                                new ColumnProperty(nameof(DeveloperModel.Id))
+                                {
+                                    Title = T("Admin.Common.Edit").Text,
+                                    Width = "100",
+                                    ClassName =  NopColumnClassDefaults.Button,
+                                    Render = new RenderButtonEdit(new DataUrl("Edit"))
+                                }
+                           }
+                       })
                     </div>
                 </div>
             </div>
