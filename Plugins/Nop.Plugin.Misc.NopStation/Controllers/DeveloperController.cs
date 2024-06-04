@@ -6,6 +6,7 @@ using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
 using Nop.Plugin.Misc.NopStation.Domain;
+using Nop.Services.Messages;
 
 namespace Nop.Plugin.Misc.NopStation.Controllers
 {
@@ -15,12 +16,15 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
     {
         private readonly IDeveloperService _DeveloperService;
         private readonly IDeveloperModelFactory _DeveloperModelFactory;
+        protected readonly INotificationService _notificationService;
 
         public DeveloperController(IDeveloperService DeveloperService,
-            IDeveloperModelFactory DeveloperModelFactory)
+            IDeveloperModelFactory DeveloperModelFactory,
+            INotificationService notificationService)
         {
             _DeveloperService = DeveloperService;
             _DeveloperModelFactory = DeveloperModelFactory;
+            _notificationService = notificationService;
         }
 
         public async Task<IActionResult> List()
@@ -115,6 +119,34 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
             await _DeveloperService.DeleteDeveloperAsync(Developer);
 
             return RedirectToAction("List");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteSelected(ICollection<int> selectedIds)
+        {
+            if (selectedIds == null || selectedIds.Count == 0)
+                return NoContent();
+
+            try
+            {
+                foreach (int id in selectedIds)
+                {
+                    var developer = await _DeveloperService.GetDeveloperByIdAsync(id);
+                    if (developer != null)
+                    {
+                        await _DeveloperService.DeleteDeveloperAsync(developer);
+                    }
+                }
+                _notificationService.SuccessNotification("Admin.Catalog.Developers.Deleted");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (you can use a logging framework here)
+                // For now, we'll just rethrow the exception to be handled by a global exception handler if present
+                throw;
+            }
+
+            return Json(new { Result = true });
         }
     }
 }
