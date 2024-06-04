@@ -60,7 +60,8 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
                     DeveloperStatusId = model.DeveloperStatusId,
                     IsMVP = model.IsMVP,
                     IsNopCommerceCertified = model.IsNopCommerceCertified,
-                    Name = model.Name
+                    Name = model.Name,
+                    PictureId = model.PictureId,
                 };
 
                 await _DeveloperService.InsertDeveloperAsync(Developer);
@@ -98,6 +99,7 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
                 Developer.IsMVP = model.IsMVP;
                 Developer.IsNopCommerceCertified = model.IsNopCommerceCertified;
                 Developer.Name = model.Name;
+                Developer.PictureId = model.PictureId;
 
                 await _DeveloperService.UpdateDeveloperAsync(Developer);
 

@@ -35,6 +35,8 @@ namespace Nop.Plugin.Misc.NopStation
                 ["Admin.Misc.Developers"] = "Developers",
                 ["Admin.Misc.Developers"] = "Developers",
 
+                ["Admin.Misc.Developer.Fields.Picture"] = "Picture",
+                ["Admin.Misc.Developer.Fields.Picture.Hint"] = "Enter Picture.",
                 ["Admin.Misc.Developer.Fields.Name"] = "Name",
                 ["Admin.Misc.Developer.Fields.DeveloperDesignation"] = "Designation",
                 ["Admin.Misc.Developer.Fields.IsMVP"] = "Is MVP",

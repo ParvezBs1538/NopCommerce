@@ -1,5 +1,4 @@
 ﻿using Nop.Core;
-
 namespace Nop.Plugin.Misc.NopStation.Domain
 {
     public class Developer : BaseEntity
@@ -9,6 +8,7 @@ namespace Nop.Plugin.Misc.NopStation.Domain
         public int DeveloperDesignationId { get; set;}
         public bool IsMVP { get; set; }
         public bool IsNopCommerceCertified { get; set; }
+        public int PictureId { get; set; }
         public int DeveloperStatusId { get; set; }
 
         public DeveloperStatus DeveloperStatus

@@ -13,6 +13,7 @@ namespace Nop.Plugin.Misc.NopStation.Mapping.Builder
                 .WithColumn(nameof(Developer.DeveloperDesignationId)).AsInt32().NotNullable()
                 .WithColumn(nameof(Developer.IsMVP)).AsBoolean().NotNullable()
                 .WithColumn(nameof(Developer.IsNopCommerceCertified)).AsBoolean().NotNullable()
+                .WithColumn(nameof(Developer.PictureId)).AsInt32().NotNullable()
                 .WithColumn(nameof(Developer.DeveloperStatusId)).AsInt32().NotNullable();
         }
     }

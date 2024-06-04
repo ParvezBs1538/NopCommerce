@@ -38,9 +38,9 @@ namespace Nop.Plugin.Misc.NopStation.Factories
                 ["Admin.Misc.Developers.AddNew"] = "Add new Developer",
                 ["Admin.Misc.Developers.EditDetails"] = "Edit Developer details",
                 ["Admin.Misc.Developers.BackToList"] = "back to Developer list",
-                ["Admin.Misc.Developers"] = "Developers",
-                ["Admin.Misc.Developers"] = "Developers",
 
+                ["Admin.Misc.Developer.Fields.Picture"] = "Picture",
+                ["Admin.Misc.Developer.Fields.Picture.Hint"] = "Enter Picture.",
                 ["Admin.Misc.Developer.Fields.Name"] = "Name",
                 ["Admin.Misc.Developer.Fields.DeveloperDesignation"] = "Designation",
                 ["Admin.Misc.Developer.Fields.IsMVP"] = "Is MVP",
@@ -97,7 +97,8 @@ namespace Nop.Plugin.Misc.NopStation.Factories
                         Id = Developer.Id,
                         IsMVP = Developer.IsMVP,
                         IsNopCommerceCertified = Developer.IsNopCommerceCertified,
-                        Name = Developer.Name
+                        Name = Developer.Name,
+                        PictureId = Developer.PictureId
                     };
                 }
                 model.DeveloperStatusStr = await _localizationService.GetLocalizedEnumAsync(Developer.DeveloperStatus);

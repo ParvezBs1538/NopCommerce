@@ -13,6 +13,10 @@ namespace Nop.Plugin.Misc.NopStation.Models
             AvailableDeveloperDesignationOptions = new List<SelectListItem>();
         }
 
+        [UIHint("Picture")]
+        [NopResourceDisplayName("Admin.Misc.Developer.Fields.Picture")]
+        public int PictureId { get; set; }
+
         [NopResourceDisplayName("Admin.Misc.Developer.Fields.Name")]
         public string Name { get; set; }
 
