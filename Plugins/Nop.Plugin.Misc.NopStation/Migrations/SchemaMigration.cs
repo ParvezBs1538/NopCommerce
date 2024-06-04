@@ -12,6 +12,7 @@ namespace Nop.Plugin.Misc.NopStation.Migrations
         public override void Up()
         {
             Create.TableFor<Developer>();
+            // Create.Column("Picture").OnTable("Developer").AsInt32().TableFor<Developer>();
         }
 
         public override void Down()
