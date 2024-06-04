@@ -18,9 +18,15 @@
     {
       "SystemName": "Misc.NopStationTeam",
       "Version": "4.70.2"
+    },
+    {
+      "SystemName": "Misc.NopStation",
+      "Version": "4.70.2"
     }
   ],
-  "PluginNamesToUninstall": [],
+  "PluginNamesToUninstall": [
+    "Misc.NopStation"
+  ],
   "PluginNamesToDelete": [],
   "PluginNamesToInstall": []
 }
