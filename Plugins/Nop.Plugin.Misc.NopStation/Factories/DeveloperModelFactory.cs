@@ -56,6 +56,17 @@ namespace Nop.Plugin.Misc.NopStation.Factories
                 ["Admin.Misc.Developer.List.DeveloperStatus"] = "Status",
                 ["Admin.Misc.Developer.List.Name.Hint"] = "Search by Developer name.",
                 ["Admin.Misc.Developer.List.DeveloperStatus.Hint"] = "Search by Developer status.",
+                ["Admin.Misc.Developer.List.DeveloperDesignation"] = "Designation",
+                ["Admin.Misc.Developer.List.DeveloperDesignation.Hint"] = "Search by Designation status.",
+
+                ["Enums.Nop.Plugin.Misc.NopStation.Domain.DeveloperDesignation.HeadOfNopStation"] = "Head of nopStation",
+                ["Enums.Nop.Plugin.Misc.NopStation.Domain.DeveloperDesignation.PrincipalEngineer"] = "Principal Engineer",
+                ["Enums.Nop.Plugin.Misc.NopStation.Domain.DeveloperDesignation.ProjectManager"] = "Project Manager",
+                ["Enums.Nop.Plugin.Misc.NopStation.Domain.DeveloperDesignation.LeadEngineer"] = "Lead Engineer",
+                ["Enums.Nop.Plugin.Misc.NopStation.Domain.DeveloperDesignation.SeniorSoftwareEngineer"] = "Sr. Software Engineer",
+                ["Enums.Nop.Plugin.Misc.NopStation.Domain.DeveloperDesignation.SoftwareEngineer"] = "Software Engineer",
+                ["Enums.Nop.Plugin.Misc.NopStation.Domain.DeveloperDesignation.AssociateSoftwareEngineer"] = "Associate Software Engineer",
+                ["Enums.Nop.Plugin.Misc.NopStation.Domain.DeveloperDesignation.Trainee"] = "Trainee"
             });
 
             //prepare list model
