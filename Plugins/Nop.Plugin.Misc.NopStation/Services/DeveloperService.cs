@@ -45,7 +45,8 @@ namespace Nop.Plugin.Misc.NopStation.Services
             if (statusId > 0)
                 query = query.Where(e => e.DeveloperStatusId == statusId);
 
-            query = query.OrderBy(e => e.Name);
+            //query = query.OrderBy(e => e.Name);
+            query = query.OrderBy(e => e.DeveloperDesignationId);
 
             return await query.ToPagedListAsync(pageIndex, pageSize);
         }

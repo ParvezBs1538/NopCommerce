@@ -3,6 +3,7 @@ using Nop.Plugin.Misc.NopStation.Models;
 using Nop.Plugin.Misc.NopStation.Services;
 using Nop.Services;
 using Nop.Services.Localization;
+using Nop.Services.Media;
 using Nop.Web.Framework.Models.Extensions;
 
 namespace Nop.Plugin.Misc.NopStation.Factories
@@ -12,14 +13,17 @@ namespace Nop.Plugin.Misc.NopStation.Factories
         #region Fields
         private readonly IDeveloperService _DeveloperService;
         private readonly ILocalizationService _localizationService;
+        private readonly IPictureService _pictureService;
         #endregion
 
         #region Ctor
         public DeveloperModelFactory(IDeveloperService DeveloperService,
-            ILocalizationService localizationService)
+            ILocalizationService localizationService,
+            IPictureService pictureService)
         {
             _DeveloperService = DeveloperService;
             _localizationService = localizationService;
+            _pictureService = pictureService;
         }
         #endregion
 
@@ -83,26 +87,29 @@ namespace Nop.Plugin.Misc.NopStation.Factories
         #endregion
 
         #region PrepareDeveloperModelAsync
-        public async Task<DeveloperModel> PrepareDeveloperModelAsync(DeveloperModel model, Developer Developer, bool excludeProperties = false)
+        public async Task<DeveloperModel> PrepareDeveloperModelAsync(DeveloperModel model, Developer developer, bool excludeProperties = false)
         {
-            if (Developer != null)
+            if (developer != null)
             {
                 if (model == null)
                 {
                     //fill in model values from the entity
                     model = new DeveloperModel()
                     {
-                        DeveloperDesignationId = Developer.DeveloperDesignationId,
-                        DeveloperStatusId = Developer.DeveloperStatusId,
-                        Id = Developer.Id,
-                        IsMVP = Developer.IsMVP,
-                        IsNopCommerceCertified = Developer.IsNopCommerceCertified,
-                        Name = Developer.Name,
-                        PictureId = Developer.PictureId
+                        DeveloperDesignationId = developer.DeveloperDesignationId,
+                        DeveloperStatusId = developer.DeveloperStatusId,
+                        Id = developer.Id,
+                        IsMVP = developer.IsMVP,
+                        IsNopCommerceCertified = developer.IsNopCommerceCertified,
+                        Name = developer.Name,
+                        PictureId = developer.PictureId
                     };
                 }
-                model.DeveloperStatusStr = await _localizationService.GetLocalizedEnumAsync(Developer.DeveloperStatus);
-                model.DeveloperDesignationStr = await _localizationService.GetLocalizedEnumAsync(Developer.DeveloperDesignation);
+                model.DeveloperStatusStr = await _localizationService.GetLocalizedEnumAsync(developer.DeveloperStatus);
+                model.DeveloperDesignationStr = await _localizationService.GetLocalizedEnumAsync(developer.DeveloperDesignation);
+
+                var picture = await _pictureService.GetPictureByIdAsync(developer.PictureId);
+                (model.PictureThumbnailUrl, _) = await _pictureService.GetPictureUrlAsync(picture, 75);
             }
 
             if (!excludeProperties)
@@ -122,6 +129,14 @@ namespace Nop.Plugin.Misc.NopStation.Factories
 
             searchModel.AvailableDeveloperStatusOptions = (await DeveloperStatus.Active.ToSelectListAsync()).ToList();
             searchModel.AvailableDeveloperStatusOptions.Insert(0,
+                new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                {
+                    Text = "All",
+                    Value = "0"
+                });
+
+            searchModel.AvailableDeveloperDesignationOptions = (await DeveloperDesignation.Trainee.ToSelectListAsync()).ToList();
+            searchModel.AvailableDeveloperDesignationOptions.Insert(0,
                 new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
                 {
                     Text = "All",

@@ -13,6 +13,9 @@ namespace Nop.Plugin.Misc.NopStation.Models
             AvailableDeveloperDesignationOptions = new List<SelectListItem>();
         }
 
+        [NopResourceDisplayName("Admin.Misc.Developer.Fields.PictureThumbnailUrl")]
+        public string PictureThumbnailUrl { get; set; }
+
         [UIHint("Picture")]
         [NopResourceDisplayName("Admin.Misc.Developer.Fields.Picture")]
         public int PictureId { get; set; }

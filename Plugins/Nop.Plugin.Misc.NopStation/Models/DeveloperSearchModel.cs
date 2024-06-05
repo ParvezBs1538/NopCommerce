@@ -9,7 +9,7 @@ namespace Nop.Plugin.Misc.NopStation.Models
         public DeveloperSearchModel()
         {
             AvailableDeveloperStatusOptions = new List<SelectListItem>();
-            //AvailableDeveloperDesignationOptions = new List<SelectListItem>();
+            AvailableDeveloperDesignationOptions = new List<SelectListItem>();
         }
 
         [NopResourceDisplayName("Admin.Misc.Developer.List.Name")]
@@ -18,7 +18,10 @@ namespace Nop.Plugin.Misc.NopStation.Models
         [NopResourceDisplayName("Admin.Misc.Developer.List.DeveloperStatus")]
         public int DeveloperStatusId { get; set; }
 
+        [NopResourceDisplayName("Admin.Misc.Developer.List.DeveloperDesignation")]
+        public int DeveloperDesignationId { get; set; }
+
         public IList<SelectListItem> AvailableDeveloperStatusOptions { get; set; }
-        //public IList<SelectListItem> AvailableDeveloperDesignationOptions { get; set; }
+        public IList<SelectListItem> AvailableDeveloperDesignationOptions { get; set; }
     }
 }
