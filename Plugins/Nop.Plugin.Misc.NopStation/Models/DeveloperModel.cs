@@ -11,7 +11,16 @@ namespace Nop.Plugin.Misc.NopStation.Models
         {
             AvailableDeveloperStatusOptions = new List<SelectListItem>();
             AvailableDeveloperDesignationOptions = new List<SelectListItem>();
+            AvailableDeveloperSkillOptions = new List<SelectListItem>();
+            SelectedSkills = new List<int>();
+            Skills = new List<string>();
         }
+
+        [NopResourceDisplayName("Admin.Misc.Developer.Fields.Skills")]
+        public IList<int> SelectedSkills { get; set; }
+        [NopResourceDisplayName("Admin.Misc.Developer.Fields.Skills")]
+        public List<string> Skills { get; set; }
+
 
         [NopResourceDisplayName("Admin.Misc.Developer.Fields.PictureThumbnailUrl")]
         public string PictureThumbnailUrl { get; set; }
@@ -22,9 +31,6 @@ namespace Nop.Plugin.Misc.NopStation.Models
 
         [NopResourceDisplayName("Admin.Misc.Developer.Fields.Name")]
         public string Name { get; set; }
-
-        //[NopResourceDisplayName("Admin.Misc.Developer.Fields.Designation")]
-        //public string Designation { get; set; }
 
         [NopResourceDisplayName("Admin.Misc.Developer.Fields.DeveloperDesignation")]
         public int DeveloperDesignationId { get; set; }
@@ -43,8 +49,10 @@ namespace Nop.Plugin.Misc.NopStation.Models
 
         [NopResourceDisplayName("Admin.Misc.Developer.Fields.DeveloperStatus")]
         public string DeveloperStatusStr { get; set; }
+        
 
         public IList<SelectListItem> AvailableDeveloperStatusOptions { get; set; }
         public IList<SelectListItem> AvailableDeveloperDesignationOptions { get; set; }
+        public IList<SelectListItem> AvailableDeveloperSkillOptions { get; set; }
     }
 }

@@ -34,7 +34,7 @@
   },
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "Nop.Plugin.DiscountRules.CustomerRoles/1.0.0": {
+      "Nop.Plugin.Widgets.Practice/1.0.0": {
         "dependencies": {
           "Nop.Web.Framework": "4.70.0",
           "Microsoft.AspNetCore.Antiforgery": "8.0.0.0",
@@ -340,10 +340,10 @@
           "WindowsBase": "4.0.0.0"
         },
         "runtime": {
-          "Nop.Plugin.DiscountRules.CustomerRoles.dll": {}
+          "Nop.Plugin.Widgets.Practice.dll": {}
         },
         "compile": {
-          "Nop.Plugin.DiscountRules.CustomerRoles.dll": {}
+          "Nop.Plugin.Widgets.Practice.dll": {}
         }
       },
       "AdvancedStringBuilder/0.1.1": {
@@ -5539,7 +5539,7 @@
     }
   },
   "libraries": {
-    "Nop.Plugin.DiscountRules.CustomerRoles/1.0.0": {
+    "Nop.Plugin.Widgets.Practice/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

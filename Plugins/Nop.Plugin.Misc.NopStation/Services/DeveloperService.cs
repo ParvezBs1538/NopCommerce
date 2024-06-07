@@ -6,37 +6,37 @@ namespace Nop.Plugin.Misc.NopStation.Services
 {
     public class DeveloperService : IDeveloperService
     {
-        private readonly IRepository<Developer> _DeveloperRepository;
+        private readonly IRepository<Developer> _developerRepository;
 
         public DeveloperService(IRepository<Developer> DeveloperRepository)
         {
-            _DeveloperRepository = DeveloperRepository;
+            _developerRepository = DeveloperRepository;
         }
 
         public virtual async Task InsertDeveloperAsync(Developer Developer)
         {
-            await _DeveloperRepository.InsertAsync(Developer);
+            await _developerRepository.InsertAsync(Developer);
         }
 
         public virtual async Task UpdateDeveloperAsync(Developer Developer)
         {
-            await _DeveloperRepository.UpdateAsync(Developer);
+            await _developerRepository.UpdateAsync(Developer);
         }
 
         public virtual async Task DeleteDeveloperAsync(Developer Developer)
         {
-            await _DeveloperRepository.DeleteAsync(Developer);
+            await _developerRepository.DeleteAsync(Developer);
         }
 
         public virtual async Task<Developer> GetDeveloperByIdAsync(int DeveloperId)
         {
-            return await _DeveloperRepository.GetByIdAsync(DeveloperId);
+            return await _developerRepository.GetByIdAsync(DeveloperId);
         }
 
         public virtual async Task<IPagedList<Developer>> SearchDevelopersAsync(string name, int statusId,
             int pageIndex = 0, int pageSize = int.MaxValue)
         {
-            var query = from e in _DeveloperRepository.Table
+            var query = from e in _developerRepository.Table
                         select e;
 
             if (!string.IsNullOrEmpty(name))

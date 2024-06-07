@@ -1,4 +1,5 @@
-﻿using Nop.Plugin.Misc.NopStation.Domain;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Nop.Plugin.Misc.NopStation.Domain;
 using Nop.Plugin.Misc.NopStation.Models;
 using Nop.Plugin.Misc.NopStation.Services;
 using Nop.Services;
@@ -11,28 +12,37 @@ namespace Nop.Plugin.Misc.NopStation.Factories
     public class DeveloperModelFactory : IDeveloperModelFactory
     {
         #region Fields
-        private readonly IDeveloperService _DeveloperService;
+
+        private readonly IDeveloperService _developerService;
         private readonly ILocalizationService _localizationService;
         private readonly IPictureService _pictureService;
+        private readonly ISkillService _skillService;
+        
         #endregion
 
         #region Ctor
+        
         public DeveloperModelFactory(IDeveloperService DeveloperService,
             ILocalizationService localizationService,
-            IPictureService pictureService)
+            IPictureService pictureService,
+            ISkillService skillService)
         {
-            _DeveloperService = DeveloperService;
+            _developerService = DeveloperService;
             _localizationService = localizationService;
             _pictureService = pictureService;
+            _skillService = skillService;
         }
+
         #endregion
 
-        #region PrepareDeveloperListModelAsync
+
+        #region Methods
+
         public async Task<DeveloperListModel> PrepareDeveloperListModelAsync(DeveloperSearchModel searchModel)
         {
             ArgumentNullException.ThrowIfNull(nameof(searchModel));
 
-            var Developers = await _DeveloperService.SearchDevelopersAsync(searchModel.Name, searchModel.DeveloperStatusId,
+            var developers = await _developerService.SearchDevelopersAsync(searchModel.Name, searchModel.DeveloperStatusId,
                 pageIndex: searchModel.Page - 1,
                 pageSize: searchModel.PageSize);
 
@@ -42,6 +52,10 @@ namespace Nop.Plugin.Misc.NopStation.Factories
                 ["Admin.Misc.Developers.AddNew"] = "Add new Developer",
                 ["Admin.Misc.Developers.EditDetails"] = "Edit Developer details",
                 ["Admin.Misc.Developers.BackToList"] = "back to Developer list",
+
+
+                ["Admin.Misc.Developer.Fields.skills"] = "Skill",
+                ["Admin.Misc.Developer.Fields.skills.Hint"] = "Enter Developer skill",
 
                 ["Admin.Misc.Developer.Fields.Picture"] = "Picture",
                 ["Admin.Misc.Developer.Fields.Picture.Hint"] = "Enter Picture.",
@@ -74,19 +88,17 @@ namespace Nop.Plugin.Misc.NopStation.Factories
             });
 
             //prepare list model
-            var model = await new DeveloperListModel().PrepareToGridAsync(searchModel, Developers, () =>
+            var model = await new DeveloperListModel().PrepareToGridAsync(searchModel, developers, () =>
             {
-                return Developers.SelectAwait(async Developer =>
+                return developers.SelectAwait(async developer =>
                 {
-                    return await PrepareDeveloperModelAsync(null, Developer, true);
+                    return await PrepareDeveloperModelAsync(null, developer, true);
                 });
             });
 
             return model;
         }
-        #endregion
 
-        #region PrepareDeveloperModelAsync
         public async Task<DeveloperModel> PrepareDeveloperModelAsync(DeveloperModel model, Developer developer, bool excludeProperties = false)
         {
             if (developer != null)
@@ -96,12 +108,12 @@ namespace Nop.Plugin.Misc.NopStation.Factories
                     //fill in model values from the entity
                     model = new DeveloperModel()
                     {
+                        Id = developer.Id,
+                        Name = developer.Name,
                         DeveloperDesignationId = developer.DeveloperDesignationId,
                         DeveloperStatusId = developer.DeveloperStatusId,
-                        Id = developer.Id,
                         IsMVP = developer.IsMVP,
                         IsNopCommerceCertified = developer.IsNopCommerceCertified,
-                        Name = developer.Name,
                         PictureId = developer.PictureId
                     };
                 }
@@ -110,19 +122,27 @@ namespace Nop.Plugin.Misc.NopStation.Factories
 
                 var picture = await _pictureService.GetPictureByIdAsync(developer.PictureId);
                 (model.PictureThumbnailUrl, _) = await _pictureService.GetPictureUrlAsync(picture, 75);
+
+                var developerSkills = await _skillService.GetDeveloperSkillMappingsByDeveloperIdAsync(developer.Id);
+                model.SelectedSkills = developerSkills.Select(ds => ds.SkillId).ToList();
             }
 
             if (!excludeProperties)
             {
-                model.AvailableDeveloperStatusOptions = (await DeveloperStatus.Active.ToSelectListAsync()).ToList();
-                model.AvailableDeveloperDesignationOptions = (await DeveloperDesignation.Trainee.ToSelectListAsync()).ToList();
+                model.AvailableDeveloperStatusOptions = [.. await DeveloperStatus.Active.ToSelectListAsync()];
+                model.AvailableDeveloperDesignationOptions = [.. await DeveloperDesignation.Trainee.ToSelectListAsync()];
+
+                var allSkills = await _skillService.GetAllSkillsAsync();
+                model.AvailableDeveloperSkillOptions = allSkills.Select(skill => new SelectListItem
+                {
+                    Value = skill.Id.ToString(),
+                    Text = skill.Name
+                }).ToList();
             }
 
             return model;
         }
-        #endregion
 
-        #region PrepareDeveloperSearchModelAsync
         public async Task<DeveloperSearchModel> PrepareDeveloperSearchModelAsync(DeveloperSearchModel searchModel)
         {
             ArgumentNullException.ThrowIfNull(nameof(searchModel));
@@ -148,6 +168,7 @@ namespace Nop.Plugin.Misc.NopStation.Factories
 
             return searchModel;
         }
+
         #endregion
     }
 }

@@ -13,11 +13,13 @@ namespace Nop.Plugin.Misc.NopStation.Migrations
         {
             Create.TableFor<Developer>();
             // Create.Column("Picture").OnTable("Developer").AsInt32().TableFor<Developer>();
+            Create.TableFor<Skill>();
         }
 
         public override void Down()
         {
             Delete.Table(nameof(Developer));
+            Delete.Table(nameof(Skill));
         }
     }
 }
