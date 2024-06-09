@@ -20,13 +20,19 @@
       "Version": "4.70.2"
     },
     {
+      "SystemName": "Widgets.FacebookPixel",
+      "Version": "4.70.7"
+    },
+    {
+      "SystemName": "DiscountRequirement.MustBeAssignedToCustomerRole",
+      "Version": "4.70.3"
+    },
+    {
       "SystemName": "Misc.NopStation",
       "Version": "4.70.2"
     }
   ],
-  "PluginNamesToUninstall": [
-    "Misc.NopStation"
-  ],
+  "PluginNamesToUninstall": [],
   "PluginNamesToDelete": [],
   "PluginNamesToInstall": []
 }

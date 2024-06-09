@@ -6,7 +6,6 @@ using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
 using Nop.Plugin.Misc.NopStation.Domain;
-using Nop.Services.Messages;
 
 namespace Nop.Plugin.Misc.NopStation.Controllers
 {
@@ -14,22 +13,53 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
     [Area(AreaNames.ADMIN)]
     public class DeveloperController : BasePluginController
     {
-        private readonly IDeveloperService _DeveloperService;
-        private readonly IDeveloperModelFactory _DeveloperModelFactory;
-        protected readonly INotificationService _notificationService;
+        private readonly IDeveloperService _developerService;
+        private readonly IDeveloperModelFactory _developerModelFactory;
+        private readonly ISkillService _skillService;
 
         public DeveloperController(IDeveloperService DeveloperService,
             IDeveloperModelFactory DeveloperModelFactory,
-            INotificationService notificationService)
+            ISkillService skillService)
         {
-            _DeveloperService = DeveloperService;
-            _DeveloperModelFactory = DeveloperModelFactory;
-            _notificationService = notificationService;
+            _developerService = DeveloperService;
+            _developerModelFactory = DeveloperModelFactory;
+            _skillService = skillService;
         }
+
+        #region Utils
+
+        protected virtual async Task SaveSkillMappingsAsync(Developer developer, DeveloperModel model)
+        {
+            var existingDeveloperSkils = await _skillService.GetDeveloperSkillMappingsByDeveloperIdAsync(developer.Id);
+
+            //delete skills
+            foreach (var existingDeveloperSkil in existingDeveloperSkils) 
+                if (!model.SelectedSkills.Contains(existingDeveloperSkil.SkillId))
+                    await _skillService.DeleteDeveloperSkillMappingAsync(existingDeveloperSkil);
+
+            var validSkills = await _skillService.GetSkillByIdsAsync(model.SelectedSkills.ToArray());
+            //add skill
+            foreach (var skillId in model.SelectedSkills)
+            {
+                if (validSkills.FirstOrDefault(s => s.Id == skillId) is null)
+                    continue;
+
+                if (await _skillService.FindDeveloperSkillMappingAsync(model.Id, skillId) == null)
+                {
+                    await _skillService.InsertDeveloperSkillMappingAsync(new DeveloperSkillMapping
+                    { 
+                        DeveloperId = developer.Id,
+                        SkillId = skillId
+                    });
+                }
+            }
+        }
+
+        #endregion
 
         public async Task<IActionResult> List()
         {
-            var searchModel = await _DeveloperModelFactory.PrepareDeveloperSearchModelAsync(new DeveloperSearchModel());
+            var searchModel = await _developerModelFactory.PrepareDeveloperSearchModelAsync(new DeveloperSearchModel());
 
             return View("~/Plugins/Misc.NopStation/Views/Developer/List.cshtml", searchModel);
         }
@@ -37,14 +67,14 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
         [HttpPost]
         public async Task<IActionResult> List(DeveloperSearchModel searchModel)
         {
-            var model = await _DeveloperModelFactory.PrepareDeveloperListModelAsync(searchModel);
+            var model = await _developerModelFactory.PrepareDeveloperListModelAsync(searchModel);
 
             return Json(model);
         }
 
         public async Task<IActionResult> Create()
         {
-            var model = await _DeveloperModelFactory.PrepareDeveloperModelAsync(new DeveloperModel(), null);
+            var model = await _developerModelFactory.PrepareDeveloperModelAsync(new DeveloperModel(), null);
 
             return View("~/Plugins/Misc.NopStation/Views/Developer/Create.cshtml", model);
         }
@@ -54,32 +84,34 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
         {
             if (ModelState.IsValid)
             {
-                var Developer = new Developer
+                var developer = new Developer
                 {
                     DeveloperDesignationId = model.DeveloperDesignationId,
                     DeveloperStatusId = model.DeveloperStatusId,
                     IsMVP = model.IsMVP,
                     IsNopCommerceCertified = model.IsNopCommerceCertified,
-                    Name = model.Name
+                    Name = model.Name,
+                    PictureId = model.PictureId,
                 };
 
-                await _DeveloperService.InsertDeveloperAsync(Developer);
+                await _developerService.InsertDeveloperAsync(developer);
+                await SaveSkillMappingsAsync(developer, model);
 
-                return continueEditing ? RedirectToAction("Edit", new { id = Developer.Id }) : RedirectToAction("List");
+                return continueEditing ? RedirectToAction("Edit", new { id = developer.Id }) : RedirectToAction("List");
             }
 
-            model = await _DeveloperModelFactory.PrepareDeveloperModelAsync(model, null);
+            model = await _developerModelFactory.PrepareDeveloperModelAsync(model, null);
 
             return View("~/Plugins/Misc.NopStation/Views/Developer/Create.cshtml", model);
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            var Developer = await _DeveloperService.GetDeveloperByIdAsync(id);
-            if (Developer == null)
+            var developer = await _developerService.GetDeveloperByIdAsync(id);
+            if (developer == null)
                 return RedirectToAction("List");
 
-            var model = await _DeveloperModelFactory.PrepareDeveloperModelAsync(null, Developer);
+            var model = await _developerModelFactory.PrepareDeveloperModelAsync(null, developer);
 
             return View("~/Plugins/Misc.NopStation/Views/Developer/Edit.cshtml", model);
         }
@@ -87,24 +119,26 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> Edit(DeveloperModel model, bool continueEditing)
         {
-            var Developer = await _DeveloperService.GetDeveloperByIdAsync(model.Id);
-            if (Developer == null)
+            var developer = await _developerService.GetDeveloperByIdAsync(model.Id);
+            if (developer == null)
                 return RedirectToAction("List");
 
             if (ModelState.IsValid)
             {
-                Developer.DeveloperDesignationId = model.DeveloperDesignationId;
-                Developer.DeveloperStatusId = model.DeveloperStatusId;
-                Developer.IsMVP = model.IsMVP;
-                Developer.IsNopCommerceCertified = model.IsNopCommerceCertified;
-                Developer.Name = model.Name;
+                developer.DeveloperDesignationId = model.DeveloperDesignationId;
+                developer.DeveloperStatusId = model.DeveloperStatusId;
+                developer.IsMVP = model.IsMVP;
+                developer.IsNopCommerceCertified = model.IsNopCommerceCertified;
+                developer.Name = model.Name;
+                developer.PictureId = model.PictureId;
 
-                await _DeveloperService.UpdateDeveloperAsync(Developer);
+                await _developerService.UpdateDeveloperAsync(developer);
+                await SaveSkillMappingsAsync(developer, model);
 
-                return continueEditing ? RedirectToAction("Edit", new { id = Developer.Id }) : RedirectToAction("List");
+                return continueEditing ? RedirectToAction("Edit", new { id = developer.Id }) : RedirectToAction("List");
             }
 
-            model = await _DeveloperModelFactory.PrepareDeveloperModelAsync(model, Developer);
+            model = await _developerModelFactory.PrepareDeveloperModelAsync(model, developer);
 
             return View("~/Plugins/Misc.NopStation/Views/Developer/Edit.cshtml", model);
         }
@@ -112,11 +146,11 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(DeveloperModel model)
         {
-            var Developer = await _DeveloperService.GetDeveloperByIdAsync(model.Id);
-            if (Developer == null)
+            var developer = await _developerService.GetDeveloperByIdAsync(model.Id);
+            if (developer == null)
                 return RedirectToAction("List");
 
-            await _DeveloperService.DeleteDeveloperAsync(Developer);
+            await _developerService.DeleteDeveloperAsync(developer);
 
             return RedirectToAction("List");
         }
@@ -131,18 +165,15 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
             {
                 foreach (int id in selectedIds)
                 {
-                    var developer = await _DeveloperService.GetDeveloperByIdAsync(id);
+                    var developer = await _developerService.GetDeveloperByIdAsync(id);
                     if (developer != null)
                     {
-                        await _DeveloperService.DeleteDeveloperAsync(developer);
+                        await _developerService.DeleteDeveloperAsync(developer);
                     }
                 }
-                _notificationService.SuccessNotification("Admin.Catalog.Developers.Deleted");
             }
             catch (Exception ex)
             {
-                // Log the exception (you can use a logging framework here)
-                // For now, we'll just rethrow the exception to be handled by a global exception handler if present
                 throw;
             }
 

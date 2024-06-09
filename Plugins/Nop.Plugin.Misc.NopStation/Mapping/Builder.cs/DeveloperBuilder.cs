@@ -13,7 +13,27 @@ namespace Nop.Plugin.Misc.NopStation.Mapping.Builder
                 .WithColumn(nameof(Developer.DeveloperDesignationId)).AsInt32().NotNullable()
                 .WithColumn(nameof(Developer.IsMVP)).AsBoolean().NotNullable()
                 .WithColumn(nameof(Developer.IsNopCommerceCertified)).AsBoolean().NotNullable()
+                .WithColumn(nameof(Developer.PictureId)).AsInt32().NotNullable()
                 .WithColumn(nameof(Developer.DeveloperStatusId)).AsInt32().NotNullable();
         }
     }
+
+    //public class SkillBuilder : NopEntityBuilder<Skill>
+    //{
+    //    public override void MapEntity(CreateTableExpressionBuilder table)
+    //    {
+    //        table.WithColumn(nameof(Skill.Id)).AsInt32().PrimaryKey().Identity()
+    //            .WithColumn(nameof(Skill.Name)).AsString(100).NotNullable();
+    //    }
+    //}
+
+    //public class DeveloperSkillBuilder : NopEntityBuilder<DeveloperSkill>
+    //{
+    //    public override void MapEntity(CreateTableExpressionBuilder table)
+    //    {
+    //        table.WithColumn(nameof(DeveloperSkill.Id)).AsInt32().PrimaryKey().Identity()
+    //            .WithColumn(nameof(DeveloperSkill.DeveloperId)).AsInt32().NotNullable()
+    //            .WithColumn(nameof(DeveloperSkill.SkillId)).AsInt32().NotNullable();
+    //    }
+    //}
 }

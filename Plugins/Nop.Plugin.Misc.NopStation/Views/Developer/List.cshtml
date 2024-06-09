@@ -67,6 +67,17 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="DeveloperDesignationId" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-select asp-for="DeveloperDesignationId" asp-items="Model.AvailableDeveloperDesignationOptions" />
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="form-group row">
                                 <div class="text-center col-12">
@@ -89,8 +100,9 @@
                            LengthMenu = Model.AvailablePageSizes,
                            Filters = new List<FilterParameter>
                            {
-                               new FilterParameter(nameof(Model.Name)),
-                               new FilterParameter(nameof(Model.DeveloperStatusId))
+                                new FilterParameter(nameof(Model.Name)),
+                                new FilterParameter(nameof(Model.DeveloperStatusId)),
+                                new FilterParameter(nameof(Model.DeveloperDesignationId))
                            },
                            ColumnCollection = new List<ColumnProperty>
                            {
@@ -101,10 +113,17 @@
                                     ClassName =  NopColumnClassDefaults.CenterAll,
                                     Width = "50"
                                 },
+                                new ColumnProperty(nameof(DeveloperModel.PictureThumbnailUrl))
+                                {
+                                    Title = T("Admin.Misc.Developer.Fields.Picture").Text,
+                                    Width = "100",
+                                    Render = new RenderPicture(width: 100)
+                                },
                                 new ColumnProperty(nameof(DeveloperModel.Name))
                                 {
                                     Title = T("Admin.Misc.Developer.Fields.Name").Text,
                                     ClassName = NopColumnClassDefaults.CenterAll,
+                                    Width = "150",
                                 },
                                 // new ColumnProperty(nameof(DeveloperModel.Designation))
                                 // {
@@ -114,13 +133,13 @@
                                 new ColumnProperty(nameof(DeveloperModel.DeveloperDesignationStr))
                                 {
                                     Title = T("Admin.Misc.Developer.Fields.DeveloperDesignation").Text,
-                                    Width = "200",
+                                    Width = "150",
                                     ClassName = NopColumnClassDefaults.CenterAll,
                                 },
                                 new ColumnProperty(nameof(DeveloperModel.DeveloperStatusStr))
                                 {
                                     Title = T("Admin.Misc.Developer.Fields.DeveloperStatus").Text,
-                                    //Width = "100",
+                                    Width = "100",
                                     ClassName = NopColumnClassDefaults.CenterAll,
                                 },
                                 new ColumnProperty(nameof(DeveloperModel.IsMVP))
@@ -129,6 +148,12 @@
                                     Width = "100",
                                     ClassName = NopColumnClassDefaults.CenterAll,
                                     Render = new RenderBoolean()
+                                },
+                                new ColumnProperty(nameof(DeveloperModel.Skills))
+                                {
+                                    Title = T("Admin.Misc.Developer.Fields.Skills").Text,
+                                    Width = "200",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
                                 },
                                 new ColumnProperty(nameof(DeveloperModel.IsNopCommerceCertified))
                                 {

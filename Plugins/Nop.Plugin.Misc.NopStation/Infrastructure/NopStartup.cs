@@ -18,5 +18,8 @@ public class NopStartup : INopStartup
     {
         services.AddScoped<IDeveloperService, DeveloperService>();
         services.AddScoped<IDeveloperModelFactory, DeveloperModelFactory>();
+
+        services.AddScoped<ISkillService, SkillService>();
+        services.AddScoped<ISkillModelFactory, SkillModelFactory>();
     }
 }
