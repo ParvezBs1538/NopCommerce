@@ -17,12 +17,12 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
         private readonly IDeveloperModelFactory _developerModelFactory;
         private readonly ISkillService _skillService;
 
-        public DeveloperController(IDeveloperService DeveloperService,
-            IDeveloperModelFactory DeveloperModelFactory,
+        public DeveloperController(IDeveloperService developerService,
+            IDeveloperModelFactory developerModelFactory,
             ISkillService skillService)
         {
-            _developerService = DeveloperService;
-            _developerModelFactory = DeveloperModelFactory;
+            _developerService = developerService;
+            _developerModelFactory = developerModelFactory;
             _skillService = skillService;
         }
 
@@ -57,6 +57,8 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
 
         #endregion
 
+        #region Methods
+
         public async Task<IActionResult> List()
         {
             var searchModel = await _developerModelFactory.PrepareDeveloperSearchModelAsync(new DeveloperSearchModel());
@@ -78,6 +80,7 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
 
             return View("~/Plugins/Misc.NopStation/Views/Developer/Create.cshtml", model);
         }
+
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> Create(DeveloperModel model, bool continueEditing)
@@ -115,6 +118,7 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
 
             return View("~/Plugins/Misc.NopStation/Views/Developer/Edit.cshtml", model);
         }
+
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> Edit(DeveloperModel model, bool continueEditing)
@@ -160,7 +164,6 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
         {
             if (selectedIds == null || selectedIds.Count == 0)
                 return NoContent();
-
             try
             {
                 foreach (int id in selectedIds)
@@ -172,12 +175,14 @@ namespace Nop.Plugin.Misc.NopStation.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
 
             return Json(new { Result = true });
         }
+
+        #endregion
     }
 }

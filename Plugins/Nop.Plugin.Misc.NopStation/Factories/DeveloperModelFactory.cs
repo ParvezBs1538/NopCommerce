@@ -43,6 +43,7 @@ namespace Nop.Plugin.Misc.NopStation.Factories
             ArgumentNullException.ThrowIfNull(nameof(searchModel));
 
             var developers = await _developerService.SearchDevelopersAsync(searchModel.Name, searchModel.DeveloperStatusId,
+                searchModel.DeveloperDesignationId,
                 pageIndex: searchModel.Page - 1,
                 pageSize: searchModel.PageSize);
 
@@ -114,7 +115,7 @@ namespace Nop.Plugin.Misc.NopStation.Factories
                         DeveloperStatusId = developer.DeveloperStatusId,
                         IsMVP = developer.IsMVP,
                         IsNopCommerceCertified = developer.IsNopCommerceCertified,
-                        PictureId = developer.PictureId
+                        PictureId = developer.PictureId,
                     };
                 }
                 model.DeveloperStatusStr = await _localizationService.GetLocalizedEnumAsync(developer.DeveloperStatus);
@@ -125,6 +126,9 @@ namespace Nop.Plugin.Misc.NopStation.Factories
 
                 var developerSkills = await _skillService.GetDeveloperSkillMappingsByDeveloperIdAsync(developer.Id);
                 model.SelectedSkills = developerSkills.Select(ds => ds.SkillId).ToList();
+
+                var GetDeveloperSkills = await _skillService.GetSkillByIdsAsync(model.SelectedSkills.ToArray());
+                model.Skills = GetDeveloperSkills.Select(ds => ds.Name).ToList();
             }
 
             if (!excludeProperties)

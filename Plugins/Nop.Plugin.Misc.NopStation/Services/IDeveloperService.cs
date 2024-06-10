@@ -13,7 +13,7 @@ namespace Nop.Plugin.Misc.NopStation.Services
 
         Task<Developer> GetDeveloperByIdAsync(int developer);
 
-        Task<IPagedList<Developer>> SearchDevelopersAsync(string name, int statusId,
+        Task<IPagedList<Developer>> SearchDevelopersAsync(string name, int statusId, int designationId,
                 int pageIndex = 0, int pageSize = int.MaxValue);
     }
 }

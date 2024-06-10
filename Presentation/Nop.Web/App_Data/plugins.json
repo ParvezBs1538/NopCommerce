@@ -30,6 +30,10 @@
     {
       "SystemName": "Misc.NopStation",
       "Version": "4.70.2"
+    },
+    {
+      "SystemName": "Misc.BrainStation",
+      "Version": "4.70.2"
     }
   ],
   "PluginNamesToUninstall": [],

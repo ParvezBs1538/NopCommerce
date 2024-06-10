@@ -33,7 +33,7 @@ namespace Nop.Plugin.Misc.NopStation.Services
             return await _developerRepository.GetByIdAsync(DeveloperId);
         }
 
-        public virtual async Task<IPagedList<Developer>> SearchDevelopersAsync(string name, int statusId,
+        public virtual async Task<IPagedList<Developer>> SearchDevelopersAsync(string name, int statusId, int designationId,
             int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = from e in _developerRepository.Table
@@ -44,6 +44,9 @@ namespace Nop.Plugin.Misc.NopStation.Services
 
             if (statusId > 0)
                 query = query.Where(e => e.DeveloperStatusId == statusId);
+
+            if (designationId > 0)
+                query = query.Where(e => e.DeveloperDesignationId == designationId);
 
             //query = query.OrderBy(e => e.Name);
             query = query.OrderBy(e => e.DeveloperDesignationId);
