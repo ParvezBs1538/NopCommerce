@@ -15,6 +15,7 @@ public class DeveloperViewComponent : NopViewComponent
 
     #endregion
 
+
     #region Ctor
 
     public DeveloperViewComponent(IDeveloperService developerService,
@@ -26,20 +27,23 @@ public class DeveloperViewComponent : NopViewComponent
 
     #endregion
 
+    #region Methods
 
     public async Task<IViewComponentResult> InvokeAsync(string widgetZone, object additionalData)
     {
         var developers = await _developerService.SearchDevelopersAsync(
-                name: "",
+                name: null,
                 statusId: (int)DeveloperStatus.Active,
-                designationId: (int)DeveloperDesignation.Trainee
+                designationId: null
             );
 
         if (developers.Count() == 0)
             return Content("");
 
-        var model = await _developerModelFactory.PrepareDeveloperListModel(developers);
+        var model = await _developerModelFactory.PrepareDeveloperListModelAsync(developers);
 
         return View("~/Plugins/Misc.NopStation/Views/Default.cshtml", model);
     }
+
+    #endregion
 }

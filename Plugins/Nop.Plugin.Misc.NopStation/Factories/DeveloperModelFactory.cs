@@ -9,9 +9,15 @@ namespace Nop.Plugin.Misc.NopStation.Factories;
 
 public class DeveloperModelFactory : IDeveloperModelFactory
 {
+    #region Fields
+
     private readonly ILocalizationService _localizationService;
     private readonly IPictureService _pictureService;
     private readonly ISkillService _skillService;
+
+    #endregion
+
+    #region Ctor
 
     public DeveloperModelFactory(ILocalizationService localizationService,
         IPictureService pictureService, ISkillService skillService
@@ -22,20 +28,24 @@ public class DeveloperModelFactory : IDeveloperModelFactory
         _skillService = skillService;
     }
 
-    public async Task<IList<DeveloperModel>> PrepareDeveloperListModel(IList<Developer> developers)
+    #endregion
+
+    #region Methods
+
+    public async Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers)
     {
         var model = new List<DeveloperModel>();
         foreach (var developer in developers )
         {
-            model.Add(await PrepareDeveloperModel(developer));
+            model.Add(await PrepareDeveloperModelAsync(developer));
         }
         return model;
     }
 
-    public async Task<DeveloperModel> PrepareDeveloperModel(Developer developer)
+    public async Task<DeveloperModel> PrepareDeveloperModelAsync(Developer developer)
     {
         var skillMappings = await _skillService.GetDeveloperSkillMappingsByDeveloperIdAsync(developer.Id);
-        var skills = await _skillService.GetSkillByIdsAsync(skillMappings.Select(sm => sm.SkillId).ToArray());
+        var developerSkills = await _skillService.GetSkillByIdsAsync(skillMappings.Select(sm => sm.SkillId).ToArray());
 
         var picture = await _pictureService.GetPictureByIdAsync(developer.PictureId);
 
@@ -54,7 +64,7 @@ public class DeveloperModelFactory : IDeveloperModelFactory
             Name = developer.Name,
             IsMVP = developer.IsMVP,
             IsNopCommerceCertified = developer.IsNopCommerceCertified,
-            Skills = skills.Select(s => s.Name).ToArray(),
+            Skills = developerSkills.Select(s => s.Name).ToArray(),
             Picture = pictureModel,
             DeveloperStatus = developer.DeveloperStatus,
             DeveloperStatusStr = await _localizationService.GetLocalizedEnumAsync(developer.DeveloperStatus),
@@ -62,4 +72,6 @@ public class DeveloperModelFactory : IDeveloperModelFactory
             DeveloperDesignationStr = await _localizationService.GetLocalizedEnumAsync(developer.DeveloperDesignation)
         };
     }
+
+    #endregion
 }

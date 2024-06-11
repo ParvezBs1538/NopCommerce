@@ -13,9 +13,16 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
     [Area(AreaNames.ADMIN)]
     public class DeveloperController : BasePluginController
     {
+        #region Fields
+
         private readonly IDeveloperService _developerService;
         private readonly IDeveloperModelFactory _developerModelFactory;
         private readonly ISkillService _skillService;
+
+        #endregion
+
+
+        #region Ctor
 
         public DeveloperController(IDeveloperService developerService,
             IDeveloperModelFactory developerModelFactory,
@@ -25,6 +32,9 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
             _developerModelFactory = developerModelFactory;
             _skillService = skillService;
         }
+
+        #endregion
+
 
         #region Utils
 
@@ -56,6 +66,7 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
         }
 
         #endregion
+
 
         #region Methods
 

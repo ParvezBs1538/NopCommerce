@@ -9,7 +9,7 @@ namespace Nop.Plugin.Misc.NopStation;
 
 public class NopStationPlugin : BasePlugin, IWidgetPlugin
 {
-    private readonly IWebHelper webHelper;
+    private readonly IWebHelper _webHelper;
     private readonly ILocalizationService _localizationService;
 
     public bool HideInWidgetList => false;
@@ -17,14 +17,13 @@ public class NopStationPlugin : BasePlugin, IWidgetPlugin
     public NopStationPlugin(IWebHelper webHelper,
         ILocalizationService localizationService)
     {
-        this.webHelper = webHelper;
+        _webHelper = webHelper;
         _localizationService = localizationService;
     }
 
     public override string GetConfigurationPageUrl()
     {
-        //return $"{webHelper.GetStoreLocation()}Admin/Developer/List";
-        return $"{webHelper.GetStoreLocation()}Admin/Developer/List";
+        return $"{_webHelper.GetStoreLocation()}Admin/Developer/List";
     }
 
     public override async Task InstallAsync()
@@ -153,7 +152,7 @@ public class NopStationPlugin : BasePlugin, IWidgetPlugin
         return Task.FromResult<IList<string>>(
             new List<string>
             {
-            PublicWidgetZones.HomepageBottom
+                PublicWidgetZones.HomepageBottom
             });
     }
 

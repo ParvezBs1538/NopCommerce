@@ -118,7 +118,9 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Factories
                         PictureId = developer.PictureId,
                     };
                 }
+
                 model.DeveloperStatusStr = await _localizationService.GetLocalizedEnumAsync(developer.DeveloperStatus);
+
                 model.DeveloperDesignationStr = await _localizationService.GetLocalizedEnumAsync(developer.DeveloperDesignation);
 
                 var picture = await _pictureService.GetPictureByIdAsync(developer.PictureId);
@@ -127,8 +129,8 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Factories
                 var developerSkills = await _skillService.GetDeveloperSkillMappingsByDeveloperIdAsync(developer.Id);
                 model.SelectedSkills = developerSkills.Select(ds => ds.SkillId).ToList();
 
-                var GetDeveloperSkills = await _skillService.GetSkillByIdsAsync(model.SelectedSkills.ToArray());
-                model.Skills = GetDeveloperSkills.Select(ds => ds.Name).ToList();
+                var displayDeveloperSkills = await _skillService.GetSkillByIdsAsync(model.SelectedSkills.ToArray());
+                model.Skills = displayDeveloperSkills.Select(ds => ds.Name).ToList();
             }
 
             if (!excludeProperties)

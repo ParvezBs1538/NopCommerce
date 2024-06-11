@@ -5,7 +5,7 @@ namespace Nop.Plugin.Misc.NopStation.Factories;
 
 public interface IDeveloperModelFactory 
 {
-    Task<IList<DeveloperModel>> PrepareDeveloperListModel(IList<Developer> developers);
+    Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers);
 
-    Task<DeveloperModel> PrepareDeveloperModel(Developer developer);
+    Task<DeveloperModel> PrepareDeveloperModelAsync(Developer developer);
 }
