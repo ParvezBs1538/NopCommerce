@@ -1,0 +1,11 @@
+@using Nop.Web.Framework.Models.DataTables
+@model IList<Nop.Plugin.Misc.NopStation.Models.DeveloperModel>
+@{
+    var i = 1;
+}
+
+@foreach (var developer in Model)
+{
+    <div>@(i++) @developer.Name @developer.DeveloperDesignationStr</div>
+    <br />
+}
