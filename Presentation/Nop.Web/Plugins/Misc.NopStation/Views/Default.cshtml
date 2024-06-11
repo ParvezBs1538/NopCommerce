@@ -1,11 +1,110 @@
 @using Nop.Web.Framework.Models.DataTables
 @model IList<Nop.Plugin.Misc.NopStation.Models.DeveloperModel>
 @{
-    var i = 1;
+    var item = 1;
 }
 
-@foreach (var developer in Model)
-{
-    <div>@(i++) @developer.Name @developer.DeveloperStatus @developer.DeveloperDesignationStr</div>
-    <br />
-}
+<div class="developer-container">
+    @foreach (var developer in Model)
+    {
+        <div class="developer-item card">
+            <div class="card-body">
+                <div class="slider-wrapper theme-custom">
+                    <div class="nivoSlider">
+                        @{
+                            var data = new ViewDataDictionary(ViewData)
+                    {
+                    {"pictureUrl", developer.Picture.ThumbImageUrl},
+                    };
+
+                            @await Html.PartialAsync("~/Plugins/Misc.NopStation/Views/developerList.cshtml", data)
+                        }
+                    </div>
+                </div>
+                <div class="card-text">
+                    <h5 class="name">@developer.Name</h5>
+                    <p class="designation">@developer.DeveloperDesignationStr</p>
+                    @if (developer.IsNopCommerceCertified) // Assuming IsCertified is a boolean property
+                    {
+                        <hr />
+                        @if (developer.IsMVP)
+                        {
+                            <div class="mvp-label">MVP</div>
+                        }
+                        <div class="certified-label @(developer.IsMVP ? "with-mvp" : "")">Certified</div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .developer-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-start; /* Align items from left to right */
+    }
+
+    .developer-item {
+        width: calc(25% - 10px); /* 25% width with 10px gap between items */
+        box-sizing: border-box;
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        overflow: hidden;
+    }
+
+    .card-body {
+        padding: 10px;
+    }
+
+    .slider-wrapper.theme-custom {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        text-align: center;
+    }
+
+    .name {
+        margin-bottom: 5px;
+    }
+
+    .certified-label {
+        margin-top: 5px;
+        padding: 5px;
+        background-color: #9B7FBB;
+        color: #fff;
+        font-weight: bold;
+        border-radius: 3px;
+        display: inline-block;
+    }
+
+        .certified-label.with-mvp {
+            margin-top: 0;
+        }
+
+    .mvp-label {
+        margin-bottom: 5px;
+        padding: 5px;
+        background-color: #47AE7F;
+        color: #fff;
+        font-weight: bold;
+        border-radius: 3px;
+        display: inline-block;
+    }
+
+    .developer-item img {
+        width: 100%;
+        height: auto;
+        border-bottom: 1px solid #ddd;
+        border-radius: 5px 5px 0 0;
+    }
+</style>
+
