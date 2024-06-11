@@ -152,10 +152,10 @@ public class NopStationPlugin : BasePlugin, IWidgetPlugin
         return Task.FromResult<IList<string>>(
             new List<string>
             {
-                PublicWidgetZones.HomepageBottom
+                //PublicWidgetZones.HomepageBottom
+                PublicWidgetZones.HomepageTop
             });
     }
-
 
     public Type GetWidgetViewComponent(string widgetZone)
     {

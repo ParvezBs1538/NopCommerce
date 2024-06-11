@@ -2,20 +2,21 @@
 
 @{
     var pictureUrl = ViewData["pictureUrl"]?.ToString() ?? "";
-    var link = ViewData["link"]?.ToString() ?? "";
+    //var link = ViewData["link"]?.ToString() ?? "";
 
 
     if (!string.IsNullOrEmpty(pictureUrl))
     {
-        if (!string.IsNullOrEmpty(link))
+        // if (!string.IsNullOrEmpty(link))
+        // {
+        //     <a href="@link">
+        //         <img src="@pictureUrl" data-thumb="@pictureUrl" />
+        //     </a>
+        // }
+        // else
         {
-            <a href="@link">
-                <img src="@pictureUrl" data-thumb="@pictureUrl" />
-            </a>
-        }
-        else
-        {
-            <img src="@pictureUrl" data-thumb="@pictureUrl" />
+            // <img src="@pictureUrl" data-thumb="@pictureUrl" />
+            <img src="@pictureUrl"/>
         }
     }
 }
