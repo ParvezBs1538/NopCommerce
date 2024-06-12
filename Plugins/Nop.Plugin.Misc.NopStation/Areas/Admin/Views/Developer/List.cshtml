@@ -131,6 +131,12 @@
                                     Width = "150",
                                     ClassName = NopColumnClassDefaults.CenterAll,
                                 },
+                                new ColumnProperty(nameof(DeveloperModel.Skills))
+                                {
+                                    Title = T("Admin.Misc.Developer.Fields.Skills").Text,
+                                    Width = "200",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                },
                                 new ColumnProperty(nameof(DeveloperModel.DeveloperStatusStr))
                                 {
                                     Title = T("Admin.Misc.Developer.Fields.DeveloperStatus").Text,
@@ -143,12 +149,6 @@
                                     Width = "100",
                                     ClassName = NopColumnClassDefaults.CenterAll,
                                     Render = new RenderBoolean()
-                                },
-                                new ColumnProperty(nameof(DeveloperModel.Skills))
-                                {
-                                    Title = T("Admin.Misc.Developer.Fields.Skills").Text,
-                                    Width = "200",
-                                    ClassName = NopColumnClassDefaults.CenterAll,
                                 },
                                 new ColumnProperty(nameof(DeveloperModel.IsNopCommerceCertified))
                                 {

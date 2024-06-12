@@ -152,8 +152,11 @@ public class NopStationPlugin : BasePlugin, IWidgetPlugin
         return Task.FromResult<IList<string>>(
             new List<string>
             {
-                //PublicWidgetZones.HomepageBottom
-                PublicWidgetZones.HomepageTop
+                //AdminWidgetZones.CategoryListButtons,
+                //PublicWidgetZones.HomepageBottom,
+
+                PublicWidgetZones.HomepageTop,
+                PublicWidgetZones.CategoryDetailsTop,
             });
     }
 

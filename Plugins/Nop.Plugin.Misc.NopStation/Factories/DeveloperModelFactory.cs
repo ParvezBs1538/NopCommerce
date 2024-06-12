@@ -3,6 +3,7 @@ using Nop.Plugin.Misc.NopStation.Models;
 using Nop.Plugin.Misc.NopStation.Services;
 using Nop.Services.Localization;
 using Nop.Services.Media;
+using Nop.Web.Framework.Infrastructure;
 using Nop.Web.Models.Media;
 
 namespace Nop.Plugin.Misc.NopStation.Factories;
@@ -30,13 +31,18 @@ public class DeveloperModelFactory : IDeveloperModelFactory
 
     #endregion
 
+
     #region Methods
 
-    public async Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers)
+    public async Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers, string widgetZone)
     {
+        int count = 0;
         var model = new List<DeveloperModel>();
         foreach (var developer in developers )
         {
+            count++;
+            if (widgetZone == PublicWidgetZones.CategoryDetailsTop && count % 2 == 0)
+                continue;
             model.Add(await PrepareDeveloperModelAsync(developer));
         }
         return model;
@@ -51,11 +57,11 @@ public class DeveloperModelFactory : IDeveloperModelFactory
 
         var pictureModel = new PictureModel
         {
+            Id = developer.PictureId,
             AlternateText = "Picture of " + developer.Name,
             Title = "Picture of " + developer.Name,
             ThumbImageUrl = (await _pictureService.GetPictureUrlAsync(picture, 200)).Url,
             FullSizeImageUrl = (await _pictureService.GetPictureUrlAsync(picture)).Url,
-            Id = developer.PictureId
         };
 
         return new DeveloperModel()

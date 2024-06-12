@@ -1,10 +1,14 @@
 @using Nop.Web.Framework.Models.DataTables
 @model IList<Nop.Plugin.Misc.NopStation.Models.DeveloperModel>
 @{
-    var item = 1;
+    var cnt = 0;
 }
 
+@* <link href="~/Plugins/Misc.NopStation/content/style.css" rel="stylesheet" />  *@
+
+
 <div class="developer-container">
+
     @foreach (var developer in Model)
     {
         <div class="developer-item card">
@@ -23,6 +27,7 @@
                 <div class="card-text">
                     <h5 class="name">@developer.Name</h5>
                     <p class="designation">@developer.DeveloperDesignationStr</p>
+
                     @if(developer.IsMVP || developer.IsNopCommerceCertified)
                     {
                         <hr />
@@ -52,17 +57,17 @@
     }
 </div>
 
+ <style>
 
-<style>
     .developer-container {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
-        justify-content: flex-start; 
+        justify-content: flex-start;
     }
 
     .developer-item {
-        width: calc(24% - 6px); 
+        width: 225px;
         box-sizing: border-box;
         padding: 15px;
         text-align: center;
@@ -119,5 +124,4 @@
         gap: 5px; /* Adjust the gap between the image and the text */
     }
 
-        .badge img {
-</style>
+</style> 

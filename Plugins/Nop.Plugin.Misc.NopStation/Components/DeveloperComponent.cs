@@ -3,6 +3,7 @@ using Nop.Plugin.Misc.NopStation.Domain;
 using Nop.Plugin.Misc.NopStation.Factories;
 using Nop.Plugin.Misc.NopStation.Services;
 using Nop.Web.Framework.Components;
+using Nop.Web.Framework.Infrastructure;
 
 namespace Nop.Plugin.Misc.NopStation.Components;
 
@@ -41,7 +42,7 @@ public class DeveloperViewComponent : NopViewComponent
         if (developers.Count() == 0)
             return Content("");
 
-        var model = await _developerModelFactory.PrepareDeveloperListModelAsync(developers);
+        var model = await _developerModelFactory.PrepareDeveloperListModelAsync(developers, widgetZone);
 
         return View("~/Plugins/Misc.NopStation/Views/Default.cshtml", model);
     }

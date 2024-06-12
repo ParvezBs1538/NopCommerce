@@ -136,6 +136,7 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Factories
             if (!excludeProperties)
             {
                 model.AvailableDeveloperStatusOptions = [.. await DeveloperStatus.Active.ToSelectListAsync()];
+
                 model.AvailableDeveloperDesignationOptions = [.. await DeveloperDesignation.Trainee.ToSelectListAsync()];
 
                 var allSkills = await _skillService.GetAllSkillsAsync();

@@ -81,6 +81,9 @@
     <None Update="Areas\Admin\Views\_ViewImports.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Content\style.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Views\Default.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
