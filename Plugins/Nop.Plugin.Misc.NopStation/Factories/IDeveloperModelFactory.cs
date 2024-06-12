@@ -5,7 +5,7 @@ namespace Nop.Plugin.Misc.NopStation.Factories;
 
 public interface IDeveloperModelFactory 
 {
-    Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers, string widgetZone, bool isok);
+    Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers, string widgetZone, int categoryId);
 
     Task<DeveloperModel> PrepareDeveloperModelAsync(Developer developer);
 }

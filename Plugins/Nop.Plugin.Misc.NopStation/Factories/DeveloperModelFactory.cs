@@ -34,24 +34,49 @@ public class DeveloperModelFactory : IDeveloperModelFactory
 
     #region Methods
 
-    public async Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers, string widgetZone, bool isok)
+    //public async Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers, string widgetZone, bool isok)
+    //{
+    //    int count = 0;
+    //    var model = new List<DeveloperModel>();
+
+    //    foreach (var developer in developers )
+    //    {
+    //        count++;
+    //        if (widgetZone == PublicWidgetZones.CategoryDetailsTop && count % 2 == 0)
+    //        {
+    //            if (isok == true)
+    //            {
+    //                model.Add(await PrepareDeveloperModelAsync(developer));
+    //            }
+    //            continue;
+    //        }
+    //        if (isok == false) model.Add(await PrepareDeveloperModelAsync(developer));
+    //    }
+    //    return model;
+    //}
+
+    public async Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers, string widgetZone, int categoryId)
     {
         int count = 0;
         var model = new List<DeveloperModel>();
 
-        foreach (var developer in developers )
+        foreach (var developer in developers)
         {
             count++;
-            if (widgetZone == PublicWidgetZones.CategoryDetailsTop && count % 2 == 0)
+            if (widgetZone == PublicWidgetZones.CategoryDetailsTop)
             {
-                if (isok == true)
+                if (categoryId == 1018 && count % 2 == 1)
                 {
                     model.Add(await PrepareDeveloperModelAsync(developer));
                 }
-                continue;
+                else if (categoryId == 2018 && count % 2 == 0)
+                {
+                    model.Add(await PrepareDeveloperModelAsync(developer));
+                }
             }
-            if (isok == false) model.Add(await PrepareDeveloperModelAsync(developer));
+            else model.Add(await PrepareDeveloperModelAsync(developer));
         }
+
         return model;
     }
 
