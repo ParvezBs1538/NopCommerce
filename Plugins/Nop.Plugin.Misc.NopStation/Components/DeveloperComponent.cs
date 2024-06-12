@@ -4,6 +4,7 @@ using Nop.Plugin.Misc.NopStation.Factories;
 using Nop.Plugin.Misc.NopStation.Services;
 using Nop.Web.Framework.Components;
 using Nop.Web.Framework.Infrastructure;
+using Nop.Web.Models.Catalog;
 
 namespace Nop.Plugin.Misc.NopStation.Components;
 
@@ -33,6 +34,14 @@ public class DeveloperViewComponent : NopViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(string widgetZone, object additionalData)
     {
+        if (widgetZone == PublicWidgetZones.CategoryDetailsTop)
+        {
+            var categoryModel = additionalData as CategoryModel;
+
+            if (categoryModel.Id != 1018 && categoryModel.Id != 9)
+                return Content("");
+        }
+
         var developers = await _developerService.SearchDevelopersAsync(
                 name: null,
                 statusId: (int)DeveloperStatus.Active,
