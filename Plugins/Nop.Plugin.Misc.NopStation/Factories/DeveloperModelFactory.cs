@@ -34,7 +34,7 @@ public class DeveloperModelFactory : IDeveloperModelFactory
 
     #region Methods
 
-    public async Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers, string widgetZone)
+    public async Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers, string widgetZone, bool isok)
     {
         int count = 0;
         var model = new List<DeveloperModel>();
@@ -43,8 +43,14 @@ public class DeveloperModelFactory : IDeveloperModelFactory
         {
             count++;
             if (widgetZone == PublicWidgetZones.CategoryDetailsTop && count % 2 == 0)
+            {
+                if (isok == true)
+                {
+                    model.Add(await PrepareDeveloperModelAsync(developer));
+                }
                 continue;
-            model.Add(await PrepareDeveloperModelAsync(developer));
+            }
+            if (isok == false) model.Add(await PrepareDeveloperModelAsync(developer));
         }
         return model;
     }

@@ -29,19 +29,11 @@ public class DeveloperViewComponent : NopViewComponent
 
     #endregion
 
-
+     
     #region Methods
 
     public async Task<IViewComponentResult> InvokeAsync(string widgetZone, object additionalData)
     {
-        if (widgetZone == PublicWidgetZones.CategoryDetailsTop)
-        {
-            var categoryModel = additionalData as CategoryModel;
-
-            if (categoryModel.Id != 1018 && categoryModel.Id != 9)
-                return Content("");
-        }
-
         var developers = await _developerService.SearchDevelopersAsync(
                 name: null,
                 statusId: (int)DeveloperStatus.Active,
@@ -51,7 +43,20 @@ public class DeveloperViewComponent : NopViewComponent
         if (developers.Count() == 0)
             return Content("");
 
-        var model = await _developerModelFactory.PrepareDeveloperListModelAsync(developers, widgetZone);
+        bool isok = false;
+
+        if (widgetZone == PublicWidgetZones.CategoryDetailsTop)
+        {
+            var categoryModel = additionalData as CategoryModel;
+
+            if (categoryModel.Id == 2018)
+                isok = true;
+
+            else if (categoryModel.Id != 1018)
+                return Content("");
+        }
+
+        var model = await _developerModelFactory.PrepareDeveloperListModelAsync(developers, widgetZone, isok);
 
         return View("~/Plugins/Misc.NopStation/Views/Default.cshtml", model);
     }
