@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nop.Core.Infrastructure;
-using Nop.Plugin.Misc.NopStation.Factories;
+using Nop.Plugin.Misc.NopStation.Areas.Admin.Factories;
 using Nop.Plugin.Misc.NopStation.Services;
 
 namespace Nop.Plugin.Misc.NopStation.Infrastructure;
@@ -21,5 +21,7 @@ public class NopStartup : INopStartup
 
         services.AddScoped<ISkillService, SkillService>();
         services.AddScoped<ISkillModelFactory, SkillModelFactory>();
+
+        services.AddScoped<Factories.IDeveloperModelFactory, Factories.DeveloperModelFactory>();
     }
 }

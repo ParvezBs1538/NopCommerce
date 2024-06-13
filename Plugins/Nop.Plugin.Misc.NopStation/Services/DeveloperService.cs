@@ -33,9 +33,10 @@ namespace Nop.Plugin.Misc.NopStation.Services
             return await _developerRepository.GetByIdAsync(DeveloperId);
         }
 
-        public virtual async Task<IPagedList<Developer>> SearchDevelopersAsync(string name, int statusId, int designationId,
-            int pageIndex = 0, int pageSize = int.MaxValue)
+        public virtual async Task<IPagedList<Developer>> SearchDevelopersAsync(string name, int? statusId = null, int? designationId = null,
+            bool? isMvp = null, bool? isCert = null, int pageIndex = 0, int pageSize = int.MaxValue)
         {
+            //var query = _developerRepository.Table;
             var query = from e in _developerRepository.Table
                         select e;
 
@@ -49,7 +50,9 @@ namespace Nop.Plugin.Misc.NopStation.Services
                 query = query.Where(e => e.DeveloperDesignationId == designationId);
 
             //query = query.OrderBy(e => e.Name);
-            query = query.OrderBy(e => e.DeveloperDesignationId);
+            query = query.OrderBy(e => e.DeveloperDesignationId)
+                .ThenByDescending(e => e.IsMVP)
+                .ThenByDescending(e => e.IsNopCommerceCertified);
 
             return await query.ToPagedListAsync(pageIndex, pageSize);
         }

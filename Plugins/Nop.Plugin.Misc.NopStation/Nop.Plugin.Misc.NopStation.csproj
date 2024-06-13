@@ -34,10 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Developer\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
     <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8" />
   </ItemGroup>
@@ -45,10 +41,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Nop.Services\Nop.Services.csproj" />
     <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
+    <ProjectReference Include="..\..\Presentation\Nop.Web\Nop.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controllers\DeveloperController.cs">
+    <Compile Update="Areas\Admin\Controllers\DeveloperController.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="NopStationPlugin.cs">
@@ -57,36 +54,49 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Views\Configure.cshtml">
+    <None Update="Areas\Admin\Views\Developer\Create.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Developer\Create.cshtml">
+    <None Update="Areas\Admin\Views\Developer\Edit.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Developer\Edit.cshtml">
+    <None Update="Areas\Admin\Views\Developer\List.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Developer\List.cshtml">
+    <None Update="Areas\Admin\Views\Developer\_CreateOrUpdate.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Developer\_CreateOrUpdate.cshtml">
+    <None Update="Areas\Admin\Views\Skill\Create.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Skill\Create.cshtml">
+    <None Update="Areas\Admin\Views\Skill\Edit.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Skill\Edit.cshtml">
+    <None Update="Areas\Admin\Views\Skill\List.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Skill\List.cshtml">
+    <None Update="Areas\Admin\Views\Skill\_CreateOrUpdate.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Skill\_CreateOrUpdate.cshtml">
+    <None Update="Areas\Admin\Views\_ViewImports.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\style.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Views\Default.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Views\DeveloperList.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Views\_ViewImports.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Shared\" />
   </ItemGroup>
 
 </Project>

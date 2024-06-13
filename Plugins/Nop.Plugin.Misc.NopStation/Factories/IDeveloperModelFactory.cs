@@ -1,14 +1,11 @@
 ﻿using Nop.Plugin.Misc.NopStation.Domain;
 using Nop.Plugin.Misc.NopStation.Models;
 
-namespace Nop.Plugin.Misc.NopStation.Factories
+namespace Nop.Plugin.Misc.NopStation.Factories;
+
+public interface IDeveloperModelFactory 
 {
-    public interface IDeveloperModelFactory
-    {
-        Task<DeveloperListModel> PrepareDeveloperListModelAsync(DeveloperSearchModel searchModel);
+    Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers);
 
-        Task<DeveloperSearchModel> PrepareDeveloperSearchModelAsync(DeveloperSearchModel searchModel);
-
-        Task<DeveloperModel> PrepareDeveloperModelAsync(DeveloperModel model, Developer Developer, bool excludeProperties = false);
-    }
+    Task<DeveloperModel> PrepareDeveloperModelAsync(Developer developer);
 }

@@ -1,0 +1,127 @@
+@using Nop.Web.Framework.Models.DataTables
+@model IList<Nop.Plugin.Misc.NopStation.Models.DeveloperModel>
+@{
+    var cnt = 0;
+}
+
+@* <link href="~/Plugins/Misc.NopStation/content/style.css" rel="stylesheet" />  *@
+
+
+<div class="developer-container">
+
+    @foreach (var developer in Model)
+    {
+        <div class="developer-item card">
+            <div class="card-body">
+                <div>
+                    <div>
+                        @{
+                            var data = new ViewDataDictionary(ViewData)
+                            {
+                                {"pictureUrl", developer.Picture.ThumbImageUrl},
+                            };
+                            @await Html.PartialAsync("~/Plugins/Misc.NopStation/Views/developerList.cshtml", data)
+                        }
+                    </div>
+                </div>
+                <div class="card-text">
+                    <h5 class="name">@developer.Name</h5>
+                    <p class="designation">@developer.DeveloperDesignationStr</p>
+
+                    @if(developer.IsMVP || developer.IsNopCommerceCertified)
+                    {
+                        <hr />
+                    }
+
+                    <div class="badge-container">
+                        @if (developer.IsMVP)
+                        {
+                            <div class="badge badge-1" title="nopCommerce MVP">
+                                <img src="https://www.nop-station.com/images/thumbs/0002602_bigbadge_mvp.png" alt="MVP" class="badge-image">
+                                <span>nop MVP</span>
+                            </div>
+                        }
+
+                        @if (developer.IsNopCommerceCertified)
+                        {
+                            <div class="badge badge-2" title="nopCommerce Certified">
+                                <img src="https://www.nop-station.com/images/thumbs/0002603_bigbadge_certifieddev.png" alt="Certified" class="badge-image">
+                                <span>Certified</span>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+ <style>
+
+    .developer-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: flex-start;
+    }
+
+    .developer-item {
+        width: 225px;
+        box-sizing: border-box;
+        padding: 15px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        overflow: hidden;
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+        .developer-item:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+    .card-body {
+        padding: 0;
+    }
+
+    .slider-wrapper.theme-custom {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    .name {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .designation {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    .badge-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px; /* Adjust the gap between badges as needed */
+        margin-top: 10px; /* Add margin if needed */
+    }
+
+    .badge {
+        display: flex;
+        align-items: center;
+        gap: 5px; /* Adjust the gap between the image and the text */
+    }
+
+</style> 
