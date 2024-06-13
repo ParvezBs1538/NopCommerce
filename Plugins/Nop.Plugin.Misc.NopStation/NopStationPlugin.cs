@@ -162,6 +162,13 @@ public class NopStationPlugin : BasePlugin, IWidgetPlugin
 
     public Type GetWidgetViewComponent(string widgetZone)
     {
-        return typeof(DeveloperViewComponent);
+        if (widgetZone == PublicWidgetZones.HomepageTop)
+        {
+            return typeof(DeveloperViewComponent);
+        }
+        else
+        {
+            return typeof(CertifiedComponent);
+        }
     }
 }

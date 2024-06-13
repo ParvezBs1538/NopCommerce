@@ -3,7 +3,6 @@ using Nop.Plugin.Misc.NopStation.Models;
 using Nop.Plugin.Misc.NopStation.Services;
 using Nop.Services.Localization;
 using Nop.Services.Media;
-using Nop.Web.Framework.Infrastructure;
 using Nop.Web.Models.Media;
 
 namespace Nop.Plugin.Misc.NopStation.Factories;
@@ -55,27 +54,12 @@ public class DeveloperModelFactory : IDeveloperModelFactory
     //    return model;
     //}
 
-    public async Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers, string widgetZone, int categoryId)
+    public async Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers)
     {
-        int count = 0;
         var model = new List<DeveloperModel>();
 
         foreach (var developer in developers)
-        {
-            count++;
-            if (widgetZone == PublicWidgetZones.CategoryDetailsTop)
-            {
-                if (categoryId == 1018 && count % 2 == 1)
-                {
-                    model.Add(await PrepareDeveloperModelAsync(developer));
-                }
-                else if (categoryId == 2018 && count % 2 == 0)
-                {
-                    model.Add(await PrepareDeveloperModelAsync(developer));
-                }
-            }
-            else model.Add(await PrepareDeveloperModelAsync(developer));
-        }
+            model.Add(await PrepareDeveloperModelAsync(developer));
 
         return model;
     }
