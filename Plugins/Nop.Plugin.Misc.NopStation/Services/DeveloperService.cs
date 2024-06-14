@@ -36,9 +36,9 @@ namespace Nop.Plugin.Misc.NopStation.Services
         public virtual async Task<IPagedList<Developer>> SearchDevelopersAsync(string name, int? statusId = null, int? designationId = null,
             bool? isMvp = null, bool? isCert = null, int pageIndex = 0, int pageSize = int.MaxValue)
         {
-            //var query = _developerRepository.Table;
-            var query = from e in _developerRepository.Table
-                        select e;
+            var query = _developerRepository.Table;
+            //var query = from e in _developerRepository.Table
+                        //select e;
 
             if (!string.IsNullOrEmpty(name))
                 query = query.Where(e => e.Name.Contains(name));

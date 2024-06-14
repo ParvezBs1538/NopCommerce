@@ -77,7 +77,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Misc.NopStation"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Widgets.Practice", "Plugins\Nop.Plugin.Widgets.Practice\Nop.Plugin.Widgets.Practice.csproj", "{664950EB-2899-4302-8EF4-085DB8834EE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Misc.BrainStation", "Plugins\Nop.Plugin.Misc.BrainStation\Nop.Plugin.Misc.BrainStation.csproj", "{F68A4289-A03C-4A37-A34D-31FDDD52783D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Misc.BrainStation", "Plugins\Nop.Plugin.Misc.BrainStation\Nop.Plugin.Misc.BrainStation.csproj", "{F68A4289-A03C-4A37-A34D-31FDDD52783D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Misc.NopPractice", "Plugins\Nop.Plugin.Misc.NopPractice\Nop.Plugin.Misc.NopPractice.csproj", "{8444F244-839C-4A31-83F2-E2585656E501}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -475,6 +477,18 @@ Global
 		{F68A4289-A03C-4A37-A34D-31FDDD52783D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F68A4289-A03C-4A37-A34D-31FDDD52783D}.Release|x86.ActiveCfg = Release|Any CPU
 		{F68A4289-A03C-4A37-A34D-31FDDD52783D}.Release|x86.Build.0 = Release|Any CPU
+		{8444F244-839C-4A31-83F2-E2585656E501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8444F244-839C-4A31-83F2-E2585656E501}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8444F244-839C-4A31-83F2-E2585656E501}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8444F244-839C-4A31-83F2-E2585656E501}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8444F244-839C-4A31-83F2-E2585656E501}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8444F244-839C-4A31-83F2-E2585656E501}.Debug|x86.Build.0 = Debug|Any CPU
+		{8444F244-839C-4A31-83F2-E2585656E501}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8444F244-839C-4A31-83F2-E2585656E501}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8444F244-839C-4A31-83F2-E2585656E501}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8444F244-839C-4A31-83F2-E2585656E501}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8444F244-839C-4A31-83F2-E2585656E501}.Release|x86.ActiveCfg = Release|Any CPU
+		{8444F244-839C-4A31-83F2-E2585656E501}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -514,6 +528,7 @@ Global
 		{56FCA8E2-F38D-4477-8CDB-3B65249CC9E7} = {7881B112-7843-4542-B1F7-F99553FB9BB7}
 		{664950EB-2899-4302-8EF4-085DB8834EE8} = {7881B112-7843-4542-B1F7-F99553FB9BB7}
 		{F68A4289-A03C-4A37-A34D-31FDDD52783D} = {7881B112-7843-4542-B1F7-F99553FB9BB7}
+		{8444F244-839C-4A31-83F2-E2585656E501} = {7881B112-7843-4542-B1F7-F99553FB9BB7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EE72A8B2-332A-4175-9319-6726D36E9D25}

@@ -80,62 +80,61 @@
                 <div class="card card-default">
                     <div class="card-body">
 
-                        @await Html.PartialAsync("Table", new DataTablesModel
-                   {
-                       Name = "Teachers-grid",
-                       UrlRead = new DataUrl("List", "Teacher", null),
-                       SearchButtonId = "search-Teachers",
-                       Length = Model.PageSize,
-                       LengthMenu = Model.AvailablePageSizes,
-                       Filters = new List<FilterParameter>
-                        {
-                        new FilterParameter(nameof(Model.Name)),
-                        new FilterParameter(nameof(Model.TeacherDesignationId))
-                        },
-                       ColumnCollection = new List<ColumnProperty>
-                        {
-                        new ColumnProperty(nameof(TeacherModel.Id))
-                        {
-                        IsMasterCheckBox = true,
-                        Render = new RenderCheckBox("checkbox_Teachers"),
-                        ClassName =  NopColumnClassDefaults.CenterAll,
-                        Width = "50"
-                        },
-                        new ColumnProperty(nameof(TeacherModel.PictureThumbnailUrl))
-                        {
-                        Title = T("Admin.Misc.Teacher.Fields.Picture").Text,
-                        Width = "100",
-                        Render = new RenderPicture(width: 100)
-                        },
-                        new ColumnProperty(nameof(TeacherModel.Name))
-                        {
-                        Title = T("Admin.Misc.Teacher.Fields.Name").Text,
-                        ClassName = NopColumnClassDefaults.CenterAll,
-                        Width = "150",
-                        },
-                        new ColumnProperty(nameof(TeacherModel.TeacherDesignationStr))
-                        {
-                        Title = T("Admin.Misc.Teacher.Fields.TeacherDesignation").Text,
-                        Width = "150",
-                        ClassName = NopColumnClassDefaults.CenterAll,
-                        },
-                        new ColumnProperty(nameof(TeacherModel.IsCertified))
-                        {
-                        Title = T("Admin.Misc.Teacher.Fields.IsCertified").Text,
-                        Width = "100",
-                        ClassName = NopColumnClassDefaults.CenterAll,
-                        Render = new RenderBoolean()
-                        },
-                        new ColumnProperty(nameof(TeacherModel.Id))
-                        {
-                        Title = T("Admin.Common.Edit").Text,
-                        Width = "100",
-                        ClassName =  NopColumnClassDefaults.Button,
-                        Render = new RenderButtonEdit(new DataUrl("Edit"))
-                        }
-                        }
-                   })
-
+                       @await Html.PartialAsync("Table", new DataTablesModel
+                       {
+                           Name = "Teachers-grid",
+                           UrlRead = new DataUrl("List", "Teacher", null),
+                           SearchButtonId = "search-Teachers",
+                           Length = Model.PageSize,
+                           LengthMenu = Model.AvailablePageSizes,
+                           Filters = new List<FilterParameter>
+                            {
+                                new FilterParameter(nameof(Model.Name)),
+                                new FilterParameter(nameof(Model.TeacherDesignationId))
+                            },
+                           ColumnCollection = new List<ColumnProperty>
+                            {
+                                new ColumnProperty(nameof(TeacherModel.Id))
+                            {
+                                IsMasterCheckBox = true,
+                                Render = new RenderCheckBox("checkbox_Teachers"),
+                                ClassName =  NopColumnClassDefaults.CenterAll,
+                                Width = "50"
+                            },
+                            new ColumnProperty(nameof(TeacherModel.PictureThumbnailUrl))
+                            {
+                                Title = T("Admin.Misc.Teacher.Fields.Picture").Text,
+                                Width = "100",
+                                Render = new RenderPicture(width: 100)
+                            },
+                            new ColumnProperty(nameof(TeacherModel.Name))
+                            {
+                                Title = T("Admin.Misc.Teacher.Fields.Name").Text,
+                                ClassName = NopColumnClassDefaults.CenterAll,
+                                Width = "150",
+                            },
+                            new ColumnProperty(nameof(TeacherModel.TeacherDesignationStr))
+                            {
+                                Title = T("Admin.Misc.Teacher.Fields.TeacherDesignation").Text,
+                                Width = "150",
+                                ClassName = NopColumnClassDefaults.CenterAll,
+                            },
+                            new ColumnProperty(nameof(TeacherModel.IsCertified))
+                            {
+                                Title = T("Admin.Misc.Teacher.Fields.IsCertified").Text,
+                                Width = "100",
+                                ClassName = NopColumnClassDefaults.CenterAll,
+                                Render = new RenderBoolean()
+                            },
+                            new ColumnProperty(nameof(TeacherModel.Id))
+                            {
+                                Title = T("Admin.Common.Edit").Text,
+                                Width = "100",
+                                ClassName =  NopColumnClassDefaults.Button,
+                                Render = new RenderButtonEdit(new DataUrl("Edit"))
+                            }
+                            }
+                       })
 
                         <script>
                             $(document).ready(function () {
