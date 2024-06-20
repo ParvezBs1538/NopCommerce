@@ -34,16 +34,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="BrainStationPlugin.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Controllers\TeacherController.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Teacher\" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+    <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,16 +44,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Views\Teacher\Create.cshtml">
+    <None Update="Views\DeveloperDemo\Create.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Teacher\Edit.cshtml">
+    <None Update="Views\DeveloperDemo\Edit.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Teacher\List.cshtml">
+    <None Update="Views\DeveloperDemo\List.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Teacher\_CreateOrUpdate.cshtml">
+    <None Update="Views\DeveloperDemo\_CreateOrUpdate.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Views\_ViewImports.cshtml">
