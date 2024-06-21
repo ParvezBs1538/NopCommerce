@@ -17,6 +17,7 @@ namespace Nop.Plugin.Payments.BdPay.Models
         public bool AdditionalFee_OverrideForStore { get; set; }
 
         public int TransactModeId { get; set; }
+
         [NopResourceDisplayName("Plugins.Payments.BdPay.Fields.TransactMode")]
         public SelectList TransactModeValues { get; set; }
         public bool TransactModeId_OverrideForStore { get; set; }

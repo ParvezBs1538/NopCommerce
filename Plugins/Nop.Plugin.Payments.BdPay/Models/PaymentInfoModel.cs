@@ -20,8 +20,7 @@ namespace Nop.Plugin.Payments.BdPay.Models
         [NopResourceDisplayName("Payment.MobileNumber")]
         public string MobileNumber { get; set; }
 
-        [NopResourceDisplayName("Payment.Transaction_ID")]
+        [NopResourceDisplayName("Payment.TransactionId")]
         public string TransactionId { get; set; }
-        
     }
 }

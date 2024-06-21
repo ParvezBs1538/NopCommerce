@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Nop.Core;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Payments;
 using Nop.Plugin.Payments.BdPay.Components;
+using Nop.Plugin.Payments.BdPay.Domain;
 using Nop.Plugin.Payments.BdPay.Models;
+using Nop.Plugin.Payments.BdPay.Services;
 using Nop.Plugin.Payments.BdPay.Validators;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
@@ -20,18 +23,21 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
     protected readonly ISettingService _settingService;
     protected readonly IWebHelper _webHelper;
     protected readonly BdPayPaymentSettings _manualPaymentSettings;
+    private readonly IPaymentInfoServices _paymentInfoServices;
 
     public BdPayPaymentProcessor(ILocalizationService localizationService,
         IOrderTotalCalculationService orderTotalCalculationService,
         ISettingService settingService,
         IWebHelper webHelper,
-        BdPayPaymentSettings paymentSettings)
+        BdPayPaymentSettings paymentSettings,
+        IPaymentInfoServices paymentService)
     {
         _localizationService = localizationService;
         _manualPaymentSettings = paymentSettings;
         _settingService = settingService;
         _webHelper = webHelper;
         _orderTotalCalculationService = orderTotalCalculationService;
+        _paymentInfoServices = paymentService;
     }
 
     public bool SupportCapture => false;
@@ -155,12 +161,13 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
         return Task.FromResult(new RefundPaymentResult { Errors = new[] { "Refund method not supported" } });
     }
 
-    public Task<IList<string>> ValidatePaymentFormAsync(IFormCollection form)
+    public async Task<IList<string>> ValidatePaymentFormAsync(IFormCollection form)
     {
         var warnings = new List<string>();
 
         //validate
         var validator = new PaymentInfoValidator(_localizationService);
+
         var model = new PaymentInfoModel
         {
             MobileNumber = form[nameof(PaymentInfoModel.MobileNumber)].ToString(),
@@ -168,10 +175,23 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
             TransactionId = form[nameof(PaymentInfoModel.TransactionId)].ToString()
         };
         var validationResult = validator.Validate(model);
+
+        var domain = new PaymentInfo
+        {
+            MobileNumber = form[nameof(PaymentInfoModel.MobileNumber)].ToString(),
+            AccountType = form[nameof(PaymentInfoModel.AccountType)].ToString(),
+            TransactionId = form[nameof(PaymentInfoModel.TransactionId)].ToString()
+        };
+
         if (!validationResult.IsValid)
             warnings.AddRange(validationResult.Errors.Select(error => error.ErrorMessage));
 
-        return Task.FromResult<IList<string>>(warnings);
+        if (validationResult.IsValid)
+        {
+            await _paymentInfoServices.InsertPaymentInfoAsync(domain);
+        }
+
+        return warnings;
     }
 
     public Task<VoidPaymentResult> VoidAsync(VoidPaymentRequest voidPaymentRequest)
@@ -203,7 +223,10 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
             ["Plugins.Payments.BdPay.Fields.AdditionalFeePercentage.Hint"] = "Determines whether to apply a percentage additional fee to the order total. If not enabled, a fixed value is used.",
             ["Plugins.Payments.BdPay.Fields.TransactMode"] = "After checkout mark payment as",
             ["Plugins.Payments.BdPay.Fields.TransactMode.Hint"] = "Specify transaction mode.",
-            ["Plugins.Payments.BdPay.PaymentMethodDescription"] = "Pay by credit / debit card"
+            ["Plugins.Payments.BdPay.PaymentMethodDescription"] = "Pay by credit / debit card",
+            ["Payment.SelectAccount"] = "Select Account",
+            ["Payment.MobileNumber"] = "Mobile Number",
+            ["Payment.TransactionId"] = "Transaction ID"
         });
 
         await base.InstallAsync();
