@@ -54,6 +54,10 @@
     {
       "SystemName": "Payments.BdPay",
       "Version": "4.70.3"
+    },
+    {
+      "SystemName": "Payments.CheckMoneyOrder",
+      "Version": "4.70.2"
     }
   ],
   "PluginNamesToUninstall": [],

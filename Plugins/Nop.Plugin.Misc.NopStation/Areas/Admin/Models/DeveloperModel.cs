@@ -21,13 +21,14 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Models
         [NopResourceDisplayName("Admin.Misc.Developer.Fields.Skills")]
         public List<string> Skills { get; set; }
 
-
         [NopResourceDisplayName("Admin.Misc.Developer.Fields.PictureThumbnailUrl")]
         public string PictureThumbnailUrl { get; set; }
 
         [UIHint("Picture")]
         [NopResourceDisplayName("Admin.Misc.Developer.Fields.Picture")]
         public int PictureId { get; set; }
+
+
 
         [NopResourceDisplayName("Admin.Misc.Developer.Fields.Name")]
         public string Name { get; set; }

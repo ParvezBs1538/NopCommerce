@@ -22,22 +22,22 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
     protected readonly IOrderTotalCalculationService _orderTotalCalculationService;
     protected readonly ISettingService _settingService;
     protected readonly IWebHelper _webHelper;
-    protected readonly BdPayPaymentSettings _manualPaymentSettings;
+    protected readonly BdPayPaymentSettings _bdPayPaymentSettings;
     private readonly IPaymentInfoServices _paymentInfoServices;
 
     public BdPayPaymentProcessor(ILocalizationService localizationService,
         IOrderTotalCalculationService orderTotalCalculationService,
         ISettingService settingService,
         IWebHelper webHelper,
-        BdPayPaymentSettings paymentSettings,
-        IPaymentInfoServices paymentService)
+        BdPayPaymentSettings bdPayPaymentSettings,
+        IPaymentInfoServices paymentInfoServices)
     {
         _localizationService = localizationService;
-        _manualPaymentSettings = paymentSettings;
+        _bdPayPaymentSettings = bdPayPaymentSettings;
         _settingService = settingService;
         _webHelper = webHelper;
         _orderTotalCalculationService = orderTotalCalculationService;
-        _paymentInfoServices = paymentService;
+        _paymentInfoServices = paymentInfoServices;
     }
 
     public bool SupportCapture => false;
@@ -74,7 +74,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
     public async Task<decimal> GetAdditionalHandlingFeeAsync(IList<ShoppingCartItem> cart)
     {
         return await _orderTotalCalculationService.CalculatePaymentAdditionalFeeAsync(cart,
-            _manualPaymentSettings.AdditionalFee, _manualPaymentSettings.AdditionalFeePercentage);
+            _bdPayPaymentSettings.AdditionalFee, _bdPayPaymentSettings.AdditionalFeePercentage);
     }
 
     public Task<ProcessPaymentRequest> GetPaymentInfoAsync(IFormCollection form)
@@ -94,9 +94,9 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
 
     public Type GetPublicViewComponent()
     {
-        return typeof(PaymentManualViewComponent);
+        return typeof(BdPayViewComponent);
     }
-
+    
     public Task<bool> HidePaymentMethodAsync(IList<ShoppingCartItem> cart)
     {
         return Task.FromResult(false);
@@ -108,7 +108,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
         {
             AllowStoringCreditCardNumber = true
         };
-        switch (_manualPaymentSettings.TransactMode)
+        switch (_bdPayPaymentSettings.TransactMode)
         {
             case TransactMode.Pending:
                 result.NewPaymentStatus = PaymentStatus.Pending;
@@ -137,7 +137,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
         {
             AllowStoringCreditCardNumber = true
         };
-        switch (_manualPaymentSettings.TransactMode)
+        switch (_bdPayPaymentSettings.TransactMode)
         {
             case TransactMode.Pending:
                 result.NewPaymentStatus = PaymentStatus.Pending;
@@ -165,34 +165,46 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
     {
         var warnings = new List<string>();
 
-        //validate
+        // Instantiate the validator (assume it takes a localization service for localization purposes)
         var validator = new PaymentInfoValidator(_localizationService);
 
+        // Capture form data into the PaymentInfoModel for validation
         var model = new PaymentInfoModel
         {
             MobileNumber = form[nameof(PaymentInfoModel.MobileNumber)].ToString(),
             AccountType = form[nameof(PaymentInfoModel.AccountType)].ToString(),
             TransactionId = form[nameof(PaymentInfoModel.TransactionId)].ToString()
         };
+
+        // Perform validation on the model
         var validationResult = validator.Validate(model);
 
-        var domain = new PaymentInfo
-        {
-            MobileNumber = form[nameof(PaymentInfoModel.MobileNumber)].ToString(),
-            AccountType = form[nameof(PaymentInfoModel.AccountType)].ToString(),
-            TransactionId = form[nameof(PaymentInfoModel.TransactionId)].ToString()
-        };
-
+        // If validation fails, collect the error messages
         if (!validationResult.IsValid)
-            warnings.AddRange(validationResult.Errors.Select(error => error.ErrorMessage));
-
-        if (validationResult.IsValid)
         {
-            await _paymentInfoServices.InsertPaymentInfoAsync(domain);
+            warnings.AddRange(validationResult.Errors.Select(error => error.ErrorMessage));
+            return warnings;  // Return warnings if validation fails
         }
 
+        // If validation succeeds, transfer data to the domain class
+        var domain = new PaymentInfo
+        {
+            //MobileNumber = model.MobileNumber,
+            //AccountType = model.AccountType,
+            //TransactionId = model.TransactionId
+
+            MobileNumber = form[nameof(PaymentInfo.MobileNumber)].ToString(),
+            AccountType = form[nameof(PaymentInfo.AccountType)].ToString(),
+            TransactionId = form[nameof(PaymentInfo.TransactionId)].ToString()
+        };
+
+        // Insert the valid domain object into the database
+        await _paymentInfoServices.InsertPaymentInfoAsync(domain);
+
+        // Return any warnings (empty if validation succeeded)
         return warnings;
     }
+
 
     public Task<VoidPaymentResult> VoidAsync(VoidPaymentRequest voidPaymentRequest)
     {
