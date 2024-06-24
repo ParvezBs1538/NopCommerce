@@ -119,6 +119,9 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Factories
                     };
                 }
 
+                //model.DeveloperStatusStr = developer.DeveloperStatus.ToString();
+                //model.DeveloperDesignationStr = developer.DeveloperDesignation.ToString();
+
                 model.DeveloperStatusStr = await _localizationService.GetLocalizedEnumAsync(developer.DeveloperStatus);
 
                 model.DeveloperDesignationStr = await _localizationService.GetLocalizedEnumAsync(developer.DeveloperDesignation);

@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Shop Management",
+  "SystemName": "Misc.ShopManagement",
+  "Version": "4.70.2",
+  "SupportedVersions": [ "4.70" ],
+  "Author": "nopStation",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Misc.ShopManagement.dll",
+  "Description": "nopCommerce Web API for frontend"
+}

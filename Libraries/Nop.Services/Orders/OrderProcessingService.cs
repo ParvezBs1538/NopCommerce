@@ -1505,7 +1505,7 @@ public partial class OrderProcessingService : IOrderProcessingService
     public virtual async Task CheckOrderStatusAsync(Order order)
     {
         await CheckAndSaveOrderStatusAsync(order, false);
-    }
+    } 
 
     /// <summary>
     /// Places an order

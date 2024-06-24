@@ -32,7 +32,31 @@
       "Version": "4.70.2"
     },
     {
+      "SystemName": "Widgets.Practice",
+      "Version": "1.0.0"
+    },
+    {
       "SystemName": "Misc.BrainStation",
+      "Version": "4.70.2"
+    },
+    {
+      "SystemName": "Payments.Manual",
+      "Version": "4.70.3"
+    },
+    {
+      "SystemName": "Payments.PayPalCommerce",
+      "Version": "4.70.6"
+    },
+    {
+      "SystemName": "Shipping.FixedByWeightByTotal",
+      "Version": "4.70.7"
+    },
+    {
+      "SystemName": "Payments.BdPay",
+      "Version": "4.70.3"
+    },
+    {
+      "SystemName": "Payments.CheckMoneyOrder",
       "Version": "4.70.2"
     }
   ],

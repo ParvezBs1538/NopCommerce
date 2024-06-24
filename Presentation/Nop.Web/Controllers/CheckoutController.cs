@@ -1951,6 +1951,9 @@ public partial class CheckoutController : BasePublicController
             {
                 //get payment info
                 var paymentInfo = await paymentMethod.GetPaymentInfoAsync(form);
+                var x = paymentInfo.CustomValues.ToList();
+
+
                 //set previous order GUID (if exists)
                 await _paymentService.GenerateOrderGuidAsync(paymentInfo);
 

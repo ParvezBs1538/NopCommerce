@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Payment methods",
+  "FriendlyName": "BD Pay",
+  "SystemName": "Payments.BdPay",
+  "Version": "4.70.3",
+  "SupportedVersions": [ "4.70" ],
+  "Author": "nopCommerce team",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Payments.BdPay.dll",
+  "Description": "This plugin enables BD card payment (stored into database)"
+}

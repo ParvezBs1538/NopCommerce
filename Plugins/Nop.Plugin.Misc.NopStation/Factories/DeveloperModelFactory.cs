@@ -33,27 +33,6 @@ public class DeveloperModelFactory : IDeveloperModelFactory
 
     #region Methods
 
-    //public async Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers, string widgetZone, bool isok)
-    //{
-    //    int count = 0;
-    //    var model = new List<DeveloperModel>();
-
-    //    foreach (var developer in developers )
-    //    {
-    //        count++;
-    //        if (widgetZone == PublicWidgetZones.CategoryDetailsTop && count % 2 == 0)
-    //        {
-    //            if (isok == true)
-    //            {
-    //                model.Add(await PrepareDeveloperModelAsync(developer));
-    //            }
-    //            continue;
-    //        }
-    //        if (isok == false) model.Add(await PrepareDeveloperModelAsync(developer));
-    //    }
-    //    return model;
-    //}
-
     public async Task<IList<DeveloperModel>> PrepareDeveloperListModelAsync(IList<Developer> developers)
     {
         var model = new List<DeveloperModel>();
