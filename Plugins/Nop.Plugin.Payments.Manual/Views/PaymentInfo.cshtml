@@ -11,7 +11,7 @@
             <select asp-for="CreditCardType" asp-items="Model.CreditCardTypes" class="dropdownlists"></select>
         </td>
     </tr>
-    @* <tr>
+    <tr>
         <td>
             <label asp-for="CardholderName">@T("Payment.CardholderName"):</label>
         </td>
@@ -19,7 +19,7 @@
             <input type="text" asp-for="CardholderName" style="width:165px;" autocomplete="off" />
             <span asp-validation-for="CardholderName"></span>
         </td>
-    </tr> *@
+    </tr>
     <tr>
         <td>
             <label asp-for="CardNumber">@T("Payment.CardNumber"):</label>
@@ -29,7 +29,7 @@
             <span asp-validation-for="CardNumber"></span>
         </td>
     </tr>
-    @* <tr>
+    <tr>
         <td>
             <label asp-for="ExpireMonth">@T("Payment.ExpirationDate"):</label>
         </td>
@@ -38,7 +38,7 @@
             /
             <select asp-for="ExpireYear" asp-items="Model.ExpireYears"></select>
         </td>
-    </tr> *@
+    </tr>
     <tr>
         <td>
             <label asp-for="CardCode">@T("Payment.CardCode"):</label>

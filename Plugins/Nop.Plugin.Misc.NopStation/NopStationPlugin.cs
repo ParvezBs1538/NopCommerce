@@ -1,13 +1,16 @@
-﻿using Nop.Core;
+﻿using Microsoft.AspNetCore.Routing;
+using Nop.Core;
 using Nop.Plugin.Misc.NopStation.Components;
 using Nop.Services.Cms;
 using Nop.Services.Localization;
 using Nop.Services.Plugins;
+using Nop.Web.Framework;
 using Nop.Web.Framework.Infrastructure;
+using Nop.Web.Framework.Menu;
 
 namespace Nop.Plugin.Misc.NopStation;
 
-public class NopStationPlugin : BasePlugin, IWidgetPlugin
+public class NopStationPlugin : BasePlugin, IWidgetPlugin, IAdminMenuPlugin
 {
     private readonly IWebHelper _webHelper;
     private readonly ILocalizationService _localizationService;
@@ -19,6 +22,37 @@ public class NopStationPlugin : BasePlugin, IWidgetPlugin
     {
         _webHelper = webHelper;
         _localizationService = localizationService;
+    }
+
+    public Task ManageSiteMapAsync(SiteMapNode rootNode)
+    {
+        // Define the menu item for your NopStation plugin
+        var menuItem = new SiteMapNode()
+        {
+            SystemName = "Misc.NopStation.Developer",
+            Title = "Developer Management",
+            ControllerName = "Developer",
+            ActionName = "List",
+            IconClass = "far fa-dot-circle",
+            Visible = true,
+            RouteValues = new RouteValueDictionary() { { "area", AreaNames.ADMIN } },
+        };
+
+        // Find the "NopStation" node in the root node's child nodes
+        var pluginNode = rootNode.ChildNodes.FirstOrDefault(x => x.SystemName == "Misc");
+
+        // If the "NopStation" node exists, add the custom menu item to its child nodes
+        if (pluginNode != null)
+        {
+            pluginNode.ChildNodes.Add(menuItem);
+        }
+        // If the "NopStation" node doesn't exist, add the custom menu item to the root node's child nodes
+        else
+        {
+            rootNode.ChildNodes.Add(menuItem);
+        }
+
+        return Task.CompletedTask;
     }
 
     public override string GetConfigurationPageUrl()

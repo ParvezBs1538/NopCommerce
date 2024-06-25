@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "NopStation.Plugin.Payments.bKashManual/4.70.1.0": {
+        "runtime": {
+          "NopStation.Plugin.Payments.bKashManual.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "NopStation.Plugin.Payments.bKashManual/4.70.1.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
