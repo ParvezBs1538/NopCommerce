@@ -166,7 +166,6 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
 // This methon is use before customer places an order.
     public async Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest)
     {
-
         //var model = _memoryCache.Get<PaymentInfo>("Model");
         //if (model != null)
         //{
