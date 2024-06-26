@@ -1,9 +1,9 @@
-﻿using FluentValidation;
-using LinqToDB.Common.Internal.Cache;
+﻿using LinqToDB.Common.Internal.Cache;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Nop.Core;
 using Nop.Core.Caching;
+using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Payments;
 using Nop.Plugin.Payments.BdPay.Components;
@@ -96,7 +96,8 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
             MobileNumber = form[nameof(PaymentInfoModel.MobileNumber)].ToString(),
             AccountType = form[nameof(PaymentInfoModel.AccountType)].ToString(),
             TransactionId = form[nameof(PaymentInfoModel.TransactionId)].ToString(),
-            CustomerId = int.TryParse(form[nameof(PaymentInfo.CustomerId)], out int customerId) ? customerId : 0
+            CustomerId = 0,
+            OrderId = 0
         };
 
         // Perform validation on the model
@@ -109,6 +110,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
             AccountType = model.AccountType,
             TransactionId = model.TransactionId,
             CustomerId = model.CustomerId,
+            OrderId = model.OrderId,
         };
 
         // If validation fails, collect the error messages
@@ -163,7 +165,8 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
                 //    result.AddError($"Invalid CustomerId '{model.CustomerId}'. Corresponding order not found.");
                 //    return result;
                 //}
-                model.CustomerId = order.Id;
+                model.CustomerId = order.CustomerId;
+                model.OrderId = order.Id;
                 // Insert payment information into the database
                 await _paymentInfoServices.InsertPaymentInfoAsync(model);
             }
@@ -201,6 +204,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
             AccountType = form[nameof(PaymentInfo.AccountType)].ToString(),
             TransactionId = form[nameof(PaymentInfo.TransactionId)].ToString(),
             CustomerId = customer.Id,
+            OrderId = customer.Id,
         };
 
         _memoryCache.Set("Model", domain, TimeSpan.FromMinutes(5));

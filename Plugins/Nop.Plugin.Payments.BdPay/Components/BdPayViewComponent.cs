@@ -9,12 +9,6 @@ namespace Nop.Plugin.Payments.BdPay.Components;
 
 public class BdPayViewComponent : NopViewComponent
 {
-    private readonly ICustomerService _customerService;
-    public BdPayViewComponent(ICustomerService customerService)
-    {
-        _customerService = customerService;
-    }
-
     public async Task<IViewComponentResult> InvokeAsync()
     {
         var model = new PaymentInfoModel()
