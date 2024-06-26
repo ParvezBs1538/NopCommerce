@@ -9,5 +9,9 @@ namespace Nop.Plugin.Payments.BdPay.Domain
         public string MobileNumber { get; set; }
 
         public string TransactionId { get; set; }
+
+        public int CustomerId { get; set; }
+
+        //public int OrderId { get; set; }
     }
 }

@@ -30,6 +30,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
     private readonly IMemoryCache _memoryCache;
     private readonly IOrderService _orderService;
     private readonly IStaticCacheManager _staticCacheManager;
+    private readonly IWorkContext _workContext;
 
     public BdPayPaymentProcessor(ILocalizationService localizationService,
         IOrderTotalCalculationService orderTotalCalculationService,
@@ -39,6 +40,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
         IPaymentInfoServices paymentInfoServices,
         IMemoryCache memoryCache,
         IStaticCacheManager staticCacheManager,
+        IWorkContext workContext,
         IOrderService orderService)
     {
         _localizationService = localizationService;
@@ -50,6 +52,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
         _memoryCache = memoryCache;
         _orderService = orderService;
         _staticCacheManager = staticCacheManager;
+        _workContext = workContext;
     }
 
     public bool SupportCapture => true;
@@ -78,9 +81,51 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
         return Task.FromResult(false);
     }
 
+
+    // It is used in the public store to validate customer input. It returns a list of warnings.
+    public Task<IList<string>> ValidatePaymentFormAsync(IFormCollection form)
+    {
+        var warnings = new List<string>();
+
+        // Instantiate the validator (assume it takes a localization service for localization purposes)
+        var validator = new PaymentInfoValidator(_localizationService);
+
+        // Capture form data into the PaymentInfoModel for validation
+        var model = new PaymentInfoModel
+        {
+            MobileNumber = form[nameof(PaymentInfoModel.MobileNumber)].ToString(),
+            AccountType = form[nameof(PaymentInfoModel.AccountType)].ToString(),
+            TransactionId = form[nameof(PaymentInfoModel.TransactionId)].ToString(),
+            CustomerId = int.TryParse(form[nameof(PaymentInfo.CustomerId)], out int customerId) ? customerId : 0
+        };
+
+        // Perform validation on the model
+        var validationResult = validator.Validate(model);
+
+        // If validation succeeds, transfer data to the domain class
+        var domain = new PaymentInfo
+        {
+            MobileNumber = model.MobileNumber,
+            AccountType = model.AccountType,
+            TransactionId = model.TransactionId,
+            CustomerId = model.CustomerId,
+        };
+
+        // If validation fails, collect the error messages
+        if (!validationResult.IsValid)
+        {
+            warnings.AddRange(validationResult.Errors.Select(error => error.ErrorMessage));
+            return Task.FromResult<IList<string>>(warnings);  // Return warnings if validation fails
+        }
+        //_memoryCache.Set("Model", domain, TimeSpan.FromSeconds(50));
+
+        return Task.FromResult<IList<string>>(warnings);
+    }
+
     public async Task<CapturePaymentResult> CaptureAsync(CapturePaymentRequest capturePaymentRequest)
     {
         var result = new CapturePaymentResult();
+
         try
         {
             // Retrieve the order from the request
@@ -88,37 +133,52 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
             if (order == null)
             {
                 result.AddError("Order cannot be loaded");
-                return await Task.FromResult(result);
+                return result;
             }
 
             // Ensure the order is in a state that can be captured
             if (order.PaymentStatus != PaymentStatus.Authorized)
             {
                 result.AddError("Cannot capture a payment that is not authorized");
-                return await Task.FromResult(result);
+                return result;
             }
 
             // Update payment status to paid
             order.PaymentStatus = PaymentStatus.Paid;
+
             // Update order status to complete
             order.OrderStatus = OrderStatus.Complete;
-            result.NewPaymentStatus = PaymentStatus.Paid;
 
+            // Save changes to the order
+            await _orderService.UpdateOrderAsync(order);
+
+            // Retrieve payment information from cache
             var model = _memoryCache.Get<PaymentInfo>("Model");
             if (model != null)
             {
+                // Validate CustomerId against existing orders (optional step, assuming CustomerId is an OrderId)
+                //var existingOrder = await _orderService.GetOrderByIdAsync(model.CustomerId);
+                //if (existingOrder == null)
+                //{
+                //    result.AddError($"Invalid CustomerId '{model.CustomerId}'. Corresponding order not found.");
+                //    return result;
+                //}
+                model.CustomerId = order.Id;
+                // Insert payment information into the database
                 await _paymentInfoServices.InsertPaymentInfoAsync(model);
             }
-            //_orderService.UpdateOrderAsync(order);
-        }
 
+            // Set new payment status in the result
+            result.NewPaymentStatus = PaymentStatus.Paid;
+        }
         catch (Exception ex)
         {
             result.AddError($"An error occurred while capturing the payment: {ex.Message}");
         }
 
-        return await Task.FromResult(result);
+        return result;
     }
+
 
     public async Task<decimal> GetAdditionalHandlingFeeAsync(IList<ShoppingCartItem> cart)
     {
@@ -127,23 +187,25 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
     }
 
 // It is used in the public store to parse customer input.
-    public Task<ProcessPaymentRequest> GetPaymentInfoAsync(IFormCollection form)
+    public async Task<ProcessPaymentRequest> GetPaymentInfoAsync(IFormCollection form)
     {
         var request = new ProcessPaymentRequest();
         request.CustomValues["Account type"] = form[nameof(PaymentInfoModel.AccountType)].ToString();
         request.CustomValues["Number"] = form[nameof(PaymentInfoModel.MobileNumber)].ToString();
         request.CustomValues["Txn ID"] = form[nameof(PaymentInfoModel.TransactionId)].ToString();
 
+        var customer = await _workContext.GetCurrentCustomerAsync();
         var domain = new PaymentInfo
         {
             MobileNumber = form[nameof(PaymentInfo.MobileNumber)].ToString(),
             AccountType = form[nameof(PaymentInfo.AccountType)].ToString(),
-            TransactionId = form[nameof(PaymentInfo.TransactionId)].ToString()
+            TransactionId = form[nameof(PaymentInfo.TransactionId)].ToString(),
+            CustomerId = customer.Id,
         };
 
-        _memoryCache.Set("Model", domain, TimeSpan.FromSeconds(50));
+        _memoryCache.Set("Model", domain, TimeSpan.FromMinutes(5));
 
-        return Task.FromResult(request);
+        return request;
     }
 
 // gets payment method description which will be displayed on checkout pages in the public store
@@ -228,44 +290,6 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
     public Task<RefundPaymentResult> RefundAsync(RefundPaymentRequest refundPaymentRequest)
     {
         return Task.FromResult(new RefundPaymentResult { Errors = new[] { "Refund method not supported" } });
-    }
-
-    // It is used in the public store to validate customer input. It returns a list of warnings.
-    public Task<IList<string>> ValidatePaymentFormAsync(IFormCollection form)
-    {
-        var warnings = new List<string>();
-
-        // Instantiate the validator (assume it takes a localization service for localization purposes)
-        var validator = new PaymentInfoValidator(_localizationService);
-
-        // Capture form data into the PaymentInfoModel for validation
-        var model = new PaymentInfoModel
-        {
-            MobileNumber = form[nameof(PaymentInfoModel.MobileNumber)].ToString(),
-            AccountType = form[nameof(PaymentInfoModel.AccountType)].ToString(),
-            TransactionId = form[nameof(PaymentInfoModel.TransactionId)].ToString()
-        };
-
-        // Perform validation on the model
-        var validationResult = validator.Validate(model);
-
-        // If validation succeeds, transfer data to the domain class
-        var domain = new PaymentInfo
-        {
-            MobileNumber = model.MobileNumber,
-            AccountType = model.AccountType,
-            TransactionId = model.TransactionId
-        };
-
-        // If validation fails, collect the error messages
-        if (!validationResult.IsValid)
-        {
-            warnings.AddRange(validationResult.Errors.Select(error => error.ErrorMessage));
-            return Task.FromResult<IList<string>>(warnings);  // Return warnings if validation fails
-        }
-        //_memoryCache.Set("Model", domain, TimeSpan.FromSeconds(50));
-
-        return Task.FromResult<IList<string>>(warnings);
     }
 
     public Task<VoidPaymentResult> VoidAsync(VoidPaymentRequest voidPaymentRequest)

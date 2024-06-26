@@ -22,5 +22,11 @@ namespace Nop.Plugin.Payments.BdPay.Models
 
         [NopResourceDisplayName("Payment.TransactionId")]
         public string TransactionId { get; set; }
+
+        [NopResourceDisplayName("Payment.CustomerId")]
+        public int CustomerId { get; set; }
+
+        //[NopResourceDisplayName("Payment.OrderId")]
+        //public int OrderId { get; set; }
     }
 }
