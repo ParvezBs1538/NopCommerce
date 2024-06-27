@@ -12,6 +12,7 @@ using Nop.Plugin.Payments.BdPay.Models;
 using Nop.Plugin.Payments.BdPay.Services;
 using Nop.Plugin.Payments.BdPay.Validators;
 using Nop.Services.Configuration;
+using Nop.Services.Customers;
 using Nop.Services.Localization;
 using Nop.Services.Orders;
 using Nop.Services.Payments;
@@ -31,6 +32,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
     private readonly IOrderService _orderService;
     private readonly IStaticCacheManager _staticCacheManager;
     private readonly IWorkContext _workContext;
+    private readonly ICustomerService _customerService;
 
     public BdPayPaymentProcessor(ILocalizationService localizationService,
         IOrderTotalCalculationService orderTotalCalculationService,
@@ -41,7 +43,8 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
         IMemoryCache memoryCache,
         IStaticCacheManager staticCacheManager,
         IWorkContext workContext,
-        IOrderService orderService)
+        IOrderService orderService,
+        ICustomerService customerService)
     {
         _localizationService = localizationService;
         _bdPayPaymentSettings = bdPayPaymentSettings;
@@ -53,6 +56,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
         _orderService = orderService;
         _staticCacheManager = staticCacheManager;
         _workContext = workContext;
+        _customerService = customerService;
     }
 
     public bool SupportCapture => true;
@@ -73,6 +77,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
     {
         return Task.FromResult(new CancelRecurringPaymentResult());
     }
+
 
     public Task<bool> CanRePostProcessPaymentAsync(Order order)
     {
@@ -103,25 +108,25 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
         // Perform validation on the model
         var validationResult = validator.Validate(model);
 
-        // If validation succeeds, transfer data to the domain class
-        var domain = new PaymentInfo
-        {
-            MobileNumber = model.MobileNumber,
-            AccountType = model.AccountType,
-            TransactionId = model.TransactionId,
-            CustomerId = model.CustomerId,
-            OrderId = model.OrderId,
-        };
-
         // If validation fails, collect the error messages
         if (!validationResult.IsValid)
         {
             warnings.AddRange(validationResult.Errors.Select(error => error.ErrorMessage));
             return Task.FromResult<IList<string>>(warnings);  // Return warnings if validation fails
         }
-        //_memoryCache.Set("Model", domain, TimeSpan.FromSeconds(50));
 
         return Task.FromResult<IList<string>>(warnings);
+    }
+
+    // It is used in the public store to parse customer input.
+    public async Task<ProcessPaymentRequest> GetPaymentInfoAsync(IFormCollection form)
+    {
+        var request = new ProcessPaymentRequest();
+        request.CustomValues["Account type"] = form[nameof(PaymentInfoModel.AccountType)].ToString();
+        request.CustomValues["Number"] = form[nameof(PaymentInfoModel.MobileNumber)].ToString();
+        request.CustomValues["Txn ID"] = form[nameof(PaymentInfoModel.TransactionId)].ToString();
+
+        return request;
     }
 
     public async Task<CapturePaymentResult> CaptureAsync(CapturePaymentRequest capturePaymentRequest)
@@ -154,22 +159,8 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
             // Save changes to the order
             await _orderService.UpdateOrderAsync(order);
 
-            // Retrieve payment information from cache
-            var model = _memoryCache.Get<PaymentInfo>("Model");
-            if (model != null)
-            {
-                // Validate CustomerId against existing orders (optional step, assuming CustomerId is an OrderId)
-                //var existingOrder = await _orderService.GetOrderByIdAsync(model.CustomerId);
-                //if (existingOrder == null)
-                //{
-                //    result.AddError($"Invalid CustomerId '{model.CustomerId}'. Corresponding order not found.");
-                //    return result;
-                //}
-                model.CustomerId = order.CustomerId;
-                model.OrderId = order.Id;
-                // Insert payment information into the database
-                await _paymentInfoServices.InsertPaymentInfoAsync(model);
-            }
+            var paymentInfo = await _paymentInfoServices.GetPaymentInfoByOrderIdAsync(order.Id);
+            await _paymentInfoServices.DeletePaymentInfoAsync(paymentInfo);
 
             // Set new payment status in the result
             result.NewPaymentStatus = PaymentStatus.Paid;
@@ -189,28 +180,6 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
             _bdPayPaymentSettings.AdditionalFee, _bdPayPaymentSettings.AdditionalFeePercentage);
     }
 
-// It is used in the public store to parse customer input.
-    public async Task<ProcessPaymentRequest> GetPaymentInfoAsync(IFormCollection form)
-    {
-        var request = new ProcessPaymentRequest();
-        request.CustomValues["Account type"] = form[nameof(PaymentInfoModel.AccountType)].ToString();
-        request.CustomValues["Number"] = form[nameof(PaymentInfoModel.MobileNumber)].ToString();
-        request.CustomValues["Txn ID"] = form[nameof(PaymentInfoModel.TransactionId)].ToString();
-
-        var customer = await _workContext.GetCurrentCustomerAsync();
-        var domain = new PaymentInfo
-        {
-            MobileNumber = form[nameof(PaymentInfo.MobileNumber)].ToString(),
-            AccountType = form[nameof(PaymentInfo.AccountType)].ToString(),
-            TransactionId = form[nameof(PaymentInfo.TransactionId)].ToString(),
-            CustomerId = customer.Id,
-            OrderId = customer.Id,
-        };
-
-        _memoryCache.Set("Model", domain, TimeSpan.FromMinutes(5));
-
-        return request;
-    }
 
 // gets payment method description which will be displayed on checkout pages in the public store
     public async Task<string> GetPaymentMethodDescriptionAsync()
@@ -232,12 +201,6 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
 // This methon is use before customer places an order.
     public async Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest)
     {
-        //var model = _memoryCache.Get<PaymentInfo>("Model");
-        //if (model != null)
-        //{
-        //    await _paymentInfoServices.InsertPaymentInfoAsync(model);
-        //}
-
         var result = new ProcessPaymentResult
         {
             AllowStoringCreditCardNumber = true
@@ -258,12 +221,31 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
                 break;
         }
 
+        var customer = await _workContext.GetCurrentCustomerAsync();
+        var customVal = processPaymentRequest.CustomValues;
+
+        var domain = new PaymentInfo
+        {
+            MobileNumber = customVal["Number"].ToString(), 
+            AccountType = customVal["Account type"].ToString(),
+            TransactionId = customVal["Txn ID"].ToString(),
+            CustomerId = customer.Id,
+            OrderId = 0,
+        };
+
+        _memoryCache.Set("Model", domain, TimeSpan.FromMinutes(5));
+
         return result;
     }
 
-    public Task PostProcessPaymentAsync(PostProcessPaymentRequest postProcessPaymentRequest)
+    public async Task PostProcessPaymentAsync(PostProcessPaymentRequest postProcessPaymentRequest)
     {
-        return Task.CompletedTask;
+        var order = postProcessPaymentRequest.Order;
+        var model = _memoryCache.Get<PaymentInfo>("Model");
+
+        model.OrderId = order.Id;
+
+        await _paymentInfoServices.InsertPaymentInfoAsync(model);
     }
 
     public Task<ProcessPaymentResult> ProcessRecurringPaymentAsync(ProcessPaymentRequest processPaymentRequest)

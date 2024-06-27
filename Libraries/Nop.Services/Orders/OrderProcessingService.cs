@@ -1348,6 +1348,7 @@ public partial class OrderProcessingService : IOrderProcessingService
         if (await IsPaymentWorkflowRequiredAsync(details.Cart))
         {
             var customer = await _customerService.GetCustomerByIdAsync(processPaymentRequest.CustomerId);
+
             var paymentMethod = await _paymentPluginManager
                                     .LoadPluginBySystemNameAsync(processPaymentRequest.PaymentMethodSystemName, customer, processPaymentRequest.StoreId)
                                 ?? throw new NopException("Payment method couldn't be loaded");

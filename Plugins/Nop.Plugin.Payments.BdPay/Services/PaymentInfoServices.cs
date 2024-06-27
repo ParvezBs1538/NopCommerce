@@ -12,9 +12,21 @@ namespace Nop.Plugin.Payments.BdPay.Services
             _paymentRepository = paymentRepository;
         }
 
+
         public virtual async Task InsertPaymentInfoAsync(PaymentInfo paymentInfo)
         {
             await _paymentRepository.InsertAsync(paymentInfo);
+        }
+
+        public async Task DeletePaymentInfoAsync(PaymentInfo paymentInfo)
+        {
+            await _paymentRepository.DeleteAsync(paymentInfo);
+        }
+
+        public async Task<PaymentInfo> GetPaymentInfoByOrderIdAsync(int orderId)
+        {
+            return await _paymentRepository.Table
+                              .FirstOrDefaultAsync(p => p.OrderId == orderId);
         }
     }
 }
