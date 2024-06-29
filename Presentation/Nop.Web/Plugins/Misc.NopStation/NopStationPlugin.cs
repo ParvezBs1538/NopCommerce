@@ -55,7 +55,6 @@ public class NopStationPlugin : BasePlugin, IWidgetPlugin, IAdminMenuPlugin
         return Task.CompletedTask;
     }
 
-
     public override string GetConfigurationPageUrl()
     {
         return $"{_webHelper.GetStoreLocation()}Admin/Developer/List";
@@ -190,14 +189,14 @@ public class NopStationPlugin : BasePlugin, IWidgetPlugin, IAdminMenuPlugin
                 //AdminWidgetZones.CategoryListButtons,
                 //PublicWidgetZones.HomepageBottom,
 
-                PublicWidgetZones.HomepageTop,
+                PublicWidgetZones.HomepageBottom,
                 PublicWidgetZones.CategoryDetailsTop,
             });
     }
 
     public Type GetWidgetViewComponent(string widgetZone)
     {
-        if (widgetZone == PublicWidgetZones.HomepageTop)
+        if (widgetZone == PublicWidgetZones.HomepageBottom)
         {
             return typeof(DeveloperViewComponent);
         }
