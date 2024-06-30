@@ -84,30 +84,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
 
 	#region Utils
 
-	/*public async Task<decimal> CalculateTotalAsync(IList<ShoppingCartItem> cart, string accountType)
-    {
-        decimal total = 0;
-        foreach (var item in cart)
-        {
-            var (subTotal, discountAmount, appliedDiscounts, maximumDiscountQty) = await _shoppingCartService.GetSubTotalAsync(item, false);
-            total += subTotal;
-        }
-
-        // Define additional charges based on account type
-        decimal additionalCharge = accountType switch
-        {
-            "Bkash" => 18.5m,
-            "Nagad" => 12.5m,
-            "Rocket" => 18m,
-            "Upay" => 14m,
-            _ => 0m
-        };
-        total += additionalCharge;
-
-        return total;
-    }*/
-
-	public async Task<decimal> CalculateTotalAsync(IList<ShoppingCartItem> cart, string accountType)
+	public async Task<decimal> CalculateTotalAsync(IList<ShoppingCartItem> cart)
 	{
 		decimal total = 0;
 		foreach (var item in cart)
@@ -116,28 +93,8 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
 			total += subTotal;
 		}
 
-		// Define additional charges based on account type for every 1000 units of the total amount
-		//decimal additionalChargeRate = accountType switch
-		//{
-		//	"Bkash" => 18.5m,
-		//	"Nagad" => 12.5m,
-		//	"Rocket" => 18m,
-		//	"Upay" => 14m,
-		//	_ => 0m
-		//};
-
-		//// Calculate the number of 1000 units in the total
-		//decimal numberOfThousands = Math.Floor(total / 1000);
-
-		//// Calculate the additional charge based on the rate and number of thousands
-		//decimal additionalCharge = additionalChargeRate * numberOfThousands;
-
-		//// Add the additional charge to the total
-		//total += additionalCharge;
-
 		return total;
 	}
-
 
 	#endregion
 
@@ -265,7 +222,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
 			"Upay" => 14m,
 			_ => 0m
 		};
-        var total = await CalculateTotalAsync(cart, accountType);
+        var total = await CalculateTotalAsync(cart);
         var numberOfThousands = (total / 1000);
         additionalFee *= numberOfThousands;
 
@@ -309,7 +266,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
         var accountType = processPaymentRequest.CustomValues["Account type"].ToString();
 
         // Calculate the total including additional charges based on account type
-        var orderTotal = await CalculateTotalAsync(cart, accountType);
+        var orderTotal = await CalculateTotalAsync(cart);
 
 		decimal numberOfThousands = (orderTotal / 1000);
 
@@ -322,10 +279,6 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
 			_ => 0m
 		};
         orderTotal += additionalFee * numberOfThousands;
-
-		// Save order total in custom values for further processing
-		processPaymentRequest.OrderTotal = orderTotal;
-
 
         // Set payment status based on transaction mode
         switch (_bdPayPaymentSettings.TransactMode)
