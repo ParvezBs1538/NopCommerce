@@ -82,9 +82,9 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
 
     public bool SkipPaymentInfo => false;
 
-    #region Utils
+	#region Utils
 
-    public async Task<decimal> CalculateTotalAsync(IList<ShoppingCartItem> cart, string accountType)
+	/*public async Task<decimal> CalculateTotalAsync(IList<ShoppingCartItem> cart, string accountType)
     {
         decimal total = 0;
         foreach (var item in cart)
@@ -96,21 +96,52 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
         // Define additional charges based on account type
         decimal additionalCharge = accountType switch
         {
-            "Bkash" => 15m,
-            "Nagad" => 12m,
-            "Rocket" => 10m,
-            "Upay" => 5m,
+            "Bkash" => 18.5m,
+            "Nagad" => 12.5m,
+            "Rocket" => 18m,
+            "Upay" => 14m,
             _ => 0m
         };
-
         total += additionalCharge;
 
         return total;
-    }
+    }*/
 
-    #endregion
+	public async Task<decimal> CalculateTotalAsync(IList<ShoppingCartItem> cart, string accountType)
+	{
+		decimal total = 0;
+		foreach (var item in cart)
+		{
+			var (subTotal, discountAmount, appliedDiscounts, maximumDiscountQty) = await _shoppingCartService.GetSubTotalAsync(item, false);
+			total += subTotal;
+		}
 
-    public Task<CancelRecurringPaymentResult> CancelRecurringPaymentAsync(CancelRecurringPaymentRequest cancelPaymentRequest)
+		// Define additional charges based on account type for every 1000 units of the total amount
+		//decimal additionalChargeRate = accountType switch
+		//{
+		//	"Bkash" => 18.5m,
+		//	"Nagad" => 12.5m,
+		//	"Rocket" => 18m,
+		//	"Upay" => 14m,
+		//	_ => 0m
+		//};
+
+		//// Calculate the number of 1000 units in the total
+		//decimal numberOfThousands = Math.Floor(total / 1000);
+
+		//// Calculate the additional charge based on the rate and number of thousands
+		//decimal additionalCharge = additionalChargeRate * numberOfThousands;
+
+		//// Add the additional charge to the total
+		//total += additionalCharge;
+
+		return total;
+	}
+
+
+	#endregion
+
+	public Task<CancelRecurringPaymentResult> CancelRecurringPaymentAsync(CancelRecurringPaymentRequest cancelPaymentRequest)
     {
         return Task.FromResult(new CancelRecurringPaymentResult());
     }
@@ -163,7 +194,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
         request.CustomValues["Number"] = form[nameof(PaymentInfoModel.MobileNumber)].ToString();
         request.CustomValues["Txn ID"] = form[nameof(PaymentInfoModel.TransactionId)].ToString();
 
-        _memoryCache.Set("cacheKey", request, TimeSpan.FromMinutes(5));
+        _memoryCache.Set("CustomValue", request, TimeSpan.FromMinutes(5));
 
         return await Task.FromResult(request);
     }
@@ -214,19 +245,12 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
 
     public async Task<decimal> GetAdditionalHandlingFeeAsync(IList<ShoppingCartItem> cart)
     {
-        decimal total = 0;
-        foreach (var item in cart)
-        {
-            var (subTotal, discountAmount, appliedDiccounts, maximumDiscountQty) = await _shoppingCartService.GetSubTotalAsync(item, false);
-            total += subTotal;
-        }
-
-        if (!_memoryCache.TryGetValue("cacheKey", out ProcessPaymentRequest model))
+        if (!_memoryCache.TryGetValue("CustomValue", out ProcessPaymentRequest model))
         {
             model = new ProcessPaymentRequest();
             model.CustomValues["Account type"] = "DefaultAccountType";
 
-            _memoryCache.Set("cacheKey", model, TimeSpan.FromMinutes(5));
+            _memoryCache.Set("CustomValue", model, TimeSpan.FromMinutes(5));
         }
 
         // Get the account type
@@ -235,13 +259,15 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
         // Define additional charges based on account type
         var additionalFee = accountType switch
         {
-			"Bkash" => 15m,
-			"Nagad" => 10m,
-			"Rocket" => 5m,
-			"Upay" => 2m,
-            "DefaultAccountType" => 0m,
-            _ => 0m
-        };
+			"Bkash" => 18.5m,
+			"Nagad" => 12.5m,
+			"Rocket" => 18m,
+			"Upay" => 14m,
+			_ => 0m
+		};
+        var total = await CalculateTotalAsync(cart, accountType);
+        var numberOfThousands = (total / 1000);
+        additionalFee *= numberOfThousands;
 
         return await _orderTotalCalculationService.CalculatePaymentAdditionalFeeAsync(cart, additionalFee, false);
 
@@ -285,8 +311,20 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
         // Calculate the total including additional charges based on account type
         var orderTotal = await CalculateTotalAsync(cart, accountType);
 
-        // Save order total in custom values for further processing
-        processPaymentRequest.OrderTotal = orderTotal;
+		decimal numberOfThousands = (orderTotal / 1000);
+
+		var additionalFee = accountType switch
+		{
+			"Bkash" => 18.5m,
+			"Nagad" => 12.5m,
+			"Rocket" => 18m,
+			"Upay" => 14m,
+			_ => 0m
+		};
+        orderTotal += additionalFee * numberOfThousands;
+
+		// Save order total in custom values for further processing
+		processPaymentRequest.OrderTotal = orderTotal;
 
 
         // Set payment status based on transaction mode
