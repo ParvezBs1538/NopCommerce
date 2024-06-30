@@ -123,10 +123,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
         {
             MobileNumber = form[nameof(PaymentInfoModel.MobileNumber)].ToString(),
             AccountType = form[nameof(PaymentInfoModel.AccountType)].ToString(),
-            TransactionId = form[nameof(PaymentInfoModel.TransactionId)].ToString(),
-            CustomerId = 0,
-            OrderId = 0,
-            TotalTk = 0
+            TransactionId = form[nameof(PaymentInfoModel.TransactionId)].ToString()
         };
 
         // Perform validation on the model
@@ -298,13 +295,12 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
         }
 
         var customVal = processPaymentRequest.CustomValues;
-        var Customer = await _workContext.GetCurrentCustomerAsync();
         var domain = new PaymentInfo
         {
             MobileNumber = customVal["Number"].ToString(),
             AccountType = customVal["Account type"].ToString(),
             TransactionId = customVal["Txn ID"].ToString(),
-            CustomerId = Customer.Id,
+            CustomerId = customer.Id,
             OrderId = 0,
             TotalTk = orderTotal
 		};
