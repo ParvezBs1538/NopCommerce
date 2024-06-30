@@ -82,6 +82,34 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
 
     public bool SkipPaymentInfo => false;
 
+    #region Utils
+
+    public async Task<decimal> CalculateTotalAsync(IList<ShoppingCartItem> cart, string accountType)
+    {
+        decimal total = 0;
+        foreach (var item in cart)
+        {
+            var (subTotal, discountAmount, appliedDiscounts, maximumDiscountQty) = await _shoppingCartService.GetSubTotalAsync(item, false);
+            total += subTotal;
+        }
+
+        // Define additional charges based on account type
+        decimal additionalCharge = accountType switch
+        {
+            "Bkash" => 15m,
+            "Nagad" => 12m,
+            "Rocket" => 10m,
+            "Upay" => 5m,
+            _ => 0m
+        };
+
+        total += additionalCharge;
+
+        return total;
+    }
+
+    #endregion
+
     public Task<CancelRecurringPaymentResult> CancelRecurringPaymentAsync(CancelRecurringPaymentRequest cancelPaymentRequest)
     {
         return Task.FromResult(new CancelRecurringPaymentResult());
@@ -206,10 +234,10 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
         // Define additional charges based on account type
         var additionalFee = accountType switch
         {
-            "Bkash" => 15m,
-            "Nagad" => 10m,
-            "Rocket" => 5m,
-            "Upay" => 2m,
+			"Bkash" => 15m,
+			"Nagad" => 10m,
+			"Rocket" => 5m,
+			"Upay" => 2m,
             "DefaultAccountType" => 0m,
             _ => 0m
         };
@@ -236,30 +264,6 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
     public Task<bool> HidePaymentMethodAsync(IList<ShoppingCartItem> cart)
     {
         return Task.FromResult(false);
-    }
-
-    public async Task<decimal> CalculateTotalAsync(IList<ShoppingCartItem> cart, string accountType)
-    {
-        decimal total = 0;
-        foreach (var item in cart)
-        {
-            var (subTotal, discountAmount, appliedDiscounts, maximumDiscountQty) = await _shoppingCartService.GetSubTotalAsync(item, false);
-            total += subTotal;
-        }
-
-        // Define additional charges based on account type
-        decimal additionalCharge = accountType switch
-        {
-            "Bkash" => 15m,
-            "Nagad" => 12m,
-            "Rocket" => 10m,
-            "Upay" => 5m,
-            _ => 0m
-        };
-
-        total += additionalCharge;
-
-        return total;
     }
 
 
