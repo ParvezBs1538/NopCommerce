@@ -28,5 +28,8 @@ namespace Nop.Plugin.Payments.BdPay.Models
 
         [NopResourceDisplayName("Payment.OrderId")]
         public int OrderId { get; set; }
-    }
+
+		[NopResourceDisplayName("Payment.TotalTk")]
+		public decimal TotalTk { get; set; }
+	}
 }

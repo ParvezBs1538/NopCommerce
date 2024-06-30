@@ -137,7 +137,8 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
             AccountType = form[nameof(PaymentInfoModel.AccountType)].ToString(),
             TransactionId = form[nameof(PaymentInfoModel.TransactionId)].ToString(),
             CustomerId = 0,
-            OrderId = 0
+            OrderId = 0,
+            TotalTk = 0
         };
 
         // Perform validation on the model
@@ -314,17 +315,18 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
             TransactionId = customVal["Txn ID"].ToString(),
             CustomerId = Customer.Id,
             OrderId = 0,
-        };
+            TotalTk = orderTotal
+		};
 
         // Cache the payment info
-        _memoryCache.Set("Model", domain, TimeSpan.FromMinutes(5));
+        _memoryCache.Set("Domain", domain, TimeSpan.FromMinutes(5));
         return result;
     }
 
     public async Task PostProcessPaymentAsync(PostProcessPaymentRequest postProcessPaymentRequest)
     {
         var order = postProcessPaymentRequest.Order;
-        var model = _memoryCache.Get<PaymentInfo>("Model");
+        var model = _memoryCache.Get<PaymentInfo>("Domain");
 
         model.OrderId = order.Id;
 
@@ -393,8 +395,9 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
             ["Plugins.Payments.BdPay.PaymentMethodDescription"] = "Pay by credit / debit card",
             ["Payment.SelectAccount"] = "Select Account",
             ["Payment.MobileNumber"] = "Mobile Number",
-            ["Payment.TransactionId"] = "Transaction ID"
-        });
+            ["Payment.TransactionId"] = "Transaction ID",
+            ["Payment.TotalTk"] = "Total Tk"
+		});
 
         await base.InstallAsync();
     }
@@ -405,8 +408,9 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
         await _localizationService.AddOrUpdateLocaleResourceAsync(new Dictionary<string, string>
         {
             ["Plugins.Payments.BdPay.Instructions"] = "This payment method stores card information in database (it's not sent to any third-party processor). In order to store card information, you must be PCI compliant.",
-            ["Plugins.Payments.BdPay.PaymentMethodDescription"] = "Pay by BdPay card"
-        });
+            ["Plugins.Payments.BdPay.PaymentMethodDescription"] = "Pay by BdPay card",
+			["Payment.TotalTk"] = "Total Tk"
+		});
 
         await base.UpdateAsync(currentVersion, targetVersion);
     }

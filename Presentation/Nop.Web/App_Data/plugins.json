@@ -57,7 +57,7 @@
     },
     {
       "SystemName": "Payments.BdPay",
-      "Version": "4.70.4"
+      "Version": "4.70.6"
     }
   ],
   "PluginNamesToUninstall": [],

@@ -13,5 +13,7 @@ namespace Nop.Plugin.Payments.BdPay.Domain
         public int CustomerId { get; set; }
 
         public int OrderId { get; set; }
+
+        public decimal TotalTk { get; set; }
     }
 }
