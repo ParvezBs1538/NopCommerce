@@ -219,6 +219,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
 			"Upay" => 14m,
 			_ => 0m
 		};
+
         var total = await CalculateTotalAsync(cart);
         var numberOfThousands = (total / 1000);
         additionalFee *= numberOfThousands;
@@ -228,7 +229,6 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequir
         //return await _orderTotalCalculationService.CalculatePaymentAdditionalFeeAsync(cart,
         //    _bdPayPaymentSettings.AdditionalFee, _bdPayPaymentSettings.AdditionalFeePercentage);
     }
-
 
     // gets payment method description which will be displayed on checkout pages in the public store
     public async Task<string> GetPaymentMethodDescriptionAsync()
