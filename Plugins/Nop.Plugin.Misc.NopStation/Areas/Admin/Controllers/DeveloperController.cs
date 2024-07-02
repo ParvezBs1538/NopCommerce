@@ -74,7 +74,8 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
         {
             var searchModel = await _developerModelFactory.PrepareDeveloperSearchModelAsync(new DeveloperSearchModel());
 
-            return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Developer/List.cshtml", searchModel);
+            //return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Developer/List.cshtml", searchModel);
+            return View(searchModel);
         }
 
         [HttpPost]
@@ -89,7 +90,8 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
         {
             var model = await _developerModelFactory.PrepareDeveloperModelAsync(new DeveloperModel(), null);
 
-            return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Developer/Create.cshtml", model);
+            //return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Developer/Create.cshtml", model);
+            return View(model);
         }
 
 
@@ -116,7 +118,8 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
 
             model = await _developerModelFactory.PrepareDeveloperModelAsync(model, null);
 
-            return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Developer/Create.cshtml", model);
+            //return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Developer/Create.cshtml", model);
+            return View(model);
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -127,7 +130,8 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
 
             var model = await _developerModelFactory.PrepareDeveloperModelAsync(null, developer);
 
-            return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Developer/Edit.cshtml", model);
+            //return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Developer/Edit.cshtml", model);
+            return View(model);
         }
 
 
@@ -154,7 +158,8 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
 
             model = await _developerModelFactory.PrepareDeveloperModelAsync(model, developer);
 
-            return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Developer/Edit.cshtml", model);
+            //return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Developer/Edit.cshtml", model);
+            return View(model);
         }
 
         [HttpPost]

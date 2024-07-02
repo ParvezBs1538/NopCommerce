@@ -1,0 +1,59 @@
+﻿@model Nop.Plugin.Payments.AliPay.Models.ConfigurationModel
+@{
+    Layout = "_ConfigurePlugin";
+}
+
+<form asp-controller="PaymentAliPay" asp-action="Configure" method="post">
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="SellerEmail" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SellerEmail" />
+                        <span asp-validation-for="SellerEmail"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Key" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Key" />
+                        <span asp-validation-for="Key"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Partner" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Partner" />
+                        <span asp-validation-for="Partner"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AdditionalFee" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AdditionalFee" />
+                        <span asp-validation-for="AdditionalFee"></span>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <button type="submit" name="save" class="btn btn-primary">@T("Admin.Common.Save")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

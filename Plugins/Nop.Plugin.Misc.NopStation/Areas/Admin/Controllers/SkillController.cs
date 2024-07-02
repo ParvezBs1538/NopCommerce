@@ -27,7 +27,8 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
         {
             var searchModel = await _skillModelFactory.PrepareSkillSearchModelAsync(new SkillSearchModel());
 
-            return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Skill/List.cshtml", searchModel);
+            //return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Skill/List.cshtml", searchModel);
+            return View(searchModel);
         }
 
         [HttpPost]
@@ -42,7 +43,8 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
         {
             var model = await _skillModelFactory.PrepareSkillModelAsync(new SkillModel(), null);
 
-            return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Skill/Create.cshtml", model);
+            //return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Skill/Create.cshtml", model);
+            return View(model);
         }
 
 
@@ -64,7 +66,8 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
             // If the model state is not valid, prepare the model again
             model = await _skillModelFactory.PrepareSkillModelAsync(model, null);
 
-            return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Skill/Create.cshtml", model);
+            //return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Skill/Create.cshtml", model);
+            return View(model);
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -75,7 +78,8 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
 
             var model = await _skillModelFactory.PrepareSkillModelAsync(null, Skill);
 
-            return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Skill/Edit.cshtml", model);
+            //return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Skill/Edit.cshtml", model);
+            return View(model);
         }
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
@@ -96,7 +100,8 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
 
             model = await _skillModelFactory.PrepareSkillModelAsync(model, skill);
 
-            return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Skill/Edit.cshtml", model);
+            //return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Skill/Edit.cshtml", model);
+            return View(model);
         }
 
         [HttpPost]
