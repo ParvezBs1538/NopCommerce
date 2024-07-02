@@ -1,22 +1,29 @@
-﻿using FluentValidation;
+﻿using LinqToDB.Common.Internal.Cache;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 using Nop.Core;
+using Nop.Core.Caching;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Payments;
+using Nop.Core.Domain.Customers;
 using Nop.Plugin.Payments.BdPay.Components;
 using Nop.Plugin.Payments.BdPay.Domain;
 using Nop.Plugin.Payments.BdPay.Models;
 using Nop.Plugin.Payments.BdPay.Services;
 using Nop.Plugin.Payments.BdPay.Validators;
 using Nop.Services.Configuration;
+using Nop.Services.Customers;
 using Nop.Services.Localization;
 using Nop.Services.Orders;
 using Nop.Services.Payments;
 using Nop.Services.Plugins;
+using Nop.Services.Discounts;
+using Nop.Services.Catalog;
+using Nop.Core.Infrastructure;
 
 namespace Nop.Plugin.Payments.BdPay;
 
-public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
+public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod, IDiscountRequirementRule
 {
     protected readonly ILocalizationService _localizationService;
     protected readonly IOrderTotalCalculationService _orderTotalCalculationService;
@@ -24,13 +31,27 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
     protected readonly IWebHelper _webHelper;
     protected readonly BdPayPaymentSettings _bdPayPaymentSettings;
     private readonly IPaymentInfoServices _paymentInfoServices;
+    private readonly IMemoryCache _memoryCache;
+    private readonly IOrderService _orderService;
+    private readonly IStaticCacheManager _staticCacheManager;
+    private readonly IWorkContext _workContext;
+    private readonly ICustomerService _customerService;
+    private readonly IShoppingCartService _shoppingCartService;
+    private readonly IProductService _productService;
 
     public BdPayPaymentProcessor(ILocalizationService localizationService,
         IOrderTotalCalculationService orderTotalCalculationService,
         ISettingService settingService,
         IWebHelper webHelper,
         BdPayPaymentSettings bdPayPaymentSettings,
-        IPaymentInfoServices paymentInfoServices)
+        IPaymentInfoServices paymentInfoServices,
+        IMemoryCache memoryCache,
+        IStaticCacheManager staticCacheManager,
+        IWorkContext workContext,
+        IOrderService orderService,
+        ICustomerService customerService,
+        IShoppingCartService shoppingCartService,
+        IProductService productService)
     {
         _localizationService = localizationService;
         _bdPayPaymentSettings = bdPayPaymentSettings;
@@ -38,9 +59,16 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
         _webHelper = webHelper;
         _orderTotalCalculationService = orderTotalCalculationService;
         _paymentInfoServices = paymentInfoServices;
+        _memoryCache = memoryCache;
+        _orderService = orderService;
+        _staticCacheManager = staticCacheManager;
+        _workContext = workContext;
+        _customerService = customerService;
+        _shoppingCartService = shoppingCartService;
+        _productService = productService;
     }
 
-    public bool SupportCapture => false;
+    public bool SupportCapture => true;
 
     public bool SupportPartiallyRefund => false;
 
@@ -54,7 +82,23 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
 
     public bool SkipPaymentInfo => false;
 
-    public Task<CancelRecurringPaymentResult> CancelRecurringPaymentAsync(CancelRecurringPaymentRequest cancelPaymentRequest)
+	#region Utils
+
+	public async Task<decimal> CalculateTotalAsync(IList<ShoppingCartItem> cart)
+	{
+		decimal total = 0;
+		foreach (var item in cart)
+		{
+			var (subTotal, discountAmount, appliedDiscounts, maximumDiscountQty) = await _shoppingCartService.GetSubTotalAsync(item, false);
+			total += subTotal;
+		}
+
+		return total;
+	}
+
+	#endregion
+
+	public Task<CancelRecurringPaymentResult> CancelRecurringPaymentAsync(CancelRecurringPaymentRequest cancelPaymentRequest)
     {
         return Task.FromResult(new CancelRecurringPaymentResult());
     }
@@ -66,27 +110,127 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
         return Task.FromResult(false);
     }
 
-    public Task<CapturePaymentResult> CaptureAsync(CapturePaymentRequest capturePaymentRequest)
+    // It is used in the public store to validate customer input. It returns a list of warnings.
+    public Task<IList<string>> ValidatePaymentFormAsync(IFormCollection form)
     {
-        return Task.FromResult(new CapturePaymentResult { Errors = new[] { "Capture method not supported" } });
+        var warnings = new List<string>();
+
+        // Instantiate the validator (assume it takes a localization service for localization purposes)
+        var validator = new PaymentInfoValidator(_localizationService);
+
+        // Capture form data into the PaymentInfoModel for validation
+        var model = new PaymentInfoModel
+        {
+            MobileNumber = form[nameof(PaymentInfoModel.MobileNumber)].ToString(),
+            AccountType = form[nameof(PaymentInfoModel.AccountType)].ToString(),
+            TransactionId = form[nameof(PaymentInfoModel.TransactionId)].ToString()
+        };
+
+        // Perform validation on the model
+        var validationResult = validator.Validate(model);
+
+        // If validation fails, collect the error messages
+        if (!validationResult.IsValid)
+        {
+            warnings.AddRange(validationResult.Errors.Select(error => error.ErrorMessage));
+            return Task.FromResult<IList<string>>(warnings);  // Return warnings if validation fails
+        }
+
+        return Task.FromResult<IList<string>>(warnings);
     }
 
-    public async Task<decimal> GetAdditionalHandlingFeeAsync(IList<ShoppingCartItem> cart)
-    {
-        return await _orderTotalCalculationService.CalculatePaymentAdditionalFeeAsync(cart,
-            _bdPayPaymentSettings.AdditionalFee, _bdPayPaymentSettings.AdditionalFeePercentage);
-    }
 
-    public Task<ProcessPaymentRequest> GetPaymentInfoAsync(IFormCollection form)
+    // It is used in the public store to parse customer input.
+    public async Task<ProcessPaymentRequest> GetPaymentInfoAsync(IFormCollection form)
     {
         var request = new ProcessPaymentRequest();
         request.CustomValues["Account type"] = form[nameof(PaymentInfoModel.AccountType)].ToString();
         request.CustomValues["Number"] = form[nameof(PaymentInfoModel.MobileNumber)].ToString();
         request.CustomValues["Txn ID"] = form[nameof(PaymentInfoModel.TransactionId)].ToString();
 
-        return Task.FromResult(request);
+        _memoryCache.Set("CustomValue", request, TimeSpan.FromMinutes(5));
+
+        return await Task.FromResult(request);
     }
 
+    public async Task<CapturePaymentResult> CaptureAsync(CapturePaymentRequest capturePaymentRequest)
+    {
+        var result = new CapturePaymentResult();
+
+        try
+        {
+            // Retrieve the order from the request
+            var order = capturePaymentRequest.Order;
+            if (order == null)
+            {
+                result.AddError("Order cannot be loaded");
+                return result;
+            }
+
+            // Ensure the order is in a state that can be captured
+            if (order.PaymentStatus != PaymentStatus.Authorized)
+            {
+                result.AddError("Cannot capture a payment that is not authorized");
+                return result;
+            }
+
+            // Update payment status to paid
+            order.PaymentStatus = PaymentStatus.Paid;
+
+            // Update order status to complete
+            order.OrderStatus = OrderStatus.Complete;
+
+            // Save changes to the order
+            await _orderService.UpdateOrderAsync(order);
+
+            var paymentInfo = await _paymentInfoServices.GetPaymentInfoByOrderIdAsync(order.Id);
+            await _paymentInfoServices.DeletePaymentInfoAsync(paymentInfo);
+
+            // Set new payment status in the result
+            result.NewPaymentStatus = PaymentStatus.Paid;
+        }
+        catch (Exception ex)
+        {
+            result.AddError($"An error occurred while capturing the payment: {ex.Message}");
+        }
+
+        return result;
+    }
+
+    public async Task<decimal> GetAdditionalHandlingFeeAsync(IList<ShoppingCartItem> cart)
+    {
+        if (!_memoryCache.TryGetValue("CustomValue", out ProcessPaymentRequest model))
+        {
+            model = new ProcessPaymentRequest();
+            model.CustomValues["Account type"] = "DefaultAccountType";
+
+            _memoryCache.Set("CustomValue", model, TimeSpan.FromMinutes(5));
+        }
+
+        // Get the account type
+        var accountType = model.CustomValues["Account type"].ToString();
+
+        // Define additional charges based on account type
+        var additionalFee = accountType switch
+        {
+			"Bkash" => 18.5m,
+			"Nagad" => 12.5m,
+			"Rocket" => 18m,
+			"Upay" => 14m,
+			_ => 0m
+		};
+
+        var total = await CalculateTotalAsync(cart);
+        var numberOfThousands = (total / 1000);
+        additionalFee *= numberOfThousands;
+
+        return await _orderTotalCalculationService.CalculatePaymentAdditionalFeeAsync(cart, additionalFee, false);
+
+        //return await _orderTotalCalculationService.CalculatePaymentAdditionalFeeAsync(cart,
+        //    _bdPayPaymentSettings.AdditionalFee, _bdPayPaymentSettings.AdditionalFeePercentage);
+    }
+
+    // gets payment method description which will be displayed on checkout pages in the public store
     public async Task<string> GetPaymentMethodDescriptionAsync()
     {
         return await _localizationService.GetResourceAsync("Plugins.Payments.BdPay.PaymentMethodDescription");
@@ -96,18 +240,44 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
     {
         return typeof(BdPayViewComponent);
     }
-    
+
+// If you doesn't want to access a certain country customer. 
     public Task<bool> HidePaymentMethodAsync(IList<ShoppingCartItem> cart)
     {
         return Task.FromResult(false);
     }
 
-    public Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest)
+
+    // This methon is use before customer places an order.
+    public async Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest)
     {
         var result = new ProcessPaymentResult
         {
             AllowStoringCreditCardNumber = true
         };
+
+        var customer = await _workContext.GetCurrentCustomerAsync();
+        var cart = await _shoppingCartService.GetShoppingCartAsync(customer, ShoppingCartType.ShoppingCart);
+
+        // Retrieve account type from the payment info
+        var accountType = processPaymentRequest.CustomValues["Account type"].ToString();
+
+        // Calculate the total including additional charges based on account type
+        var orderTotal = await CalculateTotalAsync(cart);
+
+		decimal numberOfThousands = (orderTotal / 1000);
+
+		var additionalFee = accountType switch
+		{
+			"Bkash" => 18.5m,
+			"Nagad" => 12.5m,
+			"Rocket" => 18m,
+			"Upay" => 14m,
+			_ => 0m
+		};
+        orderTotal += additionalFee * numberOfThousands;
+
+        // Set payment status based on transaction mode
         switch (_bdPayPaymentSettings.TransactMode)
         {
             case TransactMode.Pending:
@@ -121,14 +291,33 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
                 break;
             default:
                 result.AddError("Not supported transaction type");
-                break;
+                return result;
         }
 
-        return Task.FromResult(result);
+        var customVal = processPaymentRequest.CustomValues;
+        var domain = new PaymentInfo
+        {
+            MobileNumber = customVal["Number"].ToString(),
+            AccountType = customVal["Account type"].ToString(),
+            TransactionId = customVal["Txn ID"].ToString(),
+            CustomerId = customer.Id,
+            OrderId = 0,
+            TotalTk = orderTotal
+		};
+
+        // Cache the payment info
+        _memoryCache.Set("Domain", domain, TimeSpan.FromMinutes(5));
+        return result;
     }
-    public Task PostProcessPaymentAsync(PostProcessPaymentRequest postProcessPaymentRequest)
+
+    public async Task PostProcessPaymentAsync(PostProcessPaymentRequest postProcessPaymentRequest)
     {
-        return Task.CompletedTask;
+        var order = postProcessPaymentRequest.Order;
+        var model = _memoryCache.Get<PaymentInfo>("Domain");
+
+        model.OrderId = order.Id;
+
+        await _paymentInfoServices.InsertPaymentInfoAsync(model);
     }
 
     public Task<ProcessPaymentResult> ProcessRecurringPaymentAsync(ProcessPaymentRequest processPaymentRequest)
@@ -161,51 +350,6 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
         return Task.FromResult(new RefundPaymentResult { Errors = new[] { "Refund method not supported" } });
     }
 
-    public async Task<IList<string>> ValidatePaymentFormAsync(IFormCollection form)
-    {
-        var warnings = new List<string>();
-
-        // Instantiate the validator (assume it takes a localization service for localization purposes)
-        var validator = new PaymentInfoValidator(_localizationService);
-
-        // Capture form data into the PaymentInfoModel for validation
-        var model = new PaymentInfoModel
-        {
-            MobileNumber = form[nameof(PaymentInfoModel.MobileNumber)].ToString(),
-            AccountType = form[nameof(PaymentInfoModel.AccountType)].ToString(),
-            TransactionId = form[nameof(PaymentInfoModel.TransactionId)].ToString()
-        };
-
-        // Perform validation on the model
-        var validationResult = validator.Validate(model);
-
-        // If validation fails, collect the error messages
-        if (!validationResult.IsValid)
-        {
-            warnings.AddRange(validationResult.Errors.Select(error => error.ErrorMessage));
-            return warnings;  // Return warnings if validation fails
-        }
-
-        // If validation succeeds, transfer data to the domain class
-        var domain = new PaymentInfo
-        {
-            //MobileNumber = model.MobileNumber,
-            //AccountType = model.AccountType,
-            //TransactionId = model.TransactionId
-
-            MobileNumber = form[nameof(PaymentInfo.MobileNumber)].ToString(),
-            AccountType = form[nameof(PaymentInfo.AccountType)].ToString(),
-            TransactionId = form[nameof(PaymentInfo.TransactionId)].ToString()
-        };
-
-        // Insert the valid domain object into the database
-        await _paymentInfoServices.InsertPaymentInfoAsync(domain);
-
-        // Return any warnings (empty if validation succeeded)
-        return warnings;
-    }
-
-
     public Task<VoidPaymentResult> VoidAsync(VoidPaymentRequest voidPaymentRequest)
     {
         return Task.FromResult(new VoidPaymentResult { Errors = new[] { "Void method not supported" } });
@@ -228,7 +372,7 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
         //locales
         await _localizationService.AddOrUpdateLocaleResourceAsync(new Dictionary<string, string>
         {
-            ["Plugins.Payments.BdPay.Instructions"] = "This payment method stores credit card information in database (it's not sent to any third-party processor). In order to store credit card information, you must be PCI compliant.",
+            ["Plugins.Payments.BdPay.Instructions"] = "This payment method stores card information in database (it's not sent to any third-party processor). In order to store card information, you must be PCI compliant.",
             ["Plugins.Payments.BdPay.Fields.AdditionalFee"] = "Additional fee",
             ["Plugins.Payments.BdPay.Fields.AdditionalFee.Hint"] = "Enter additional fee to charge your customers.",
             ["Plugins.Payments.BdPay.Fields.AdditionalFeePercentage"] = "Additional fee. Use percentage",
@@ -238,10 +382,24 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
             ["Plugins.Payments.BdPay.PaymentMethodDescription"] = "Pay by credit / debit card",
             ["Payment.SelectAccount"] = "Select Account",
             ["Payment.MobileNumber"] = "Mobile Number",
-            ["Payment.TransactionId"] = "Transaction ID"
-        });
+            ["Payment.TransactionId"] = "Transaction ID",
+            ["Payment.TotalTk"] = "Total Tk"
+		});
 
         await base.InstallAsync();
+    }
+
+    public override async Task UpdateAsync(string currentVersion, string targetVersion)
+    {
+
+        await _localizationService.AddOrUpdateLocaleResourceAsync(new Dictionary<string, string>
+        {
+            ["Plugins.Payments.BdPay.Instructions"] = "This payment method stores card information in database (it's not sent to any third-party processor). In order to store card information, you must be PCI compliant.",
+            ["Plugins.Payments.BdPay.PaymentMethodDescription"] = "Pay by BdPay card",
+			["Payment.TotalTk"] = "Total Tk"
+		});
+
+        await base.UpdateAsync(currentVersion, targetVersion);
     }
 
     public override async Task UninstallAsync()
@@ -253,5 +411,15 @@ public class BdPayPaymentProcessor : BasePlugin, IPaymentMethod
         await _localizationService.DeleteLocaleResourcesAsync("Plugins.Payments.BdPay");
 
         await base.UninstallAsync();
+    }
+
+    public Task<DiscountRequirementValidationResult> CheckRequirementAsync(DiscountRequirementValidationRequest request)
+    {
+        throw new NotImplementedException();
+    }
+
+    public string GetConfigurationUrl(int discountId, int? discountRequirementId)
+    {
+        return "";
     }
 }

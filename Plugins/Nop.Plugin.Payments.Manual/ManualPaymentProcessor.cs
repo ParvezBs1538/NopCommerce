@@ -130,7 +130,39 @@ public class ManualPaymentProcessor : BasePlugin, IPaymentMethod
     /// </returns>
     public Task<CapturePaymentResult> CaptureAsync(CapturePaymentRequest capturePaymentRequest)
     {
-        return Task.FromResult(new CapturePaymentResult { Errors = new[] { "Capture method not supported" } });
+        var result = new CapturePaymentResult();
+        try
+        {
+            // Retrieve the order from the request
+            var order = capturePaymentRequest.Order;
+            if (order == null)
+            {
+                result.AddError("Order cannot be loaded");
+                return Task.FromResult(result);
+            }
+
+            // Ensure the order is in a state that can be captured
+            if (order.PaymentStatus != PaymentStatus.Authorized)
+            {
+                result.AddError("Cannot capture a payment that is not authorized");
+                return Task.FromResult(result);
+            }
+
+            // Update payment status to paid
+            order.PaymentStatus = PaymentStatus.Paid;
+
+            // Additional logic to update the order status can be added here
+            // e.g., order.OrderStatus = OrderStatus.Processing;
+
+            result.NewPaymentStatus = PaymentStatus.Paid;
+        }
+
+        catch (Exception ex)
+        {
+            result.AddError($"An error occurred while capturing the payment: {ex.Message}");
+        }
+
+        return Task.FromResult(result);
     }
 
     /// <summary>
@@ -353,7 +385,7 @@ public class ManualPaymentProcessor : BasePlugin, IPaymentMethod
     /// <summary>
     /// Gets a value indicating whether capture is supported
     /// </summary>
-    public bool SupportCapture => false;
+    public bool SupportCapture => true;
 
     /// <summary>
     /// Gets a value indicating whether partial refund is supported

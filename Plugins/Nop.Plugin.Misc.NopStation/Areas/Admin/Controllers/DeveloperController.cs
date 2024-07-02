@@ -140,16 +140,15 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                developer.Name = model.Name;
                 developer.DeveloperDesignationId = model.DeveloperDesignationId;
                 developer.DeveloperStatusId = model.DeveloperStatusId;
                 developer.IsMVP = model.IsMVP;
                 developer.IsNopCommerceCertified = model.IsNopCommerceCertified;
-                developer.Name = model.Name;
                 developer.PictureId = model.PictureId;
 
                 await _developerService.UpdateDeveloperAsync(developer);
                 await SaveSkillMappingsAsync(developer, model);
-
                 return continueEditing ? RedirectToAction("Edit", new { id = developer.Id }) : RedirectToAction("List");
             }
 

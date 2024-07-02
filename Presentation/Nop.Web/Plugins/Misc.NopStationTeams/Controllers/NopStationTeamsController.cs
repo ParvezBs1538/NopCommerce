@@ -9,7 +9,7 @@ namespace Nop.Plugin.Misc.NopStationTeams.Controllers
     [Area(AreaNames.ADMIN)]
     public class NopStationTeamsController : BasePluginController
     {
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             List<Profile> model = new List<Profile>
             {

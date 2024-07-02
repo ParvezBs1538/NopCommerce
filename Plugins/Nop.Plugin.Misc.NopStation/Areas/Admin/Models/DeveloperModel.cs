@@ -29,7 +29,6 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Models
         public int PictureId { get; set; }
 
 
-
         [NopResourceDisplayName("Admin.Misc.Developer.Fields.Name")]
         public string Name { get; set; }
 

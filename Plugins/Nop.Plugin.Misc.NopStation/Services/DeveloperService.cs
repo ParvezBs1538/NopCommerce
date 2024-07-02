@@ -52,7 +52,8 @@ namespace Nop.Plugin.Misc.NopStation.Services
             //query = query.OrderBy(e => e.Name);
             query = query.OrderBy(e => e.DeveloperDesignationId)
                 .ThenByDescending(e => e.IsMVP)
-                .ThenByDescending(e => e.IsNopCommerceCertified);
+                .ThenByDescending(e => e.IsNopCommerceCertified)
+                .ThenBy(e => e.Id);
 
             return await query.ToPagedListAsync(pageIndex, pageSize);
         }
