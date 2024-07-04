@@ -30,6 +30,9 @@ namespace Nop.Plugin.Widgets.Parvez.Models
         public int StatusStr { get; set; }
 
         [NopResourceDisplayName("Widgets.Employee.Fields.Designation")]
+        public int DesignationId { get; set; }
+
+        [NopResourceDisplayName("Widgets.Employee.Fields.Designation")]
         public int DesignationStr { get; set; }
 
         [NopResourceDisplayName("Widgets.Employee.Fields.MVP")]

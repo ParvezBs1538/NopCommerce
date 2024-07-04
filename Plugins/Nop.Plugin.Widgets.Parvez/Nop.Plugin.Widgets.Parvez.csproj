@@ -39,9 +39,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Maping\" />
-	  <Folder Include="Infrastructure\" />
-	  <Folder Include="Views\" />
+	  <None Update="Views\Employee\Create.cshtml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Views\Employee\Edit.cshtml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Views\Employee\List.cshtml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Views\Employee\_CreateOrUpdate.cshtml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Views\_ViewImports.cshtml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>

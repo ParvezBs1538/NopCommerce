@@ -37,6 +37,7 @@
       "Nop.Plugin.Widgets.Parvez/1.0.0": {
         "dependencies": {
           "Nop.Services": "4.70.0",
+          "Nop.Web.Framework": "4.70.0",
           "Microsoft.AspNetCore.Antiforgery": "8.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "8.0.0.0",
           "Microsoft.AspNetCore.Authentication.BearerToken": "8.0.0.0",
@@ -344,6 +345,17 @@
         },
         "compile": {
           "Nop.Plugin.Widgets.Parvez.dll": {}
+        }
+      },
+      "AdvancedStringBuilder/0.1.1": {
+        "runtime": {
+          "lib/netstandard2.0/AdvancedStringBuilder.dll": {
+            "assemblyVersion": "0.1.1.0",
+            "fileVersion": "0.1.1.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/AdvancedStringBuilder.dll": {}
         }
       },
       "Autofac/8.0.0": {
@@ -892,6 +904,47 @@
         },
         "compile": {
           "lib/netstandard2.0/FluentMigrator.Runner.SqlServer.dll": {}
+        }
+      },
+      "FluentValidation/11.5.1": {
+        "runtime": {
+          "lib/net7.0/FluentValidation.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.5.1.0"
+          }
+        },
+        "compile": {
+          "lib/net7.0/FluentValidation.dll": {}
+        }
+      },
+      "FluentValidation.AspNetCore/11.3.0": {
+        "dependencies": {
+          "FluentValidation": "11.5.1",
+          "FluentValidation.DependencyInjectionExtensions": "11.5.1"
+        },
+        "runtime": {
+          "lib/net6.0/FluentValidation.AspNetCore.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.3.0.0"
+          }
+        },
+        "compile": {
+          "lib/net6.0/FluentValidation.AspNetCore.dll": {}
+        }
+      },
+      "FluentValidation.DependencyInjectionExtensions/11.5.1": {
+        "dependencies": {
+          "FluentValidation": "11.5.1",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.1/FluentValidation.DependencyInjectionExtensions.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.5.1.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.1/FluentValidation.DependencyInjectionExtensions.dll": {}
         }
       },
       "Google.Apis/1.68.0": {
@@ -1568,6 +1621,21 @@
         },
         "compile": {
           "lib/netstandard1.6/Irony.dll": {}
+        }
+      },
+      "LigerShark.WebOptimizer.Core/3.0.405": {
+        "dependencies": {
+          "NUglify": "1.21.4",
+          "System.Text.Json": "8.0.0"
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/WebOptimizer.Core.dll": {
+            "assemblyVersion": "3.0.405.0",
+            "fileVersion": "3.0.405.0"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp3.0/WebOptimizer.Core.dll": {}
         }
       },
       "linq2db/5.4.1": {
@@ -2373,6 +2441,17 @@
         },
         "compile": {
           "lib/net8.0/Npgsql.dll": {}
+        }
+      },
+      "NUglify/1.21.4": {
+        "runtime": {
+          "lib/net5.0/NUglify.dll": {
+            "assemblyVersion": "1.21.4.0",
+            "fileVersion": "1.21.4.0"
+          }
+        },
+        "compile": {
+          "lib/net5.0/NUglify.dll": {}
         }
       },
       "Pipelines.Sockets.Unofficial/2.2.8": {
@@ -3496,6 +3575,63 @@
           "System.Xml.ReaderWriter": "4.3.0"
         }
       },
+      "WebMarkupMin.AspNet.Common/2.16.0": {
+        "dependencies": {
+          "WebMarkupMin.Core": "2.16.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/WebMarkupMin.AspNet.Common.dll": {
+            "assemblyVersion": "2.16.0.0",
+            "fileVersion": "2.16.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.1/WebMarkupMin.AspNet.Common.dll": {}
+        }
+      },
+      "WebMarkupMin.AspNetCore8/2.16.0": {
+        "dependencies": {
+          "WebMarkupMin.AspNet.Common": "2.16.0"
+        },
+        "runtime": {
+          "lib/net8.0/WebMarkupMin.AspNetCore8.dll": {
+            "assemblyVersion": "2.16.0.0",
+            "fileVersion": "2.16.0.0"
+          }
+        },
+        "compile": {
+          "lib/net8.0/WebMarkupMin.AspNetCore8.dll": {}
+        }
+      },
+      "WebMarkupMin.Core/2.16.0": {
+        "dependencies": {
+          "AdvancedStringBuilder": "0.1.1"
+        },
+        "runtime": {
+          "lib/netstandard2.1/WebMarkupMin.Core.dll": {
+            "assemblyVersion": "2.16.0.0",
+            "fileVersion": "2.16.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.1/WebMarkupMin.Core.dll": {}
+        }
+      },
+      "WebMarkupMin.NUglify/2.16.0": {
+        "dependencies": {
+          "NUglify": "1.21.4",
+          "WebMarkupMin.Core": "2.16.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/WebMarkupMin.NUglify.dll": {
+            "assemblyVersion": "2.16.0.0",
+            "fileVersion": "2.16.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/WebMarkupMin.NUglify.dll": {}
+        }
+      },
       "XLParser/1.5.2": {
         "dependencies": {
           "Irony.NetCore": "1.0.11",
@@ -3576,6 +3712,23 @@
         },
         "compile": {
           "Nop.Services.dll": {}
+        }
+      },
+      "Nop.Web.Framework/4.70.0": {
+        "dependencies": {
+          "FluentValidation.AspNetCore": "11.3.0",
+          "LigerShark.WebOptimizer.Core": "3.0.405",
+          "Nop.Core": "4.70.0",
+          "Nop.Data": "4.70.0",
+          "Nop.Services": "4.70.0",
+          "WebMarkupMin.AspNetCore8": "2.16.0",
+          "WebMarkupMin.NUglify": "2.16.0"
+        },
+        "runtime": {
+          "Nop.Web.Framework.dll": {}
+        },
+        "compile": {
+          "Nop.Web.Framework.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/8.0.0.0": {
@@ -5392,6 +5545,13 @@
       "serviceable": false,
       "sha512": ""
     },
+    "AdvancedStringBuilder/0.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-32IrlspOA59ewotQ4tlKP27QhKxMKGB7oncqlwVHn/hAz+j/r3HvLr6/W9ni9Mnyktlcg6kt7QZS8rEgur1+4Q==",
+      "path": "advancedstringbuilder/0.1.1",
+      "hashPath": "advancedstringbuilder.0.1.1.nupkg.sha512"
+    },
     "Autofac/8.0.0": {
       "type": "package",
       "serviceable": true,
@@ -5636,6 +5796,27 @@
       "sha512": "sha512-WiZjICPJRIjuOZG2c52JOspKG0iR9UrfotE/SQMNlGEoIxjp8XrksEw7LytWsXWCymDjZUedNnA7QTqZS4p/Iw==",
       "path": "fluentmigrator.runner.sqlserver/5.1.0",
       "hashPath": "fluentmigrator.runner.sqlserver.5.1.0.nupkg.sha512"
+    },
+    "FluentValidation/11.5.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0h1Q5lNOLLyYTWMJmyNoMqhY4CBRvvUWvJP1R4F2CnmmzuWwvB0A8aVmw5+lOuwYnwUwCRrdeMLbc81F38ahNQ==",
+      "path": "fluentvalidation/11.5.1",
+      "hashPath": "fluentvalidation.11.5.1.nupkg.sha512"
+    },
+    "FluentValidation.AspNetCore/11.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jtFVgKnDFySyBlPS8bZbTKEEwJZnn11rXXJ2SQnjDhZ56rQqybBg9Joq4crRLz3y0QR8WoOq4iE4piV81w/Djg==",
+      "path": "fluentvalidation.aspnetcore/11.3.0",
+      "hashPath": "fluentvalidation.aspnetcore.11.3.0.nupkg.sha512"
+    },
+    "FluentValidation.DependencyInjectionExtensions/11.5.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iWM0LS1MDYX06pcjMEQKqHirl2zkjHlNV23mEJSoR1IZI7KQmTa0RcTtGEJpj5+iHvBCfrzP2mYKM4FtRKVb+A==",
+      "path": "fluentvalidation.dependencyinjectionextensions/11.5.1",
+      "hashPath": "fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512"
     },
     "Google.Apis/1.68.0": {
       "type": "package",
@@ -6043,6 +6224,13 @@
       "path": "irony.netcore/1.0.11",
       "hashPath": "irony.netcore.1.0.11.nupkg.sha512"
     },
+    "LigerShark.WebOptimizer.Core/3.0.405": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bsEO/TVYWsUwc/dAYjpEKBP+Dax1ikyehj8P2QMKDc/iKdi5/Wjljl13ab/D2RCiU4T7E560iOo06K2rCTNHAQ==",
+      "path": "ligershark.weboptimizer.core/3.0.405",
+      "hashPath": "ligershark.weboptimizer.core.3.0.405.nupkg.sha512"
+    },
     "linq2db/5.4.1": {
       "type": "package",
       "serviceable": true,
@@ -6441,6 +6629,13 @@
       "sha512": "sha512-MuJzLoWCaQhQAR3oh66YR0Ir6mxuezncGX3f8wxvAc21g0+9HICktJQlqMoODhxztZKXE5k9GxRxqUAN+vPb4g==",
       "path": "npgsql/8.0.2",
       "hashPath": "npgsql.8.0.2.nupkg.sha512"
+    },
+    "NUglify/1.21.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MpliYRCSB42dQA9VgHoe6ahgDS4NIDUSr5e+seeHx6GEwLUvIaJ2JZKqWmg6fNfnsEHPZaGjCw/E+p+skZoYGQ==",
+      "path": "nuglify/1.21.4",
+      "hashPath": "nuglify.1.21.4.nupkg.sha512"
     },
     "Pipelines.Sockets.Unofficial/2.2.8": {
       "type": "package",
@@ -7247,6 +7442,34 @@
       "path": "system.xml.xdocument/4.3.0",
       "hashPath": "system.xml.xdocument.4.3.0.nupkg.sha512"
     },
+    "WebMarkupMin.AspNet.Common/2.16.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9jNoL5isfNdxGqmAtW0jPlA7vjU+k9ypl/3SWviK8YPJKxDsU5LH5HXLsP/2W3lcq9eN1axy2XHzUolAV7EX9A==",
+      "path": "webmarkupmin.aspnet.common/2.16.0",
+      "hashPath": "webmarkupmin.aspnet.common.2.16.0.nupkg.sha512"
+    },
+    "WebMarkupMin.AspNetCore8/2.16.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Tx2brMbWWs0fuYGeNsorH50nGBL2JImgx6M/FBwUsmRqkXsBng/tDMdfA+rekKq4IQAdWYsWy3I1UDVLGgrDvw==",
+      "path": "webmarkupmin.aspnetcore8/2.16.0",
+      "hashPath": "webmarkupmin.aspnetcore8.2.16.0.nupkg.sha512"
+    },
+    "WebMarkupMin.Core/2.16.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0ndPjU+SxszmnynCpx7pK2iyz2o4VB9cdVdejh4KlXaxvcFFspBM443iXSFkt36W4nkgSc4idDm7pctXEpOQ3A==",
+      "path": "webmarkupmin.core/2.16.0",
+      "hashPath": "webmarkupmin.core.2.16.0.nupkg.sha512"
+    },
+    "WebMarkupMin.NUglify/2.16.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Ux09ry3Zg/1cW7tVBX7pcqaiX59uRZopWyiT3TaNn15PfDtR9IvO7Yeb1GGHx397ZH2apm/AMX1/ZxWEitl6Aw==",
+      "path": "webmarkupmin.nuglify/2.16.0",
+      "hashPath": "webmarkupmin.nuglify.2.16.0.nupkg.sha512"
+    },
     "XLParser/1.5.2": {
       "type": "package",
       "serviceable": true,
@@ -7265,6 +7488,11 @@
       "sha512": ""
     },
     "Nop.Services/4.70.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Nop.Web.Framework/4.70.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
