@@ -27,13 +27,13 @@ namespace Nop.Plugin.Widgets.Parvez.Models
         public int StatusId { get; set; }
 
         [NopResourceDisplayName("Widgets.Employee.Fields.Status")]
-        public int StatusStr { get; set; }
+        public string StatusStr { get; set; }
 
         [NopResourceDisplayName("Widgets.Employee.Fields.Designation")]
         public int DesignationId { get; set; }
 
         [NopResourceDisplayName("Widgets.Employee.Fields.Designation")]
-        public int DesignationStr { get; set; }
+        public string DesignationStr { get; set; }
 
         [NopResourceDisplayName("Widgets.Employee.Fields.MVP")]
         public bool IsMVP { get; set; }
