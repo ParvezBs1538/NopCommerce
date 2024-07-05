@@ -8,15 +8,25 @@ namespace Nop.Plugin.Misc.NopStation.Infrastructure
         {
             /*viewLocations = new[] { $"/Plugins/Misc.NopStation/Areas/{context.AreaName}/Views/{context.ControllerName}/{context.ViewName}.cshtml" }
             .Concat(viewLocations);*/
+            /*if (context.AreaName == AreaNames.ADMIN)
+            {
+                viewLocations = new[] { $"/Plugins/Misc.NopStation/Areas/{context.AreaName}/Views/{{1}}/{{0}}.cshtml" }
+                .Concat(viewLocations);
+            }
+            else
+            {
+                viewLocations = new[] { $"/Plugins/Misc.NopStation/Views/Shared/{context.ViewName}.cshtml" }
+                    .Concat(viewLocations);
+            }*/
+
             viewLocations = new[] { $"/Plugins/Misc.NopStation/Areas/{context.AreaName}/Views/{{1}}/{{0}}.cshtml" }
-            .Concat(viewLocations);
+                .Concat(viewLocations);
 
             return viewLocations;
         }
 
         public void PopulateValues(ViewLocationExpanderContext context)
         {
-            
         }
     }
 }

@@ -158,18 +158,22 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Factories
             ArgumentNullException.ThrowIfNull(nameof(searchModel));
 
             searchModel.AvailableDeveloperStatusOptions = (await DeveloperStatus.Active.ToSelectListAsync()).ToList();
+            var allStatus = await _localizationService.GetLocaleStringResourceByNameAsync("admin.misc.nopstation.allstatus", 1);
             searchModel.AvailableDeveloperStatusOptions.Insert(0,
                 new SelectListItem
                 {
-                    Text = "All",
+                    //Text = "All",
+                    Text = allStatus.ResourceValue,
                     Value = "0"
                 });
 
             searchModel.AvailableDeveloperDesignationOptions = (await DeveloperDesignation.Trainee.ToSelectListAsync()).ToList();
+            var allDesignation = await _localizationService.GetLocaleStringResourceByNameAsync("admin.misc.nopstation.alldesignation", 1);
             searchModel.AvailableDeveloperDesignationOptions.Insert(0,
                 new SelectListItem
                 {
-                    Text = "All",
+                    //Text = "All",
+                    Text = allDesignation.ResourceValue,
                     Value = "0"
                 });
 
