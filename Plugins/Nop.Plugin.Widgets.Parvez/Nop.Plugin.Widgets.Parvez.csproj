@@ -38,19 +38,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="Views\Employee\Create.cshtml">
+	  <None Update="Areas\Admin\Views\Employee\Create.cshtml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Views\Employee\Edit.cshtml">
+	  <None Update="Areas\Admin\Views\Employee\Edit.cshtml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Views\Employee\List.cshtml">
+	  <None Update="Areas\Admin\Views\Employee\List.cshtml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Views\Employee\_CreateOrUpdate.cshtml">
+	  <None Update="Areas\Admin\Views\Employee\_CreateOrUpdate.cshtml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Views\_ViewImports.cshtml">
+	  <None Update="Areas\Admin\Views\_ViewImports.cshtml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

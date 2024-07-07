@@ -28,7 +28,6 @@ namespace Nop.Plugin.Widgets.Parvez
 
         public override async Task UpdateAsync(string currentVersion, string targetVersion)
         {
-
             await _localizationService.AddOrUpdateLocaleResourceAsync(new Dictionary<string, string>
             {
                 // Header Section
