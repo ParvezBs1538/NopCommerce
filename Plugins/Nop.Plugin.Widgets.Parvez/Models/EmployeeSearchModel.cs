@@ -12,13 +12,13 @@ namespace Nop.Plugin.Widgets.Parvez.Models
             AvailableDesignationOptions = [];
         }
 
-        [NopResourceDisplayName("Widgets.Employee.List.Name")]
+        [NopResourceDisplayName("Admin.Widgets.Employee.List.Name")]
         public string Name { get; set; }
 
-        [NopResourceDisplayName("Widgets.Employee.List.Name")]
+        [NopResourceDisplayName("Admin.Widgets.Employee.List.Status")]
         public int StatusId { get; set; }
 
-        [NopResourceDisplayName("Widgets.Employee.List.Name")]
+        [NopResourceDisplayName("Admin.Widgets.Employee.List.Designation")]
         public int DesignationId { get; set; }
 
         public IList<SelectListItem> AvailableStatusOptions { set; get; }

@@ -16,10 +16,6 @@
       "Version": "4.70.1"
     },
     {
-      "SystemName": "Misc.NopStationTeam",
-      "Version": "4.70.2"
-    },
-    {
       "SystemName": "Widgets.FacebookPixel",
       "Version": "4.70.7"
     },
@@ -58,9 +54,19 @@
     {
       "SystemName": "Payments.BdPay",
       "Version": "4.70.6"
+    },
+    {
+      "SystemName": "Misc.NopStationTeam",
+      "Version": "4.70.2"
+    },
+    {
+      "SystemName": "Widgets.Parvez",
+      "Version": "4.70.3"
     }
   ],
-  "PluginNamesToUninstall": [],
+  "PluginNamesToUninstall": [
+    "Widgets.Parvez"
+  ],
   "PluginNamesToDelete": [],
   "PluginNamesToInstall": []
 }

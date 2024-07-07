@@ -4,17 +4,17 @@ using Nop.Plugin.Widgets.Parvez.Domain;
 
 namespace Nop.Plugin.Widgets.Parvez.Builder
 {
-    public class EmployeeBuilder : NopEntityBuilder<Employee>
+    public class EmployeeBuilder : NopEntityBuilder<BsEmployee>
     {
         public override void MapEntity(CreateTableExpressionBuilder table)
         {
-            table
-                .WithColumn(nameof(Employee.Name)).AsString(100)
-                .WithColumn(nameof(Employee.PictureId)).AsInt32()
-                .WithColumn(nameof(Employee.StatusId)).AsInt32()
-                .WithColumn(nameof(Employee.DesignationId)).AsInt32()
-                .WithColumn(nameof(Employee.IsMVP)).AsBoolean()
-                .WithColumn(nameof(Employee.IsCertified)).AsBoolean();
+            table.WithColumn(nameof(BsEmployee.Id)).AsInt32().PrimaryKey().Identity()
+                .WithColumn(nameof(BsEmployee.Name)).AsString(100).NotNullable()
+                .WithColumn(nameof(BsEmployee.PictureId)).AsInt32().NotNullable()
+                .WithColumn(nameof(BsEmployee.StatusId)).AsInt32().NotNullable()
+                .WithColumn(nameof(BsEmployee.DesignationId)).AsInt32().NotNullable()
+                .WithColumn(nameof(BsEmployee.IsMVP)).AsBoolean().NotNullable()
+                .WithColumn(nameof(BsEmployee.IsCertified)).AsBoolean().NotNullable();
         }
     }
 }

@@ -73,7 +73,7 @@
 
   <ItemGroup>
     <Compile Update="Controllers\EmployeeController.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
 

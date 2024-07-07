@@ -43,11 +43,11 @@ namespace Nop.Plugin.Widgets.Parvez.Factories
             return model;
         }
 
-        public async Task<EmployeeModel> PrepareEmployeeModelAsync(EmployeeModel model, Employee employee, bool excludeProperties = false)
+        public async Task<EmployeeModel> PrepareEmployeeModelAsync(EmployeeModel model, BsEmployee employee, bool excludeProperties = false)
         {
             if (employee != null)
             {
-                if (model != null)
+                if (model == null)
                 {
                     model = new EmployeeModel
                     {
@@ -61,17 +61,20 @@ namespace Nop.Plugin.Widgets.Parvez.Factories
                     };
                 }
 
-                model.StatusStr = employee.EmployeeStatus.ToString();
-                //model.StatusStr = await _localizationService.GetLocalizedEnumAsync(employee.EmployeeStatus);
+                //model.StatusStr = employee.EmployeeStatus.ToString();
+                model.StatusStr = await _localizationService.GetLocalizedEnumAsync(employee.EmployeeStatus);
 
-                model.DesignationStr = employee.EmployeeDesignation.ToString();
-                //model.DesignationStr = await _localizationService.GetLocalizedEnumAsync(employee.EmployeeDesignation);
+                //model.DesignationStr = employee.EmployeeDesignation.ToString();
+                model.DesignationStr = await _localizationService.GetLocalizedEnumAsync(employee.EmployeeDesignation);
+
+                var picture = await _pictureService.GetPictureByIdAsync(employee.PictureId);
+                (model.PictureThumbnailUrl, _) = await _pictureService.GetPictureUrlAsync(picture, 75);
             }
 
             if (!excludeProperties)
             {
                 model.AvailableStatusOptions = (await EmployeeStatus.Active.ToSelectListAsync()).ToList();
-                model.AvailableStatusOptions = (await EmployeeDesignation.HeadOfNopStation.ToSelectListAsync()).ToList();
+                model.AvailableDesignationOptions = (await EmployeeDesignation.HeadOfNopStation.ToSelectListAsync()).ToList();
             }
 
             return model;

@@ -71,7 +71,6 @@ public class NopStationPlugin : BasePlugin, IWidgetPlugin, IAdminMenuPlugin
             ["Admin.Misc.Skills.EditDetails"] = "Edit Skill details",
             ["Admin.Misc.Skills.BackToList"] = "back to Skill list",
 
-            ["Admin.Misc.Skills.BackToList"] = "back to Skill list",
             ["Admin.Misc.Skill.Fields.Name"] = "Name",
             ["Admin.Misc.Skill.Fields.Name.Hint"] = "Enter Skill name.",
 

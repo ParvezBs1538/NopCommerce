@@ -13,32 +13,32 @@ namespace Nop.Plugin.Widgets.Parvez.Models
             AvailableDesignationOptions = [];
         }
 
-        [NopResourceDisplayName("Widgets.Employee.Fields.Name")]
+        [NopResourceDisplayName("Admin.Widgets.Employee.Fields.Name")]
         public string Name { get; set; }
 
-        [NopResourceDisplayName("Widgets.Employee.Fields.PictureThumbnailUrl")]
+        [NopResourceDisplayName("Admin.Widgets.Employee.Fields.PictureThumbnailUrl")]
         public string PictureThumbnailUrl { get; set; }
 
         [UIHint("Picture")]
-        [NopResourceDisplayName("Widgets.Employee.Fields.Picture")]
+        [NopResourceDisplayName("Admin.Widgets.Employee.Fields.Picture")]
         public int PictureId { get; set; }
 
-        [NopResourceDisplayName("Widgets.Employee.Fields.Status")]
+        [NopResourceDisplayName("Admin.Widgets.Employee.Fields.Status")]
         public int StatusId { get; set; }
 
-        [NopResourceDisplayName("Widgets.Employee.Fields.Status")]
+        [NopResourceDisplayName("Admin.Widgets.Employee.Fields.Status")]
         public string StatusStr { get; set; }
 
-        [NopResourceDisplayName("Widgets.Employee.Fields.Designation")]
+        [NopResourceDisplayName("Admin.Widgets.Employee.Fields.Designation")]
         public int DesignationId { get; set; }
 
-        [NopResourceDisplayName("Widgets.Employee.Fields.Designation")]
+        [NopResourceDisplayName("Admin.Widgets.Employee.Fields.Designation")]
         public string DesignationStr { get; set; }
 
-        [NopResourceDisplayName("Widgets.Employee.Fields.MVP")]
+        [NopResourceDisplayName("Admin.Widgets.Employee.Fields.MVP")]
         public bool IsMVP { get; set; }
 
-        [NopResourceDisplayName("Widgets.Employee.Fields.Certified")]
+        [NopResourceDisplayName("Admin.Widgets.Employee.Fields.Certified")]
         public bool IsCertified { get; set; }
 
         public IList<SelectListItem> AvailableStatusOptions { get; set; }

@@ -6,34 +6,34 @@ namespace Nop.Plugin.Widgets.Parvez.Services
 {
     public class EmployeeService : IEmployeeService
     {
-        private readonly IRepository<Employee> _employeeRepository; 
+        private readonly IRepository<BsEmployee> _employeeRepository; 
 
-        public EmployeeService(IRepository<Employee> employeeRepository) 
+        public EmployeeService(IRepository<BsEmployee> employeeRepository) 
         {
             _employeeRepository = employeeRepository;
         }
 
-        public virtual async Task DeleteEmployeeAsync(Employee employee)
+        public virtual async Task DeleteEmployeeAsync(BsEmployee employee)
         {
             await _employeeRepository.DeleteAsync(employee);
         }
 
-        public virtual async Task<Employee> GetEmployeeByIdAsync(int employeeId)
+        public virtual async Task<BsEmployee> GetEmployeeByIdAsync(int employeeId)
         {
             return await _employeeRepository.GetByIdAsync(employeeId);
         }
 
-        public virtual async Task InsertEmployeeAsync(Employee employee)
+        public virtual async Task InsertEmployeeAsync(BsEmployee employee)
         {
             await _employeeRepository.InsertAsync(employee);
         }
 
-        public virtual async Task UpdateEmployeeAsync(Employee employee)
+        public virtual async Task UpdateEmployeeAsync(BsEmployee employee)
         {
             await _employeeRepository.UpdateAsync(employee);
         }
 
-        public virtual async Task<IPagedList<Employee>> SearchEmployeesAsync(string name, int? statusId = null, int? designationId = null,
+        public virtual async Task<IPagedList<BsEmployee>> SearchEmployeesAsync(string name, int? statusId = null, int? designationId = null,
             bool? isMvp = null, bool? isCert = null, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _employeeRepository.Table;

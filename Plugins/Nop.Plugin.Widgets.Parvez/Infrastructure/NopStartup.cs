@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nop.Core.Infrastructure;
+using Nop.Plugin.Widgets.Parvez.Factories;
 using Nop.Plugin.Widgets.Parvez.Services;
 
 namespace Nop.Plugin.Widgets.Parvez.Infrastructure
@@ -17,6 +18,7 @@ namespace Nop.Plugin.Widgets.Parvez.Infrastructure
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IEmployeeModelFactory, EmployeeModelFactory>();
         }
     }
 }
