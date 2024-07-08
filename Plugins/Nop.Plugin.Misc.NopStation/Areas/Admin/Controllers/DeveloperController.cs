@@ -21,7 +21,6 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
 
         #endregion
 
-
         #region Ctor
 
         public DeveloperController(IDeveloperService developerService,
@@ -34,7 +33,6 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
         }
 
         #endregion
-
 
         #region Utils
 
@@ -67,7 +65,6 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
 
         #endregion
 
-
         #region Methods
 
         public async Task<IActionResult> List()
@@ -93,7 +90,6 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
             //return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Developer/Create.cshtml", model);
             return View(model);
         }
-
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> Create(DeveloperModel model, bool continueEditing)
@@ -133,7 +129,6 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
             //return View("~/Plugins/Misc.NopStation/Areas/Admin/Views/Developer/Edit.cshtml", model);
             return View(model);
         }
-
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
         public async Task<IActionResult> Edit(DeveloperModel model, bool continueEditing)

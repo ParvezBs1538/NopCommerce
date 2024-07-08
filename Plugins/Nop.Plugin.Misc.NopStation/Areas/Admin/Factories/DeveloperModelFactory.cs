@@ -35,7 +35,6 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Factories
 
         #endregion
 
-
         #region Methods
 
         public async Task<DeveloperListModel> PrepareDeveloperListModelAsync(DeveloperSearchModel searchModel)

@@ -1,20 +1,58 @@
-﻿using Nop.Core;
-using Nop.Services.Common;
+﻿using Microsoft.AspNetCore.Routing;
+using Nop.Core;
 using Nop.Services.Localization;
 using Nop.Services.Plugins;
+using Nop.Web.Framework.Menu;
+using Nop.Web.Framework;
+using Nop.Services.Cms;
+using Nop.Plugin.Widgets.Parvez.Components;
+using Nop.Web.Framework.Infrastructure;
 
 namespace Nop.Plugin.Widgets.Parvez
 {
-    public class ParvezPlugin : BasePlugin, IMiscPlugin
+    public class ParvezPlugin : BasePlugin, IWidgetPlugin
     {
         private readonly IWebHelper _webHelper;
         private readonly ILocalizationService _localizationService;
+
+        public bool HideInWidgetList => false;
 
         public ParvezPlugin(IWebHelper webHelper, 
             ILocalizationService localizationService)
         {
             _webHelper = webHelper;
             _localizationService = localizationService;
+        }
+
+        public Task ManageSiteMapAsync(SiteMapNode rootNode)
+        {
+            // Define the menu item for your Parvez plugin
+            var menuItem = new SiteMapNode()
+            {
+                SystemName = "Widgets.Parvez.Employee",
+                Title = "Employees Management",
+                ControllerName = "BsEmployee",
+                ActionName = "List",
+                IconClass = "far fa-dot-circle",
+                Visible = true,
+                RouteValues = new RouteValueDictionary() { { "area", AreaNames.ADMIN } },
+            };
+
+            // Find the "NopStation" node in the root node's child nodes
+            var pluginNode = rootNode.ChildNodes.FirstOrDefault(x => x.SystemName == "Widgets");
+
+            // If the "NopStation" node exists, add the custom menu item to its child nodes
+            if (pluginNode != null)
+            {
+                pluginNode.ChildNodes.Add(menuItem);
+            }
+            // If the "NopStation" node doesn't exist, add the custom menu item to the root node's child nodes
+            else
+            {
+                rootNode.ChildNodes.Add(menuItem);
+            }
+
+            return Task.CompletedTask;
         }
 
         public override string GetConfigurationPageUrl()
@@ -75,6 +113,20 @@ namespace Nop.Plugin.Widgets.Parvez
         public override async Task UninstallAsync()
         {
             await base.UninstallAsync();
+        }
+
+        public Task<IList<string>> GetWidgetZonesAsync()
+        {
+            return Task.FromResult<IList<string>>
+                (new List<string> {
+                    PublicWidgetZones.AccountNavigationAfter 
+                    //PublicWidgetZones.HomepageTop,
+                });
+        }
+
+        public Type GetWidgetViewComponent(string widgetZone)
+        {
+            return typeof(BsEmployeeViewComponent);
         }
     }
 }
