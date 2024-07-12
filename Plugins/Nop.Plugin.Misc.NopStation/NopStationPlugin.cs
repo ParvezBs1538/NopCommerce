@@ -30,7 +30,7 @@ public class NopStationPlugin : BasePlugin, IWidgetPlugin, IAdminMenuPlugin
         var menuItem = new SiteMapNode()
         {
             SystemName = "Misc.NopStation.Developer",
-            Title = "Developer Management",
+            Title = "NopStation Team",
             ControllerName = "Developer",
             ActionName = "List",
             IconClass = "far fa-dot-circle",
