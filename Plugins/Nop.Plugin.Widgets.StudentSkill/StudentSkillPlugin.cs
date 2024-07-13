@@ -23,7 +23,7 @@ public class StudentSkillPlugin : BasePlugin, IWidgetPlugin
         // Define the menu item for your Student Skill plugin
         var menuItem = new SiteMapNode()
         {
-            SystemName = "Widgets.StuentSkill.Student",
+            SystemName = "Widgets.StuentSkill.Skill",
             Title = "Student Skill",
             ControllerName = "Skill",
             ActionName = "List",
@@ -32,15 +32,15 @@ public class StudentSkillPlugin : BasePlugin, IWidgetPlugin
             RouteValues = new RouteValueDictionary() { { "area", AreaNames.ADMIN } },
         };
 
-        // Find the "NopStation" node in the root node's child nodes
+        // Find the "Skill" node in the root node's child nodes
         var pluginNode = rootNode.ChildNodes.FirstOrDefault(x => x.SystemName == "Widgets");
 
-        // If the "NopStation" node exists, add the custom menu item to its child nodes
+        // If the "Skill" node exists, add the custom menu item to its child nodes
         if (pluginNode != null)
         {
             pluginNode.ChildNodes.Add(menuItem);
         }
-        // If the "NopStation" node doesn't exist, add the custom menu item to the root node's child nodes
+        // If the "Skill" node doesn't exist, add the custom menu item to the root node's child nodes
         else
         {
             rootNode.ChildNodes.Add(menuItem);
@@ -51,7 +51,7 @@ public class StudentSkillPlugin : BasePlugin, IWidgetPlugin
 
     public override string GetConfigurationPageUrl()
     {
-        return $"{_webHelper.GetStoreLocation()}Admin/Skill/List";
+        return $"{_webHelper.GetStoreLocation()}Admin/StudentSkill/List";
     }
     public override async Task InstallAsync()
     {

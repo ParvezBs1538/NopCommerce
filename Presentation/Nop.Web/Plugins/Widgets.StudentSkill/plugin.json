@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "StudentSkill",
+  "SystemName": "Widgets.StudentSkill",
+  "Version": "4.70.1",
+  "SupportedVersions": [ "4.70" ],
+  "Author": "nopCommerce",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.StudentSkill.dll",
+  "Description": "Student skill one to many relationship"
+}

@@ -27,9 +27,9 @@ namespace Nop.Plugin.Widgets.StudentSkill.Factories
 
             var model = await new SkillListModel().PrepareToGridAsync(searchModel, skills, () =>
             {
-                return skills.SelectAwait(async developer =>
+                return skills.SelectAwait(async skill =>
                 {
-                    return await PrepareSkillModelAsync(null, developer, true);
+                    return await PrepareSkillModelAsync(null, skill, true);
                 });
             });
 
@@ -49,7 +49,8 @@ namespace Nop.Plugin.Widgets.StudentSkill.Factories
                     };
                 }
             }
-            return await Task.FromResult(model);
+            return model;
+            //return await Task.FromResult(model);
         }
 
         public async Task<SkillSearchModel> PrepareSkillSearchModelAsync(SkillSearchModel searchModel)
@@ -59,7 +60,8 @@ namespace Nop.Plugin.Widgets.StudentSkill.Factories
             //prepare page parameters
             searchModel.SetGridPageSize();
 
-            return await Task.FromResult(searchModel);
+            return searchModel;
+            //return await Task.FromResult(searchModel);
         }
     }
 }

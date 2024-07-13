@@ -9,7 +9,7 @@
 		<PackageProjectUrl>https://www.nopcommerce.com/</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/nopSolutions/nopCommerce</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
-		<OutputPath>..\..\Presentation\Nop.Web\Plugins\Widgets.Parvez</OutputPath>
+		<OutputPath>..\..\Presentation\Nop.Web\Plugins\Widgets.StudentSkill</OutputPath>
 		<OutDir>$(OutputPath)</OutDir>
 
 		<!--Set this parameter to true to get the dlls copied from the NuGet cache to the output of your project.
@@ -34,21 +34,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Nop.Services\Nop.Services.csproj" />
     <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Views\Skil\Create.cshtml">
+    <None Update="Views\Skill\Create.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Skil\Edit.cshtml">
+    <None Update="Views\Skill\Edit.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Skil\List.cshtml">
+    <None Update="Views\Skill\List.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Skil\_CreateOrUpdate.cshtml">
+    <None Update="Views\Skill\_CreateOrUpdate.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Views\_ViewImports.cshtml">
