@@ -28,22 +28,22 @@ public class StudentSkillPlugin : BasePlugin, IWidgetPlugin, IAdminMenuPlugin
         {
             SystemName = "Widgets.StuentSkill.Skill",
             Title = "Student Skill",
-            ControllerName = "StudentSkill",
+            ControllerName = "Student",
             ActionName = "List",
             IconClass = "far fa-dot-circle",
             Visible = true,
             RouteValues = new RouteValueDictionary() { { "area", AreaNames.ADMIN } },
         };
 
-        // Find the "Skill" node in the root node's child nodes
+        // Find the "Student Skill" node in the root node's child nodes
         var pluginNode = rootNode.ChildNodes.FirstOrDefault(x => x.SystemName == "Widgets");
 
-        // If the "Skill" node exists, add the custom menu item to its child nodes
+        // If the "Student Skill" node exists, add the custom menu item to its child nodes
         if (pluginNode != null)
         {
             pluginNode.ChildNodes.Add(menuItem);
         }
-        // If the "Skill" node doesn't exist, add the custom menu item to the root node's child nodes
+        // If the "Student Skill" node doesn't exist, add the custom menu item to the root node's child nodes
         else
         {
             rootNode.ChildNodes.Add(menuItem);

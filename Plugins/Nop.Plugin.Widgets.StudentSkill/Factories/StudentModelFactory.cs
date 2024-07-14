@@ -69,10 +69,6 @@ namespace Nop.Plugin.Widgets.StudentSkill.Factories
                 model.SkillName = studentSkill?.Name;
 
                 model.StatusName = await _localizationService.GetLocalizedEnumAsync(student.StudentStatus);
-                
-                //var currentStudent = await _studentService.GetStudentByIdAsync(student.Id);
-                //var studentSkill = await _skillService.GetSkillByIdAsync(currentStudent.SkillId);
-                //model.SkillName = studentSkill.ToString();
 
                 var picture = await _pictureService.GetPictureByIdAsync(student.PictureId);
                 (model.PictureThumbnailUrl, _) = await _pictureService.GetPictureUrlAsync(picture, 75);
@@ -98,12 +94,13 @@ namespace Nop.Plugin.Widgets.StudentSkill.Factories
             ArgumentNullException.ThrowIfNull(nameof(searchModel));
 
             searchModel.AvailableStudentStatusOptions = (await StudentStatus.Active.ToSelectListAsync()).ToList();
+            var allStatus = await _localizationService.GetLocaleStringResourceByNameAsync("admin.widgets.studentskill.allstatus", 1);
             searchModel.AvailableStudentStatusOptions.Insert(0,
                 new SelectListItem
                 {
-                    Text = "All",
+                    Text = allStatus.ResourceValue,
                     Value = "0"
-                });
+                });;
 
             // Prepare available student skill options
             var allSkills = await _skillService.GetAllSkillsAsync();
@@ -112,9 +109,11 @@ namespace Nop.Plugin.Widgets.StudentSkill.Factories
                 Value = skill.Id.ToString(),
                 Text = skill.Name
             }).ToList();
+
+            var allSkill = await _localizationService.GetLocaleStringResourceByNameAsync("admin.widgets.studentskill.allskill", 1);
             searchModel.AvailableStudentSkillOptions.Insert(0, new SelectListItem
             {
-                Text = "All",
+                Text = allSkill.ResourceValue,
                 Value = "0"
             });
 

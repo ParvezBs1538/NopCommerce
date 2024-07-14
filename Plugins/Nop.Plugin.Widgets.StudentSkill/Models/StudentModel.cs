@@ -11,7 +11,6 @@ namespace Nop.Plugin.Widgets.StudentSkill.Models
         {
             AvailableStudentStatusOptions = [];
             AvailableStudentSkillOptions = [];
-            SelectedSkills = [];
         }
 
         [NopResourceDisplayName("Admin.Widgets.Student.Fields.PictureThumbnailUrl")]
@@ -32,9 +31,6 @@ namespace Nop.Plugin.Widgets.StudentSkill.Models
 
         [NopResourceDisplayName("Admin.Widgets.Student.Fields.Skill")]
         public string SkillName { get; set; }
-
-        [NopResourceDisplayName("Admin.Widgets.Student.Fields.Skill")]
-        public IList<int> SelectedSkills { get; set; }
 
         [NopResourceDisplayName("Admin.Widgets.Student.Fields.Status")]
         public int StatusId { get; set; }
