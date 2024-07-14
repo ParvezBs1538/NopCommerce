@@ -119,7 +119,6 @@ namespace Nop.Plugin.Widgets.StudentSkill.Controllers
         {
             if (selectedIds == null || selectedIds.Count == 0)
                 return NoContent();
-
             try
             {
                 foreach (int id in selectedIds)
@@ -131,7 +130,7 @@ namespace Nop.Plugin.Widgets.StudentSkill.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
