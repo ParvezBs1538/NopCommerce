@@ -119,7 +119,6 @@ public class NopStationPlugin : BasePlugin, IWidgetPlugin, IAdminMenuPlugin
 
     public override async Task UpdateAsync(string currentVersion, string targetVersion)
     {
-
         await _localizationService.AddOrUpdateLocaleResourceAsync(new Dictionary<string, string>
         {
 
@@ -134,8 +133,6 @@ public class NopStationPlugin : BasePlugin, IWidgetPlugin, IAdminMenuPlugin
 
             ["Admin.Misc.Skill.List.Name"] = "Name",
             ["Admin.Misc.Skill.List.Name.Hint"] = "Search by Skill name.",
-
-
 
             ["Admin.Misc.Developers"] = "Developers",
             ["Admin.Misc.Developers.AddNew"] = "Add new Developer",

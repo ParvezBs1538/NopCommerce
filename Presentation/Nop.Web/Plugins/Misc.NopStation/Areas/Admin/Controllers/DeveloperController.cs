@@ -38,12 +38,12 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Controllers
 
         protected virtual async Task SaveSkillMappingsAsync(Developer developer, DeveloperModel model)
         {
-            var existingDeveloperSkils = await _skillService.GetDeveloperSkillMappingsByDeveloperIdAsync(developer.Id);
+            var existingDeveloperSkills = await _skillService.GetDeveloperSkillMappingsByDeveloperIdAsync(developer.Id);
 
             //delete skills
-            foreach (var existingDeveloperSkil in existingDeveloperSkils)
-                if (!model.SelectedSkills.Contains(existingDeveloperSkil.SkillId))
-                    await _skillService.DeleteDeveloperSkillMappingAsync(existingDeveloperSkil);
+            foreach (var existingDeveloperSkill in existingDeveloperSkills)
+                if (!model.SelectedSkills.Contains(existingDeveloperSkill.SkillId))
+                    await _skillService.DeleteDeveloperSkillMappingAsync(existingDeveloperSkill);
 
             var validSkills = await _skillService.GetSkillByIdsAsync(model.SelectedSkills.ToArray());
             //add skill

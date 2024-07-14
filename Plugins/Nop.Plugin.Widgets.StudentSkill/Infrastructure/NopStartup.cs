@@ -25,6 +25,9 @@ namespace Nop.Plugin.Widgets.StudentSkill.Infrastructure
 
             services.AddScoped<ISkillService, SkillService>();
             services.AddScoped<ISkillModelFactory, SkillModelFactory>();
+
+            services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<IStudentModelFactory, StudentModelFactory>();
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Nop.Plugin.Misc.NopStation.Areas.Admin.Models
 
         [NopResourceDisplayName("Admin.Misc.Developer.Fields.Skills")]
         public IList<int> SelectedSkills { get; set; }
+
         [NopResourceDisplayName("Admin.Misc.Developer.Fields.Skills")]
         public List<string> Skills { get; set; }
 

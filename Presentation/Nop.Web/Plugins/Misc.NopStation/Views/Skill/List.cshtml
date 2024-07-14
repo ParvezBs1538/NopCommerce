@@ -1,9 +1,9 @@
-@model SkillSearchModel
+﻿@model SkillSearchModel
 
 @{
     Layout = "_AdminLayout";
     //page title
-    ViewBag.PageTitle = T("Admin.Misc.Skills").Text;
+    ViewBag.PageTitle = T("Admin.Widgets.Skills").Text;
     //active menu item (system name)
     NopHtml.SetActiveMenuItemSystemName("Skills");
 }
@@ -15,7 +15,7 @@
 
 <div class="content-header clearfix">
     <h1 class="float-left">
-        @T("Admin.Misc.Skills")
+        @T("Admin.Widgets.Skills")
     </h1>
     <div class="float-right">
         <a asp-action="Create" class="btn btn-primary">
@@ -69,41 +69,41 @@
                 <div class="card card-default">
                     <div class="card-body">
 
-                       @await Html.PartialAsync("Table", new DataTablesModel
-                       {
-                           Name = "Skills-grid",
-                           UrlRead = new DataUrl("List", "Skill", null),
-                           SearchButtonId = "search-Skills",
-                           Length = Model.PageSize,
-                           LengthMenu = Model.AvailablePageSizes,
-                           Filters = new List<FilterParameter>
-                           {
-                                new FilterParameter(nameof(Model.Name)),
-                           },
-                           ColumnCollection = new List<ColumnProperty>
-                           {
-                                new ColumnProperty(nameof(SkillModel.Id))
-                                {
-                                    IsMasterCheckBox = true,
-                                    Render = new RenderCheckBox("checkbox_Skills"),
-                                    ClassName =  NopColumnClassDefaults.CenterAll,
-                                    Width = "50"
-                                },
-                                new ColumnProperty(nameof(SkillModel.Name))
-                                {
-                                    Title = T("Admin.Misc.Skill.Fields.Name").Text,
-                                    ClassName = NopColumnClassDefaults.CenterAll,
-                                    Width = "150",
-                                },
-                                new ColumnProperty(nameof(SkillModel.Id))
-                                {
-                                    Title = T("Admin.Common.Edit").Text,
-                                    Width = "100",
-                                    ClassName =  NopColumnClassDefaults.Button,
-                                    Render = new RenderButtonEdit(new DataUrl("Edit"))
-                                }
-                           }
-                       })
+                        @await Html.PartialAsync("Table", new DataTablesModel
+                   {
+                       Name = "Skills-grid",
+                       UrlRead = new DataUrl("List", "StudentSkill", null),
+                       SearchButtonId = "search-Skills",
+                       Length = Model.PageSize,
+                       LengthMenu = Model.AvailablePageSizes,
+                       Filters = new List<FilterParameter>
+                        {
+                            new FilterParameter(nameof(Model.Name)),
+                        },
+                        ColumnCollection = new List<ColumnProperty>
+                        {
+                            new ColumnProperty(nameof(SkillModel.Id))
+                            {
+                                IsMasterCheckBox = true,
+                                Render = new RenderCheckBox("checkbox_Skills"),
+                                ClassName =  NopColumnClassDefaults.CenterAll,
+                                Width = "50"
+                            },
+                            new ColumnProperty(nameof(SkillModel.Name))
+                            {
+                                Title = T("Admin.Widgets.Skill.Fields.Name").Text,
+                                ClassName = NopColumnClassDefaults.CenterAll,
+                                Width = "150",
+                            },
+                            new ColumnProperty(nameof(SkillModel.Id))
+                            {
+                                Title = T("Admin.Common.Edit").Text,
+                                Width = "100",
+                                ClassName =  NopColumnClassDefaults.Button,
+                                Render = new RenderButtonEdit(new DataUrl("Edit"))
+                            }
+                        }
+                   })
 
                         <script>
                             $(document).ready(function () {
@@ -115,7 +115,7 @@
                                     $.ajax({
                                         cache: false,
                                         type: "POST",
-                                        url: "@(Url.Action("DeleteSelected", "Skill"))",
+                                        url: "@(Url.Action("DeleteSelected", "StudentSkill"))",
                                         data: postData,
                                         error: function (jqXHR, textStatus, errorThrown) {
                                             showAlert('deleteSelectedFailed', errorThrown);
@@ -135,7 +135,6 @@
                         </script>
                         <nop-alert asp-alert-id="deleteSelectedFailed" />
                         <nop-alert asp-alert-id="nothingSelectedAlert" />
-
                     </div>
                 </div>
             </div>

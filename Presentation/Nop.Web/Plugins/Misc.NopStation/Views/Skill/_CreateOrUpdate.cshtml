@@ -1,4 +1,4 @@
-@model SkillModel
+﻿@model SkillModel
 
 @inject IWebHelper webHelper
 
@@ -8,15 +8,6 @@
 <section class="content">
     <div class="container-fluid">
         <div class="form-horizontal">
-
-            <div class="row">
-                <div class="col-md-12 clearfix">
-                    <div class="float-left">
-                        @await Component.InvokeAsync(typeof(SettingModeViewComponent), new { modeName = "Skill-advanced-mode" })
-                    </div>
-                </div>
-            </div>
-
             <div class="cards-group">
                 <div class="card card-default">
                     <div class="card-body">

@@ -7,7 +7,8 @@ namespace Nop.Plugin.Widgets.StudentSkill.Builder
     {
         public Dictionary<Type, string> TableNames => new Dictionary<Type, string>
         {
-            { typeof(Skill), "StudentSkill" }
+            { typeof(Skill), "StudentSkill" },
+            { typeof(Student), "Student" }
         };
 
         public Dictionary<(Type, string), string> ColumnName => new Dictionary<(Type, string), string>
