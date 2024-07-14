@@ -56,6 +56,7 @@ public class StudentSkillPlugin : BasePlugin, IWidgetPlugin, IAdminMenuPlugin
     {
         return $"{_webHelper.GetStoreLocation()}Admin/StudentSkill/List";
     }
+
     public override async Task InstallAsync()
     {
         await base.InstallAsync();

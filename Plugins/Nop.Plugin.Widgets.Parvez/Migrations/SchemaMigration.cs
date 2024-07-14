@@ -5,16 +5,21 @@ using Nop.Plugin.Widgets.Parvez.Domain;
 
 namespace Nop.Plugin.Widgets.Parvez.Migrations
 {
-    [NopSchemaMigration("2024/07/06 15:38:35:1687541", "Nopstation.Employee base schema", MigrationProcessType.Installation)]
+    [NopSchemaMigration("2024/07/14 05:35:38:1687541", "NopStation.Employee base schema", MigrationProcessType.Installation)]
     public class SchemaMigration : Migration
     {
         public override void Up()
         {
-            Create.TableFor<BsEmployee>();
+            //Create.TableFor<Employee>();
+            //Create.TableFor<Skill>();
+            //Create.TableFor<EmployeeSkillMapping>();
         }
+
         public override void Down()
         {
-            Delete.Table(nameof(BsEmployee));
+            //Delete.Table(nameof(Employee));
+            //Delete.Table(nameof(Skill));
+            //Delete.Table(nameof(EmployeeSkillMapping));
         }
     }
 }

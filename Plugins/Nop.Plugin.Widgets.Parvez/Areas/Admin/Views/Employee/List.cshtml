@@ -92,7 +92,7 @@
                         @await Html.PartialAsync("Table", new DataTablesModel
                    {
                        Name = "employees-grid",
-                       UrlRead = new DataUrl("List", "BsEmployee", null),
+                       UrlRead = new DataUrl("List", "Employee", null),
                        SearchButtonId = "search-employees",
                        Length = Model.PageSize,
                        LengthMenu = Model.AvailablePageSizes,
@@ -163,7 +163,7 @@
                                     $.ajax({
                                         cache: false,
                                         type: "POST",
-                                        url: "@(Url.Action("DeleteSelected", "BsEmployee"))",
+                                        url: "@(Url.Action("DeleteSelected", "Employee"))",
                                         data: postData,
                                         error: function (jqXHR, textStatus, errorThrown) {
                                             showAlert('deleteSelectedFailed', errorThrown);

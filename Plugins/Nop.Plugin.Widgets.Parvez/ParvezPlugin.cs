@@ -31,7 +31,7 @@ namespace Nop.Plugin.Widgets.Parvez
             {
                 SystemName = "Widgets.Parvez.Employee",
                 Title = "Employees Management",
-                ControllerName = "BsEmployee",
+                ControllerName = "Employee",
                 ActionName = "List",
                 IconClass = "far fa-dot-circle",
                 Visible = true,
@@ -57,7 +57,7 @@ namespace Nop.Plugin.Widgets.Parvez
 
         public override string GetConfigurationPageUrl()
         {
-            return $"{_webHelper.GetStoreLocation()}Admin/BsEmployee/List";
+            return $"{_webHelper.GetStoreLocation()}Admin/Employee/List";
         }
         public override async Task InstallAsync()
         {
@@ -126,7 +126,7 @@ namespace Nop.Plugin.Widgets.Parvez
 
         public Type GetWidgetViewComponent(string widgetZone)
         {
-            return typeof(BsEmployeeViewComponent);
+            return typeof(EmployeeViewComponent);
         }
     }
 }

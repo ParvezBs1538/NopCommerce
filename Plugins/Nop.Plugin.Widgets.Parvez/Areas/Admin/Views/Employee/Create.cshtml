@@ -5,10 +5,10 @@
     //page title
     ViewBag.PageTitle = T("Admin.Widgets.Employees.AddNew").Text;
     //active menu item (system name)
-    NopHtml.SetActiveMenuItemSystemName("Employees");
+    //NopHtml.SetActiveMenuItemSystemName("Employees");
 }
 
-<form asp-controller="BsEmployee" asp-action="Create" method="post">
+<form asp-controller="Employee" asp-action="Create" method="post">
     <div class="content-header clearfix">
         <h1 class="float-left">
             @T("Admin.Widgets.Employees.AddNew")
@@ -28,5 +28,5 @@
             </button>
         </div>
     </div>
-    @await Html.PartialAsync("~/Plugins/Widgets.Parvez/Views/Employee/_CreateOrUpdate.cshtml", Model)
+    @await Html.PartialAsync("~/Plugins/Widgets.Parvez/Areas/Admin/Views/Employee/_CreateOrUpdate.cshtml", Model)
 </form>

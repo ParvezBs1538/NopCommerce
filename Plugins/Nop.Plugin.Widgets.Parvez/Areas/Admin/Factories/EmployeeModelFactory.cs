@@ -43,7 +43,7 @@ namespace Nop.Plugin.Widgets.Parvez.Areas.Admin.Factories
             return model;
         }
 
-        public async Task<EmployeeModel> PrepareEmployeeModelAsync(EmployeeModel model, BsEmployee employee, bool excludeProperties = false)
+        public async Task<EmployeeModel> PrepareEmployeeModelAsync(EmployeeModel model, Employee employee, bool excludeProperties = false)
         {
             if (employee != null)
             {
