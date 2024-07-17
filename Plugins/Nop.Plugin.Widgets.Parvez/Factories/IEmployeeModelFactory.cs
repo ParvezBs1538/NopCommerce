@@ -5,7 +5,7 @@ namespace Nop.Plugin.Widgets.Parvez.Factories
 {
     public interface IEmployeeModelFactory
     {
-        Task<EmployeePublicModel> PrepareEmployeeModelFactoryAsync(Employee employee);
-        Task<IList<EmployeePublicModel>> PrepareEmployeeListModelFactoryAsync(IList<Employee> employees);
+        Task<EmployeePublicModel> PrepareEmployeePublicModelAsync(Employee employee);
+        Task<IList<EmployeePublicModel>> PrepareEmployeePublicListModelAsync(IList<Employee> employees);
     }
 }

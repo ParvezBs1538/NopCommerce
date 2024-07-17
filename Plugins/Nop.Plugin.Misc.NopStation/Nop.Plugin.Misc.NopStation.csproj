@@ -19,6 +19,12 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <Compile Remove="Views\Shared\**" />
+	  <EmbeddedResource Remove="Views\Shared\**" />
+	  <None Remove="Views\Shared\**" />
+	</ItemGroup>
+
   <ItemGroup>
     <None Remove="plugin.json" />
   </ItemGroup>
@@ -93,10 +99,6 @@
     <None Update="Views\_ViewImports.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Shared\" />
   </ItemGroup>
 
 </Project>
