@@ -4,12 +4,14 @@ namespace Nop.Plugin.Widgets.Parvez.Services
 {
     public interface IEmployeeSkillMappingService
     {
-        Task InsertEmployeeSkillMappingAsync(EmployeeSkillMapping EmployeeSkillMapping);
+        Task InsertEmployeeSkillMappingAsync(EmployeeSkillMapping employeeSkillMapping);
 
-        Task UpdateEmployeeSkillMappingAsync(EmployeeSkillMapping EmployeeSkillMapping);
+        Task UpdateEmployeeSkillMappingAsync(EmployeeSkillMapping employeeSkillMapping);
 
-        Task<IList<EmployeeSkillMapping>> GetEmployeeSkillMappingsByEmployeeIdAsync(int EmployeeId);
+        Task DeleteEmployeeSkillMappingAsync(EmployeeSkillMapping employeeSkillMapping);
 
-        Task<EmployeeSkillMapping> FindEmployeeSkillMappingAsync(int EmployeeId, int skillId);
+        Task<IList<EmployeeSkillMapping>> GetEmployeeSkillMappingsByEmployeeIdAsync(int employeeId);
+
+        Task<EmployeeSkillMapping> FindEmployeeSkillMappingAsync(int employeeId, int skillId);
     }
 }

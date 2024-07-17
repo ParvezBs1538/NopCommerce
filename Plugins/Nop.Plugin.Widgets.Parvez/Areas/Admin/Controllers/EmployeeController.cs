@@ -13,14 +13,60 @@ namespace Nop.Plugin.Widgets.Parvez.Areas.Admin.Controllers
     [Area(AreaNames.ADMIN)]
     public class EmployeeController : BasePluginController
     {
+        #region Fields
+
         private readonly IEmployeeService _employeeService;
+        private readonly ISkillService _skillService;
+        private readonly IEmployeeSkillMappingService _employeeSkillMappingService;
         private readonly IEmployeeModelFactory _employeeModelFactory;
 
-        public EmployeeController(IEmployeeService employeeService, IEmployeeModelFactory employeeModelFactory)
+        #endregion
+
+        #region Ctor
+
+        public EmployeeController(IEmployeeService employeeService, IEmployeeModelFactory employeeModelFactory, 
+            ISkillService skillService, IEmployeeSkillMappingService employeeSkillMappingService)
         {
             _employeeService = employeeService;
             _employeeModelFactory = employeeModelFactory;
+            _skillService = skillService;
+            _employeeSkillMappingService = employeeSkillMappingService;
         }
+
+        #endregion
+
+        #region Utils
+
+        public async Task SaveSkillMappingsAsync(Employee employee, EmployeeModel model)
+        {
+            var existingEmployeeSkills = await _employeeSkillMappingService.GetEmployeeSkillMappingsByEmployeeIdAsync(employee.Id);
+
+            //delete skills
+            foreach (var existingEmployeeSkill in existingEmployeeSkills)
+                if (!model.SelectedSkills.Contains(existingEmployeeSkill.SkillId))
+                    await _employeeSkillMappingService.DeleteEmployeeSkillMappingAsync(existingEmployeeSkill);
+
+            var validSkills = await _skillService.GetSkillByIdsAsync(model.SelectedSkills.ToArray());
+            //add skill
+            foreach (var skillId in model.SelectedSkills)
+            {
+                if (validSkills.FirstOrDefault(s => s.Id == skillId) is null)
+                    continue;
+
+                if (await _employeeSkillMappingService.FindEmployeeSkillMappingAsync(model.Id, skillId) == null)
+                {
+                    await _employeeSkillMappingService.InsertEmployeeSkillMappingAsync(new EmployeeSkillMapping
+                    {
+                        EmployeeId = employee.Id,
+                        SkillId = skillId
+                    });
+                }
+            }
+        }
+
+        #endregion
+
+        #region Methods
 
         public async Task<IActionResult> List()
         {
@@ -57,6 +103,7 @@ namespace Nop.Plugin.Widgets.Parvez.Areas.Admin.Controllers
                 };
 
                 await _employeeService.InsertEmployeeAsync(employee);
+                await SaveSkillMappingsAsync(employee, model);
 
                 return continueEditing ? RedirectToAction("Edit", new { id = employee.Id }) : RedirectToAction("List");
             }
@@ -96,6 +143,8 @@ namespace Nop.Plugin.Widgets.Parvez.Areas.Admin.Controllers
                 employee.PictureId = model.PictureId;
 
                 await _employeeService.UpdateEmployeeAsync(employee);
+                await SaveSkillMappingsAsync(employee, model);
+
                 return continueEditing ? RedirectToAction("Edit", new { id = employee.Id }) : RedirectToAction("List");
             }
 
@@ -139,5 +188,7 @@ namespace Nop.Plugin.Widgets.Parvez.Areas.Admin.Controllers
 
             return Json(new { Result = true });
         }
+
+        #endregion
     }
 }

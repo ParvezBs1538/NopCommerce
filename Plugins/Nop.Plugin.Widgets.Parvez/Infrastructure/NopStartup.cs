@@ -18,11 +18,10 @@ namespace Nop.Plugin.Widgets.Parvez.Infrastructure
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IEmployeeService, EmployeeService>();
-            services.AddScoped<IEmployeeModelFactory, EmployeeModelFactory>();
-
             services.AddScoped<ISkillService, SkillService>();
             services.AddScoped<IEmployeeSkillMappingService, EmployeeSkillMappingService>();
 
+            services.AddScoped<IEmployeeModelFactory, EmployeeModelFactory>();
             services.AddScoped<Factories.IEmployeeModelFactory, Factories.EmployeeModelFactory>();  
         }
     }

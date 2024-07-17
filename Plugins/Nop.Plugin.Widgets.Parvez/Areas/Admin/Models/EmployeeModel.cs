@@ -11,6 +11,9 @@ namespace Nop.Plugin.Widgets.Parvez.Areas.Admin.Models
         {
             AvailableStatusOptions = [];
             AvailableDesignationOptions = [];
+            Skills = [];
+            SelectedSkills = [];
+            AvailableEmployeeSkillOptions = [];
         }
 
         [NopResourceDisplayName("Admin.Widgets.Employee.Fields.Name")]
@@ -41,7 +44,15 @@ namespace Nop.Plugin.Widgets.Parvez.Areas.Admin.Models
         [NopResourceDisplayName("Admin.Widgets.Employee.Fields.Certified")]
         public bool IsCertified { get; set; }
 
+        [NopResourceDisplayName("Admin.Widgets.Employee.Fields.Skills")]
+        public IList<int> SelectedSkills { get; set; }
+
+        [NopResourceDisplayName("Admin.Widgets.Employee.Fields.Skills")]
+        public List<string> Skills { get; set; }
+
+
         public IList<SelectListItem> AvailableStatusOptions { get; set; }
         public IList<SelectListItem> AvailableDesignationOptions { get; set; }
+        public IList<SelectListItem> AvailableEmployeeSkillOptions { get; set; }
     }
 }

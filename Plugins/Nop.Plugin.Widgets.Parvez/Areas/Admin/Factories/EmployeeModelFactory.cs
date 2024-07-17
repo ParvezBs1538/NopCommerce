@@ -12,14 +12,20 @@ namespace Nop.Plugin.Widgets.Parvez.Areas.Admin.Factories
     public class EmployeeModelFactory : IEmployeeModelFactory
     {
         private readonly IEmployeeService _employeeService;
+        private readonly ISkillService _skillService;
+        private readonly IEmployeeSkillMappingService _employeeSkillMappingService;
         private readonly IPictureService _pictureService;
         private readonly ILocalizationService _localizationService;
 
-        public EmployeeModelFactory(IEmployeeService employeeService, IPictureService pictureService, ILocalizationService localizationService)
+        public EmployeeModelFactory(IEmployeeService employeeService, IPictureService pictureService, 
+            ILocalizationService localizationService, ISkillService skillService, 
+            IEmployeeSkillMappingService employeeSkillMappingService)
         {
             _employeeService = employeeService;
             _pictureService = pictureService;
             _localizationService = localizationService;
+            _skillService = skillService;
+            _employeeSkillMappingService = employeeSkillMappingService;
         }
 
         public async Task<EmployeeListModel> PrepareEmployeeListModelAsync(EmployeeSearchModel searchModel)
@@ -69,12 +75,25 @@ namespace Nop.Plugin.Widgets.Parvez.Areas.Admin.Factories
 
                 var picture = await _pictureService.GetPictureByIdAsync(employee.PictureId);
                 (model.PictureThumbnailUrl, _) = await _pictureService.GetPictureUrlAsync(picture, 75);
+
+                var employeeSkills = await _employeeSkillMappingService.GetEmployeeSkillMappingsByEmployeeIdAsync(employee.Id);
+                model.SelectedSkills = employeeSkills.Select(ds => ds.SkillId).ToList();
+
+                var displayEmployeeSkills = await _skillService.GetSkillByIdsAsync(model.SelectedSkills.ToArray());
+                model.Skills = displayEmployeeSkills.Select(ds => ds.Name).ToList();
             }
 
             if (!excludeProperties)
             {
                 model.AvailableStatusOptions = (await EmployeeStatus.Active.ToSelectListAsync()).ToList();
                 model.AvailableDesignationOptions = (await EmployeeDesignation.HeadOfNopStation.ToSelectListAsync()).ToList();
+
+                var allSkills = await _skillService.GetAllSkillsAsync();
+                model.AvailableEmployeeSkillOptions = allSkills.Select(skill => new SelectListItem
+                {
+                    Value = skill.Id.ToString(),
+                    Text = skill.Name
+                }).ToList();
             }
 
             return model;

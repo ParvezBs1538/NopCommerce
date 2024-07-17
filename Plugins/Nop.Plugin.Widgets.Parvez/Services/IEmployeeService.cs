@@ -9,6 +9,7 @@ namespace Nop.Plugin.Widgets.Parvez.Services
         Task UpdateEmployeeAsync(Employee employee);
         Task DeleteEmployeeAsync(Employee employee);
         Task<Employee> GetEmployeeByIdAsync(int employeeId);
+        Task<IList<Employee>> GetAllEmployeesAsync();
         Task<IPagedList<Employee>> SearchEmployeesAsync(string name, int? statusId = null, int? designationId = null,
             bool? isMvp = null, bool? isCert = null, int pageIndex = 0, int pageSize = int.MaxValue);
     }

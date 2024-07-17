@@ -87,7 +87,9 @@ namespace Nop.Plugin.Widgets.Parvez
                 ["Admin.Widgets.Employee.Fields.Status.Hint"] = "Select Employee status.",
                 ["Admin.Widgets.Employee.Fields.Certified"] = "Is certified",
                 ["Admin.Widgets.Employee.Fields.Certified.Hint"] = "Check if Employee is certified.",
-                
+                ["Admin.Widgets.Employee.Fields.Skills"] = "Skills",
+                ["Admin.Widgets.Employee.Fields.Skills.Hint"] = "Select Employee skills",
+
                 //Search Section
                 ["Admin.Widgets.Employee.List.Name"] = "Name",
                 ["Admin.Widgets.Employee.List.Name.Hint"] = "Search by Employee name.",

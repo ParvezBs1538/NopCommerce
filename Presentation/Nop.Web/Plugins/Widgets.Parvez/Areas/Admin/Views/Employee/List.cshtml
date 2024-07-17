@@ -129,6 +129,12 @@
                             {
                                 Title = T("Admin.Widgets.Employee.Fields.Designation").Text
                             },
+                            new ColumnProperty(nameof(EmployeeModel.Skills))
+                            {
+                                Title = T("Admin.Widgets.Employee.Fields.Skills").Text,
+                                Width = "200",
+                                ClassName = NopColumnClassDefaults.CenterAll,
+                            },
                             new ColumnProperty(nameof(EmployeeModel.IsMVP))
                             {
                                 Title = T("Admin.Widgets.Employee.Fields.MVP").Text,

@@ -12,26 +12,31 @@ namespace Nop.Plugin.Widgets.Parvez.Services
             _employeeSkillMappingRepository = employeeSkillMappingRepository;
         }
 
-        public async Task InsertEmployeeSkillMappingAsync(EmployeeSkillMapping EmployeeSkillMapping)
+        public async Task InsertEmployeeSkillMappingAsync(EmployeeSkillMapping employeeSkillMapping)
         {
-            await _employeeSkillMappingRepository.InsertAsync(EmployeeSkillMapping);
+            await _employeeSkillMappingRepository.InsertAsync(employeeSkillMapping);
         }
 
-        public async Task UpdateEmployeeSkillMappingAsync(EmployeeSkillMapping EmployeeSkillMapping)
+        public async Task UpdateEmployeeSkillMappingAsync(EmployeeSkillMapping employeeSkillMapping)
         {
-            await _employeeSkillMappingRepository.UpdateAsync(EmployeeSkillMapping);
+            await _employeeSkillMappingRepository.UpdateAsync(employeeSkillMapping);
         }
 
-        public async Task<EmployeeSkillMapping> FindEmployeeSkillMappingAsync(int EmployeeId, int skillId)
+        public async Task DeleteEmployeeSkillMappingAsync(EmployeeSkillMapping employeeSkillMapping)
+        {
+            await _employeeSkillMappingRepository.DeleteAsync(employeeSkillMapping);
+        }
+
+        public async Task<EmployeeSkillMapping> FindEmployeeSkillMappingAsync(int employeeId, int skillId)
         {
             return await _employeeSkillMappingRepository.Table
-                .FirstOrDefaultAsync(ds => ds.SkillId == skillId && ds.EmployeeId == EmployeeId);
+                .FirstOrDefaultAsync(ds => ds.SkillId == skillId && ds.EmployeeId == employeeId);
         }
 
-        public async Task<IList<EmployeeSkillMapping>> GetEmployeeSkillMappingsByEmployeeIdAsync(int EmployeeId)
+        public async Task<IList<EmployeeSkillMapping>> GetEmployeeSkillMappingsByEmployeeIdAsync(int employeeId)
         {
             return await _employeeSkillMappingRepository.Table
-                .Where(ds => ds.EmployeeId == EmployeeId)
+                .Where(ds => ds.EmployeeId == employeeId)
                 .ToListAsync();
         }
     }

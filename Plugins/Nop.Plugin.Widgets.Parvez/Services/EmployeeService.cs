@@ -31,6 +31,12 @@ namespace Nop.Plugin.Widgets.Parvez.Services
         public virtual async Task UpdateEmployeeAsync(Employee employee)
         {
             await _employeeRepository.UpdateAsync(employee);
+
+        }
+
+        public virtual async Task<IList<Employee>> GetAllEmployeesAsync()
+        {
+            return await _employeeRepository.Table.ToListAsync();
         }
 
         public virtual async Task<IPagedList<Employee>> SearchEmployeesAsync(string name, int? statusId = null, int? designationId = null,

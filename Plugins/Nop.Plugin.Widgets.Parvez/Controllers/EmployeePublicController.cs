@@ -20,14 +20,15 @@ namespace Nop.Plugin.Widgets.Parvez.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var model = await _employeeService.SearchEmployeesAsync(
+            /*var employee = await _employeeService.SearchEmployeesAsync(
                 name: null,
                 statusId: null,
                 designationId : null,
                 isCert: false,
                 isMvp: false
-            );
-            return View("~/Plugins/Widgets.Parvez/Views/Index.cshtml", model);
+            );*/
+            var employee = await _employeeService.GetAllEmployeesAsync();
+            return View("~/Plugins/Widgets.Parvez/Views/Index.cshtml", employee);
         }
 
         public async Task<IActionResult> Delete(int id)
