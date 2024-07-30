@@ -71,7 +71,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Misc.NopStationT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Misc.NopStation", "Plugins\Nop.Plugin.Misc.NopStation\Nop.Plugin.Misc.NopStation.csproj", "{56FCA8E2-F38D-4477-8CDB-3B65249CC9E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Widgets.Practice", "Plugins\Nop.Plugin.Widgets.Practice\Nop.Plugin.Widgets.Practice.csproj", "{664950EB-2899-4302-8EF4-085DB8834EE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Widgets.Inventory", "Plugins\Nop.Plugin.Widgets.Practice\Nop.Plugin.Widgets.Inventory.csproj", "{664950EB-2899-4302-8EF4-085DB8834EE8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Misc.BrainStation", "Plugins\Nop.Plugin.Misc.BrainStation\Nop.Plugin.Misc.BrainStation.csproj", "{F68A4289-A03C-4A37-A34D-31FDDD52783D}"
 EndProject
@@ -79,7 +79,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Payments.BdPay",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Widgets.Parvez", "Plugins\Nop.Plugin.Widgets.Parvez\Nop.Plugin.Widgets.Parvez.csproj", "{DBFED963-B132-464F-A6BC-11DD279846FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Widgets.StudentSkill", "Plugins\Nop.Plugin.Widgets.StudentSkill\Nop.Plugin.Widgets.StudentSkill.csproj", "{876C4C54-36C1-46DA-9F54-7C78E091236C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Widgets.StudentSkill", "Plugins\Nop.Plugin.Widgets.StudentSkill\Nop.Plugin.Widgets.StudentSkill.csproj", "{876C4C54-36C1-46DA-9F54-7C78E091236C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
