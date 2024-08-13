@@ -4896,6 +4896,12 @@
   <LocaleResource Name="Admin.Configuration.Countries.States.AddNew">
     <Value>Add a new state/province</Value>
   </LocaleResource>
+	<LocaleResource Name="Admin.Configuration.States.Thanas">
+		<Value>Thanas</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.Configuration.States.Thanas.AddNew">
+		<Value>Add a new Thanas</Value>
+	</LocaleResource>
   <LocaleResource Name="Admin.Configuration.Countries.States.CantDeleteWithAddresses">
     <Value>The state can't be deleted. It has associated addresses.</Value>
   </LocaleResource>
