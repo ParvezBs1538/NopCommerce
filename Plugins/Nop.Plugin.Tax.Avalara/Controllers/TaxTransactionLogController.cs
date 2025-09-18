@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Nop.Plugin.Tax.Avalara.Models.Log;
 using Nop.Plugin.Tax.Avalara.Services;
 using Nop.Services.Customers;
 using Nop.Services.Helpers;

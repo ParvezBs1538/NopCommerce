@@ -33,7 +33,7 @@ namespace Nop.Plugin.Misc.NopStation.Services
             return await _developerRepository.GetByIdAsync(DeveloperId);
         }
 
-        public virtual async Task<IPagedList<Developer>> SearchDevelopersAsync(string name, int? statusId = null, int? designationId = null,
+        public virtual async Task<IPagedList<Developer>> SearchDevelopersAsync(string name = null, int? statusId = null, int? designationId = null,
             bool? isMvp = null, bool? isCert = null, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _developerRepository.Table;

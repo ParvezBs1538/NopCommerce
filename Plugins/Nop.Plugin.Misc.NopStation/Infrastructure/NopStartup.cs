@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Nop.Core.Infrastructure;
 using Nop.Plugin.Misc.NopStation.Areas.Admin.Factories;
 using Nop.Plugin.Misc.NopStation.Services;
+using Nop.Services.Common;
 
 namespace Nop.Plugin.Misc.NopStation.Infrastructure;
 public class NopStartup : INopStartup
@@ -21,6 +22,8 @@ public class NopStartup : INopStartup
         {
             options.ViewLocationExpanders.Add(new ViewLocationExpanderAdmin());
         });
+
+        services.AddScoped<IPdfService, OverriddenPdfService>();
 
         services.AddScoped<IDeveloperService, DeveloperService>();
         services.AddScoped<IDeveloperModelFactory, DeveloperModelFactory>();

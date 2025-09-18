@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Inventory Management",
+  "SystemName": "Widgets.Inventory",
+  "Version": "1.0.0",
+  "SupportedVersions": [ "4.70" ],
+  "Author": "Parvez",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.Inventory.dll",
+  "Description": "This made for Inventory Management purpose"
+}
