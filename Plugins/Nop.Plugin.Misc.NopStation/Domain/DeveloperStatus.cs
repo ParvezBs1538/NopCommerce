@@ -1,11 +1,10 @@
-﻿namespace Nop.Plugin.Misc.NopStation.Domain
+﻿namespace Nop.Plugin.Misc.NopStation.Domain;
+
+public enum DeveloperStatus
 {
-    public enum DeveloperStatus
-    {
-        Active = 10,
+    Active = 10,
 
-        Inactive = 20,
+    Inactive = 20,
 
-        Blocked = 30
-    }
+    Blocked = 30
 }

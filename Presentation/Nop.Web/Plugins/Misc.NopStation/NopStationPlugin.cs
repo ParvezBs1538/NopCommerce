@@ -180,25 +180,22 @@ public class NopStationPlugin : BasePlugin, IWidgetPlugin, IAdminMenuPlugin
     public Task<IList<string>> GetWidgetZonesAsync()
     {
         return Task.FromResult<IList<string>>(
-            new List<string>
-            {
-                //AdminWidgetZones.CategoryListButtons,
-                //PublicWidgetZones.HomepageBottom,
-
-                PublicWidgetZones.HomepageBottom,
-                PublicWidgetZones.CategoryDetailsTop,
-            });
+        [
+            PublicWidgetZones.HomepageBottom,
+            PublicWidgetZones.CategoryDetailsTop,
+            PublicWidgetZones.OrderDetailsPageTop,
+            NopStationDefaults.WidgetZones.FooterBefore
+        ]);
     }
 
     public Type GetWidgetViewComponent(string widgetZone)
     {
-        if (widgetZone == PublicWidgetZones.HomepageBottom)
-        {
+        if (widgetZone == PublicWidgetZones.OrderDetailsPageTop)
+            return typeof(ModifyOrderViewComponent);
+        else if (widgetZone == PublicWidgetZones.HomepageBottom)
             return typeof(DeveloperViewComponent);
-        }
-        else
-        {
-            return typeof(CertifiedComponent);
-        }
+        else if (widgetZone == NopStationDefaults.WidgetZones.FooterBefore)
+            return typeof(FooterBeforeViewComponent);
+        return typeof(CertifiedComponent);
     }
 }

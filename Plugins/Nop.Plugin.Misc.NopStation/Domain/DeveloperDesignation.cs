@@ -1,21 +1,20 @@
-﻿namespace Nop.Plugin.Misc.NopStation.Domain
+﻿namespace Nop.Plugin.Misc.NopStation.Domain;
+
+public enum DeveloperDesignation
 {
-    public enum DeveloperDesignation
-    {
-        HeadOfNopStation = 10,
+    HeadOfNopStation = 10,
 
-        PrincipalEngineer = 20,
+    PrincipalEngineer = 20,
 
-        ProjectManager = 30,
+    ProjectManager = 30,
 
-        LeadEngineer = 40,
+    LeadEngineer = 40,
 
-        SeniorSoftwareEngineer = 50,
+    SeniorSoftwareEngineer = 50,
 
-        SoftwareEngineer = 60,
+    SoftwareEngineer = 60,
 
-        AssociateSoftwareEngineer = 70,
+    AssociateSoftwareEngineer = 70,
 
-        Trainee = 80
-    }
+    Trainee = 80
 }

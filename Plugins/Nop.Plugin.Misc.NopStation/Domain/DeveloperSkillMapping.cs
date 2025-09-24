@@ -1,10 +1,9 @@
 ﻿using Nop.Core;
 
-namespace Nop.Plugin.Misc.NopStation.Domain
+namespace Nop.Plugin.Misc.NopStation.Domain;
+
+public class DeveloperSkillMapping : BaseEntity
 {
-    public class DeveloperSkillMapping : BaseEntity
-    {
-        public int DeveloperId { get; set; }
-        public int SkillId { get; set; }
-    }
+    public int DeveloperId { get; set; }
+    public int SkillId { get; set; }
 }

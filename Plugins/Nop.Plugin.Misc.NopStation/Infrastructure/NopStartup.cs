@@ -6,9 +6,11 @@ using Nop.Core.Infrastructure;
 using Nop.Plugin.Misc.NopStation.Areas.Admin.Factories;
 using Nop.Plugin.Misc.NopStation.Services;
 using Nop.Services.Common;
+using NopStation.Plugin.Misc.Core.Infrastructure;
 
 namespace Nop.Plugin.Misc.NopStation.Infrastructure;
-public class NopStartup : INopStartup
+
+public class PluginNopStartup : INopStartup
 {
     public int Order => 3000;
 
@@ -26,11 +28,15 @@ public class NopStartup : INopStartup
         services.AddScoped<IPdfService, OverriddenPdfService>();
 
         services.AddScoped<IDeveloperService, DeveloperService>();
+        services.AddScoped<IModifyOrderService, ModifyOrderService>();
         services.AddScoped<IDeveloperModelFactory, DeveloperModelFactory>();
 
         services.AddScoped<ISkillService, SkillService>();
         services.AddScoped<ISkillModelFactory, SkillModelFactory>();
 
         services.AddScoped<Factories.IDeveloperModelFactory, Factories.DeveloperModelFactory>();
+        services.AddScoped<Factories.IModifyOrderModelFactory, Factories.ModifyOrderModelFactory>();
+
+        services.AddNopStationServices("Nop.Plugin.Misc.NopStation");
     }
 }

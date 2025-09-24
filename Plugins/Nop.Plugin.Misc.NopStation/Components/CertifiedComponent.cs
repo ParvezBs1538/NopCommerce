@@ -18,7 +18,6 @@ public class CertifiedComponent : NopViewComponent
 
     #endregion
 
-
     #region Ctor
 
     public CertifiedComponent(IDeveloperService developerService,
@@ -29,7 +28,6 @@ public class CertifiedComponent : NopViewComponent
     }
 
     #endregion
-
 
     #region Methods
     

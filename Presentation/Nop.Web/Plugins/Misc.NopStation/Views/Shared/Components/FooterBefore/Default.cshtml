@@ -1,0 +1,22 @@
+﻿@model FooterBeforeModel
+
+@if (Model.Orders.Count > 0)
+{
+    <div class="footer-before">
+        <div class="container">
+            <div class="row">
+                @foreach (var order in Model.Orders)
+                {
+                    <div class="col-md-3 col-sm-6">
+                        <div class="footer-before-item">
+                            <i class="@order.CustomerName"></i>
+                            <h4>@order.OrderId</h4>
+                            <p>@order.CreatedOn</p>
+                            <p>@order.UpdatedOn</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

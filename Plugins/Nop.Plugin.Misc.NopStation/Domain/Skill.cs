@@ -1,9 +1,8 @@
 ﻿using Nop.Core;
 
-namespace Nop.Plugin.Misc.NopStation.Domain
+namespace Nop.Plugin.Misc.NopStation.Domain;
+
+public class Skill : BaseEntity
 {
-    public class Skill : BaseEntity
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }

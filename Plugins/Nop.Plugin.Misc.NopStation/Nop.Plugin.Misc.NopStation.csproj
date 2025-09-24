@@ -19,12 +19,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <Compile Remove="Views\Shared\**" />
-	  <EmbeddedResource Remove="Views\Shared\**" />
-	  <None Remove="Views\Shared\**" />
-	</ItemGroup>
-
   <ItemGroup>
     <None Remove="plugin.json" />
   </ItemGroup>
@@ -45,6 +39,7 @@
     <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
     <ProjectReference Include="..\..\Presentation\Nop.Web\Nop.Web.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Widgets.StudentSkill\Nop.Plugin.Widgets.StudentSkill.csproj" />
+    <ProjectReference Include="..\NopStation.Plugin.Misc.Actions\NopStation.Plugin.Misc.Actions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -95,6 +90,12 @@
     </None>
     <None Update="Views\DeveloperList.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Views\Shared\Components\FooterBefore\Default.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Views\Shared\Components\ModifyOrder\Default.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Views\_ViewImports.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
