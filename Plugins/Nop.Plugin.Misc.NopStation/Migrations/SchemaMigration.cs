@@ -12,6 +12,7 @@ namespace Nop.Plugin.Misc.NopStation.Migrations
         public override void Up()
         {
             Create.TableFor<Developer>();
+            Create.TableFor<Employee>();
             // Create.Column("Picture").OnTable("Developer").AsInt32().TableFor<Developer>();
             Create.TableFor<Skill>();
         }
@@ -19,6 +20,7 @@ namespace Nop.Plugin.Misc.NopStation.Migrations
         public override void Down()
         {
             Delete.Table(nameof(Developer));
+            Delete.Table(nameof(Employee));
             Delete.Table(nameof(Skill));
         }
     }
