@@ -44,6 +44,42 @@ public class NopStationPlugin : BasePlugin, IWidgetPlugin
             ["Admin.Misc.Skill.List.Name"] = "Name",
             ["Admin.Misc.Skill.List.Name.Hint"] = "Search by Skill name.",
 
+            ["Admin.Misc.Employees"] = "Employees",
+            ["Admin.Misc.Employees.AddNew"] = "Add new Employee",
+            ["Admin.Misc.Employees.EditDetails"] = "Edit Employee details",
+            ["Admin.Misc.Employees.BackToList"] = "back to Employee list",
+
+            ["Admin.Misc.Employee.Fields.Picture"] = "Picture",
+            ["Admin.Misc.Employee.Fields.Picture.Hint"] = "Enter Picture.",
+            ["Admin.Misc.Employee.Fields.Name"] = "Name",
+            ["Admin.Misc.Employee.Fields.Name.Required"] = "Employee name is required.",
+            ["Admin.Misc.Employee.Fields.EmployeeDesignation"] = "Designation",
+            ["Admin.Misc.Employee.Fields.Designation.Required"] = "Employee designation is required.",
+            ["Admin.Misc.Employee.Fields.IsMVP"] = "Is MVP",
+            ["Admin.Misc.Employee.Fields.IsNopCommerceCertified"] = "Is certified",
+            ["Admin.Misc.Employee.Fields.EmployeeStatus"] = "Status",
+            ["Admin.Misc.Employee.Fields.Name.Hint"] = "Enter Employee name.",
+            ["Admin.Misc.Employee.Fields.EmployeeDesignation.Hint"] = "Enter Employee designation.",
+            ["Admin.Misc.Employee.Fields.IsMVP.Hint"] = "Check if Employee is MVP.",
+            ["Admin.Misc.Employee.Fields.IsNopCommerceCertified.Hint"] = "Check if Employee is certified.",
+            ["Admin.Misc.Employee.Fields.EmployeeStatus.Hint"] = "Select Employee status.",
+
+            ["Admin.Misc.Employee.List.Name"] = "Name",
+            ["Admin.Misc.Employee.List.EmployeeStatus"] = "Status",
+            ["Admin.Misc.Employee.List.Name.Hint"] = "Search by Employee name.",
+            ["Admin.Misc.Employee.List.EmployeeStatus.Hint"] = "Search by Employee status.",
+            ["Admin.Misc.Employee.List.EmployeeDesignation"] = "Designation",
+            ["Admin.Misc.Employee.List.EmployeeDesignation.Hint"] = "Search by Designation status.",
+
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.HeadOfNopStation"] = "Head of nopStation",
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.PrincipalEngineer"] = "Principal Engineer",
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.ProjectManager"] = "Project Manager",
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.LeadEngineer"] = "Lead Engineer",
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.SeniorSoftwareEngineer"] = "Sr. Software Engineer",
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.SoftwareEngineer"] = "Software Engineer",
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.AssociateSoftwareEngineer"] = "Associate Software Engineer",
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.Trainee"] = "Trainee",
+
 
 
             ["Admin.Misc.Developers"] = "Developers",
@@ -101,6 +137,42 @@ public class NopStationPlugin : BasePlugin, IWidgetPlugin
 
             ["Admin.Misc.Skill.List.Name"] = "Name",
             ["Admin.Misc.Skill.List.Name.Hint"] = "Search by Skill name.",
+
+            ["Admin.Misc.Employees"] = "Employees",
+            ["Admin.Misc.Employees.AddNew"] = "Add new Employee",
+            ["Admin.Misc.Employees.EditDetails"] = "Edit Employee details",
+            ["Admin.Misc.Employees.BackToList"] = "back to Employee list",
+
+            ["Admin.Misc.Employee.Fields.Picture"] = "Picture",
+            ["Admin.Misc.Employee.Fields.Picture.Hint"] = "Enter Picture.",
+            ["Admin.Misc.Employee.Fields.Name"] = "Name",
+            ["Admin.Misc.Employee.Fields.Name.Required"] = "Employee name is required.",
+            ["Admin.Misc.Employee.Fields.EmployeeDesignation"] = "Designation",
+            ["Admin.Misc.Employee.Fields.Designation.Required"] = "Employee designation is required.",
+            ["Admin.Misc.Employee.Fields.IsMVP"] = "Is MVP",
+            ["Admin.Misc.Employee.Fields.IsNopCommerceCertified"] = "Is certified",
+            ["Admin.Misc.Employee.Fields.EmployeeStatus"] = "Status",
+            ["Admin.Misc.Employee.Fields.Name.Hint"] = "Enter Employee name.",
+            ["Admin.Misc.Employee.Fields.EmployeeDesignation.Hint"] = "Enter Employee designation.",
+            ["Admin.Misc.Employee.Fields.IsMVP.Hint"] = "Check if Employee is MVP.",
+            ["Admin.Misc.Employee.Fields.IsNopCommerceCertified.Hint"] = "Check if Employee is certified.",
+            ["Admin.Misc.Employee.Fields.EmployeeStatus.Hint"] = "Select Employee status.",
+
+            ["Admin.Misc.Employee.List.Name"] = "Name",
+            ["Admin.Misc.Employee.List.EmployeeStatus"] = "Status",
+            ["Admin.Misc.Employee.List.Name.Hint"] = "Search by Employee name.",
+            ["Admin.Misc.Employee.List.EmployeeStatus.Hint"] = "Search by Employee status.",
+            ["Admin.Misc.Employee.List.EmployeeDesignation"] = "Designation",
+            ["Admin.Misc.Employee.List.EmployeeDesignation.Hint"] = "Search by Designation status.",
+
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.HeadOfNopStation"] = "Head of nopStation",
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.PrincipalEngineer"] = "Principal Engineer",
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.ProjectManager"] = "Project Manager",
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.LeadEngineer"] = "Lead Engineer",
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.SeniorSoftwareEngineer"] = "Sr. Software Engineer",
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.SoftwareEngineer"] = "Software Engineer",
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.AssociateSoftwareEngineer"] = "Associate Software Engineer",
+            ["Enums.Nop.Plugin.Misc.NopStation.Domain.EmployeeDesignation.Trainee"] = "Trainee",
 
 
 
